@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, type Variants } from 'framer-motion';
 import {
   ArrowRight,
   Play,
@@ -68,6 +68,45 @@ const BrandLogo: React.FC<{ size?: string }> = ({ size = 'h-9 w-9' }) => (
     </defs>
   </svg>
 );
+
+// Text Animation Variants for Kinetic Typography
+const containerWords: Variants = {
+  hidden: { opacity: 0 },
+  visible: (i: number = 1) => ({
+    opacity: 1,
+    transition: { staggerChildren: 0.1, delayChildren: 0.05 * i }
+  })
+};
+
+const childWord: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 40,
+    rotateX: 30,
+    filter: 'blur(6px)'
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    rotateX: 0,
+    filter: 'blur(0px)',
+    transition: {
+      type: 'spring' as const,
+      damping: 18,
+      stiffness: 160
+    }
+  }
+};
+
+const textFadeUp: Variants = {
+  hidden: { opacity: 0, y: 24, filter: 'blur(6px)' },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: 'blur(0px)',
+    transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] as const }
+  }
+};
 
 export const LandingPage: React.FC<LandingPageProps> = ({
   onLaunchDashboard,
@@ -181,7 +220,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       <section className="relative min-h-[92vh] flex items-center justify-center pt-24 pb-16 overflow-hidden">
         
         {/* Background Video with Gradient Overlays */}
-        <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 z-0 overflow-hidden">
           <video
             ref={videoRef}
             autoPlay
@@ -189,20 +228,22 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             muted
             playsInline
             poster={heroImage}
-            className="w-full h-full object-cover object-center opacity-25 scale-105"
-            src="https://svs.gsfc.nasa.gov/vis/a010000/a012600/a012635/12635_Hurricane_Matthew_twitter_720.mp4"
-          />
+            className="w-full h-full object-cover object-center opacity-75 scale-105 transition-opacity duration-700"
+          >
+            <source src="/hero-video.webm" type="video/webm" />
+            <source src="https://satlib.cira.colostate.edu/wp-content/uploads/sites/23/2023/10/20231007120021-20231009134021_g18_fd_geocolor_tslidia_nolablels.mp4" type="video/mp4" />
+          </video>
           
-          {/* Subtle Atmospheric Light Gradient Masks */}
-          <div className="absolute inset-0 bg-gradient-to-t from-neutral-50 via-white/70 to-white/85" />
-          <div className="absolute inset-0 bg-radial-gradient from-transparent via-white/50 to-neutral-50" />
+          {/* Balanced Atmospheric Light Gradient Masks - keeps satellite video vividly visible while ensuring text readability */}
+          <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-white/35 to-neutral-50" />
+          <div className="absolute inset-0 bg-radial-gradient from-transparent via-white/20 to-neutral-50/70" />
           
           {/* Scanning Radar Vector Line */}
           <div className="absolute inset-0 pointer-events-none opacity-20">
             <div
               className="w-full h-full"
               style={{
-                backgroundImage: 'radial-gradient(rgba(244,63,94,0.2) 1px, transparent 1px)',
+                backgroundImage: 'radial-gradient(rgba(244,63,94,0.25) 1px, transparent 1px)',
                 backgroundSize: '40px 40px'
               }}
             />
@@ -219,61 +260,83 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         </button>
 
         {/* Hero Content */}
-        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 text-center space-y-7">
+        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 text-center space-y-8">
           
           {/* Context Badge */}
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 border border-neutral-200 text-xs font-medium text-neutral-800 shadow-md backdrop-blur-md"
+            initial={{ opacity: 0, y: -14, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white/95 border border-neutral-200/90 text-xs font-mono font-medium text-neutral-800 shadow-md backdrop-blur-md"
           >
             <span className="w-2 h-2 rounded-full bg-rose-500 animate-ping" />
-            <span className="text-neutral-900 font-semibold">Smart India Hackathon</span>
+            <span className="text-neutral-900 font-bold uppercase tracking-wider text-[11px]">Smart India Hackathon</span>
             <span className="text-neutral-300">&bull;</span>
-            <span className="text-neutral-600">AI-Based Forecast Bust Detection</span>
+            <span className="text-neutral-600 tracking-wide text-[11px]">AI-Based Forecast Bust Detection</span>
           </motion.div>
 
-          {/* Main Headline */}
+          {/* Main Headline with Kinetic Word Reveal */}
           <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="space-y-3"
+            variants={containerWords}
+            initial="hidden"
+            animate="visible"
+            className="space-y-4"
           >
-            <h1 className="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight text-neutral-900 font-sans leading-[1.1]">
-              Predict Forecast Busts <br />
-              <span className="bg-gradient-to-r from-rose-600 via-amber-600 to-emerald-600 bg-clip-text text-transparent">
-                Before They Strike.
+            <h1 className="font-display font-black tracking-tight text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-neutral-950 leading-[1.08]">
+              <span className="block overflow-hidden py-1">
+                {['Predict', 'Forecast', 'Busts'].map((word, idx) => (
+                  <motion.span
+                    key={idx}
+                    variants={childWord}
+                    className="inline-block mr-3 sm:mr-4.5"
+                  >
+                    {word}
+                  </motion.span>
+                ))}
+              </span>
+              <span className="block overflow-hidden py-1">
+                {['Before', 'They', 'Strike.'].map((word, idx) => (
+                  <motion.span
+                    key={idx}
+                    variants={childWord}
+                    className="inline-block mr-3 sm:mr-4.5 bg-gradient-to-r from-rose-600 via-amber-500 to-emerald-600 bg-clip-text text-transparent drop-shadow-xs"
+                  >
+                    {word}
+                  </motion.span>
+                ))}
               </span>
             </h1>
-            <p className="max-w-3xl mx-auto text-base sm:text-lg text-neutral-600 leading-relaxed font-normal">
+
+            <motion.p
+              variants={textFadeUp}
+              className="max-w-3xl mx-auto text-base sm:text-lg md:text-xl text-neutral-700 leading-relaxed font-sans font-normal tracking-tight pt-2"
+            >
               Medium-range weather forecasts can fail dramatically during rapidly evolving cyclones, monsoon depressions, and heavy deluge events. PawanSatya compares current NWP patterns with 10-year ERA5 error behaviour, delivering region-wise confidence maps and explainable AI risk indicators from Day 1 to Day 10.
-            </p>
+            </motion.p>
           </motion.div>
 
           {/* Action CTAs */}
           <motion.div
-            initial={{ opacity: 0, y: 15 }}
+            initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            transition={{ duration: 0.6, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
             className="flex flex-wrap items-center justify-center gap-4 pt-2"
           >
             <motion.button
-              whileHover={{ scale: 1.04 }}
+              whileHover={{ scale: 1.04, y: -2 }}
               whileTap={{ scale: 0.98 }}
               onClick={onLaunchDashboard}
-              className="px-8 py-4 rounded-2xl bg-neutral-900 text-white font-bold text-sm shadow-xl hover:bg-black transition-all flex items-center space-x-2.5 group"
+              className="px-8 py-4 rounded-2xl bg-neutral-900 text-white font-display font-bold text-sm shadow-xl hover:bg-black transition-all flex items-center space-x-2.5 group"
             >
               <span>Launch Operational Console</span>
               <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
             </motion.button>
 
             <motion.button
-              whileHover={{ scale: 1.03 }}
+              whileHover={{ scale: 1.03, y: -2 }}
               whileTap={{ scale: 0.98 }}
               onClick={onOpenValidationModal}
-              className="px-6 py-4 rounded-2xl bg-white border border-neutral-300 hover:border-emerald-500/60 text-neutral-800 font-medium text-sm shadow-md backdrop-blur-md transition-all flex items-center space-x-2"
+              className="px-6 py-4 rounded-2xl bg-white/95 border border-neutral-300 hover:border-emerald-500 text-neutral-800 font-display font-semibold text-sm shadow-md backdrop-blur-md transition-all flex items-center space-x-2"
             >
               <Cpu className="h-4 w-4 text-emerald-600" />
               <span>Model Holdout Validation</span>
@@ -285,214 +348,273 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
           {/* Hero Metrics Strip */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
+            transition={{ duration: 0.6, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
             className="grid grid-cols-2 md:grid-cols-4 gap-3 pt-6 max-w-4xl mx-auto"
           >
-            <div className="p-4 rounded-2xl bg-white/90 border border-neutral-200 shadow-sm backdrop-blur-md text-left">
-              <span className="text-[11px] text-neutral-500 block font-medium">Holdout AUC-ROC</span>
-              <span className="text-2xl sm:text-3xl font-bold font-mono text-neutral-900">0.966</span>
+            <motion.div whileHover={{ y: -3 }} className="p-4 rounded-2xl bg-white/90 border border-neutral-200 shadow-sm backdrop-blur-md text-left transition-shadow hover:shadow-md">
+              <span className="text-[11px] font-mono uppercase tracking-wider text-neutral-500 block font-semibold">Holdout AUC-ROC</span>
+              <span className="text-2xl sm:text-3xl font-bold font-mono text-neutral-950">0.966</span>
               <span className="text-[11px] text-emerald-600 block mt-0.5 font-medium">+46.6% vs Climatology</span>
-            </div>
+            </motion.div>
 
-            <div className="p-4 rounded-2xl bg-white/90 border border-neutral-200 shadow-sm backdrop-blur-md text-left">
-              <span className="text-[11px] text-neutral-500 block font-medium">Forecast Horizon</span>
-              <span className="text-2xl sm:text-3xl font-bold font-mono text-neutral-900">Day 1 &ndash; 10</span>
+            <motion.div whileHover={{ y: -3 }} className="p-4 rounded-2xl bg-white/90 border border-neutral-200 shadow-sm backdrop-blur-md text-left transition-shadow hover:shadow-md">
+              <span className="text-[11px] font-mono uppercase tracking-wider text-neutral-500 block font-semibold">Forecast Horizon</span>
+              <span className="text-2xl sm:text-3xl font-bold font-mono text-neutral-950">Day 1 &ndash; 10</span>
               <span className="text-[11px] text-neutral-500 block mt-0.5">Lorenz Growth Tracking</span>
-            </div>
+            </motion.div>
 
-            <div className="p-4 rounded-2xl bg-white/90 border border-neutral-200 shadow-sm backdrop-blur-md text-left">
-              <span className="text-[11px] text-neutral-500 block font-medium">IMD Subdivisions</span>
-              <span className="text-2xl sm:text-3xl font-bold font-mono text-neutral-900">36 Regions</span>
+            <motion.div whileHover={{ y: -3 }} className="p-4 rounded-2xl bg-white/90 border border-neutral-200 shadow-sm backdrop-blur-md text-left transition-shadow hover:shadow-md">
+              <span className="text-[11px] font-mono uppercase tracking-wider text-neutral-500 block font-semibold">IMD Subdivisions</span>
+              <span className="text-2xl sm:text-3xl font-bold font-mono text-neutral-950">36 Regions</span>
               <span className="text-[11px] text-neutral-500 block mt-0.5">ESRI Satellite Layer</span>
-            </div>
+            </motion.div>
 
-            <div className="p-4 rounded-2xl bg-white/90 border border-neutral-200 shadow-sm backdrop-blur-md text-left">
-              <span className="text-[11px] text-neutral-500 block font-medium">Ground Truth</span>
-              <span className="text-2xl sm:text-3xl font-bold text-neutral-900 font-mono">ERA5 + GFS</span>
+            <motion.div whileHover={{ y: -3 }} className="p-4 rounded-2xl bg-white/90 border border-neutral-200 shadow-sm backdrop-blur-md text-left transition-shadow hover:shadow-md">
+              <span className="text-[11px] font-mono uppercase tracking-wider text-neutral-500 block font-semibold">Ground Truth</span>
+              <span className="text-2xl sm:text-3xl font-bold text-neutral-950 font-mono">ERA5 + GFS</span>
               <span className="text-[11px] text-neutral-500 block mt-0.5 font-mono">Time-Based Split</span>
-            </div>
+            </motion.div>
           </motion.div>
 
         </div>
       </section>
 
       {/* Core Capabilities Section */}
-      <section id="features" className="py-20 bg-white border-t border-neutral-200 relative">
+      <section id="features" className="py-24 bg-white border-t border-neutral-200 relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="text-center max-w-3xl mx-auto space-y-3 mb-14">
-            <span className="text-xs font-mono font-semibold text-rose-600 uppercase tracking-wider">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="text-center max-w-3xl mx-auto space-y-3 mb-16"
+          >
+            <span className="text-xs font-mono font-bold text-rose-600 uppercase tracking-[0.2em] block">
               Engineered for Operational Meteorologists
             </span>
-            <h2 className="text-3xl sm:text-4xl font-black text-neutral-900 tracking-tight font-sans">
+            <h2 className="text-3xl sm:text-5xl font-black text-neutral-950 tracking-tight font-display">
               Five Pillars of Forecast Bust Detection
             </h2>
-            <p className="text-sm text-neutral-600 leading-relaxed">
+            <p className="text-sm sm:text-base text-neutral-600 leading-relaxed font-sans">
               Designed specifically to meet and exceed every technical deliverable outlined in the Smart India Hackathon problem statement.
             </p>
-          </div>
+          </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             
             {/* Pillar 1 */}
-            <div className="p-6 rounded-2xl bg-neutral-50/70 border border-neutral-200 hover:border-neutral-300 hover:bg-white transition-all space-y-3 flex flex-col justify-between shadow-xs hover:shadow-md">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.05 }}
+              whileHover={{ y: -4 }}
+              className="p-6 rounded-2xl bg-neutral-50/70 border border-neutral-200 hover:border-neutral-300 hover:bg-white transition-all space-y-3 flex flex-col justify-between shadow-xs hover:shadow-md"
+            >
               <div className="space-y-3">
                 <div className="h-10 w-10 rounded-xl bg-white border border-neutral-200 flex items-center justify-center shadow-xs">
                   <Satellite className="h-5 w-5 text-emerald-600" />
                 </div>
-                <h3 className="text-lg font-bold text-neutral-900 font-sans">
+                <h3 className="text-lg font-bold text-neutral-950 font-display tracking-tight">
                   High-Resolution Satellite Confidence Map
                 </h3>
-                <p className="text-xs text-neutral-600 leading-relaxed">
+                <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed font-sans">
                   Interactive ESRI World Imagery basemap covering all 36 IMD meteorological subdivisions. Red/Green/Amber color-coded polygons immediately highlight areas where NWP guidance is unreliable.
                 </p>
               </div>
-              <div className="pt-3 border-t border-neutral-200 text-[11px] font-mono text-neutral-500">
+              <div className="pt-3 border-t border-neutral-200 text-[11px] font-mono text-neutral-500 font-medium">
                 Deliverable 1 &bull; Region-wise Confidence Map
               </div>
-            </div>
+            </motion.div>
 
             {/* Pillar 2 */}
-            <div className="p-6 rounded-2xl bg-neutral-50/70 border border-neutral-200 hover:border-neutral-300 hover:bg-white transition-all space-y-3 flex flex-col justify-between shadow-xs hover:shadow-md">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              whileHover={{ y: -4 }}
+              className="p-6 rounded-2xl bg-neutral-50/70 border border-neutral-200 hover:border-neutral-300 hover:bg-white transition-all space-y-3 flex flex-col justify-between shadow-xs hover:shadow-md"
+            >
               <div className="space-y-3">
                 <div className="h-10 w-10 rounded-xl bg-white border border-neutral-200 flex items-center justify-center shadow-xs">
                   <TrendingUp className="h-5 w-5 text-rose-600" />
                 </div>
-                <h3 className="text-lg font-bold text-neutral-900 font-sans">
+                <h3 className="text-lg font-bold text-neutral-950 font-display tracking-tight">
                   Day 1 to Day 10 Lead-Time Scrubber
                 </h3>
-                <p className="text-xs text-neutral-600 leading-relaxed">
+                <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed font-sans">
                   Models the chaotic error growth trajectory using Lorenz atmospheric dynamics. Identify the exact bifurcation window (e.g. Day 4 vs Day 7) where model spread explodes.
                 </p>
               </div>
-              <div className="pt-3 border-t border-neutral-200 text-[11px] font-mono text-neutral-500">
+              <div className="pt-3 border-t border-neutral-200 text-[11px] font-mono text-neutral-500 font-medium">
                 Deliverable 2 &bull; Forecast Bust Probability
               </div>
-            </div>
+            </motion.div>
 
             {/* Pillar 3 */}
-            <div className="p-6 rounded-2xl bg-neutral-50/70 border border-neutral-200 hover:border-neutral-300 hover:bg-white transition-all space-y-3 flex flex-col justify-between shadow-xs hover:shadow-md">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.15 }}
+              whileHover={{ y: -4 }}
+              className="p-6 rounded-2xl bg-neutral-50/70 border border-neutral-200 hover:border-neutral-300 hover:bg-white transition-all space-y-3 flex flex-col justify-between shadow-xs hover:shadow-md"
+            >
               <div className="space-y-3">
                 <div className="h-10 w-10 rounded-xl bg-white border border-neutral-200 flex items-center justify-center shadow-xs">
                   <Layers className="h-5 w-5 text-amber-600" />
                 </div>
-                <h3 className="text-lg font-bold text-neutral-900 font-sans">
+                <h3 className="text-lg font-bold text-neutral-950 font-display tracking-tight">
                   Explainable AI (SHAP Waterfall)
                 </h3>
-                <p className="text-xs text-neutral-600 leading-relaxed">
+                <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed font-sans">
                   Transparent meteorological reasoning: inspect exact physical feature attributions including CAPE, 0–6km deep-layer wind shear, Z500 geopotential vorticity, and moisture flux convergence.
                 </p>
               </div>
-              <div className="pt-3 border-t border-neutral-200 text-[11px] font-mono text-neutral-500">
+              <div className="pt-3 border-t border-neutral-200 text-[11px] font-mono text-neutral-500 font-medium">
                 Deliverable 3 &bull; Key Reasons / XAI
               </div>
-            </div>
+            </motion.div>
 
             {/* Pillar 4 */}
-            <div className="p-6 rounded-2xl bg-neutral-50/70 border border-neutral-200 hover:border-neutral-300 hover:bg-white transition-all space-y-3 flex flex-col justify-between shadow-xs hover:shadow-md">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              whileHover={{ y: -4 }}
+              className="p-6 rounded-2xl bg-neutral-50/70 border border-neutral-200 hover:border-neutral-300 hover:bg-white transition-all space-y-3 flex flex-col justify-between shadow-xs hover:shadow-md"
+            >
               <div className="space-y-3">
                 <div className="h-10 w-10 rounded-xl bg-white border border-neutral-200 flex items-center justify-center shadow-xs">
                   <AlertTriangle className="h-5 w-5 text-rose-600" />
                 </div>
-                <h3 className="text-lg font-bold text-neutral-900 font-sans">
+                <h3 className="text-lg font-bold text-neutral-950 font-display tracking-tight">
                   Ranked Error-Prone Hotspot Detection
                 </h3>
-                <p className="text-xs text-neutral-600 leading-relaxed">
+                <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed font-sans">
                   Automated detection and ranking of subdivisions exceeding critical bust thresholds (&ge;65%). Includes estimated track displacement error (&plusmn;km) and precipitation magnitude error (&plusmn;mm).
                 </p>
               </div>
-              <div className="pt-3 border-t border-neutral-200 text-[11px] font-mono text-neutral-500">
+              <div className="pt-3 border-t border-neutral-200 text-[11px] font-mono text-neutral-500 font-medium">
                 Deliverable 4 &bull; Error-Prone Area Detection
               </div>
-            </div>
+            </motion.div>
 
             {/* Pillar 5 */}
-            <div className="p-6 rounded-2xl bg-neutral-50/70 border border-neutral-200 hover:border-neutral-300 hover:bg-white transition-all space-y-3 flex flex-col justify-between shadow-xs hover:shadow-md">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.25 }}
+              whileHover={{ y: -4 }}
+              className="p-6 rounded-2xl bg-neutral-50/70 border border-neutral-200 hover:border-neutral-300 hover:bg-white transition-all space-y-3 flex flex-col justify-between shadow-xs hover:shadow-md"
+            >
               <div className="space-y-3">
                 <div className="h-10 w-10 rounded-xl bg-white border border-neutral-200 flex items-center justify-center shadow-xs">
                   <Database className="h-5 w-5 text-sky-600" />
                 </div>
-                <h3 className="text-lg font-bold text-neutral-900 font-sans">
+                <h3 className="text-lg font-bold text-neutral-950 font-display tracking-tight">
                   NWP vs. Historical Error Comparator
                 </h3>
-                <p className="text-xs text-neutral-600 leading-relaxed">
+                <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed font-sans">
                   Benchmarks current multi-model spread (GFS, ECMWF IFS, NCUM, GEFS) against 10-year ERA5 historical forecast error distributions to detect systematic model biases.
                 </p>
               </div>
-              <div className="pt-3 border-t border-neutral-200 text-[11px] font-mono text-neutral-500">
+              <div className="pt-3 border-t border-neutral-200 text-[11px] font-mono text-neutral-500 font-medium">
                 Deliverable 5 &bull; Historical Comparison
               </div>
-            </div>
+            </motion.div>
 
             {/* Pillar 6 */}
-            <div className="p-6 rounded-2xl bg-neutral-50/70 border border-neutral-200 hover:border-neutral-300 hover:bg-white transition-all space-y-3 flex flex-col justify-between shadow-xs hover:shadow-md">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              whileHover={{ y: -4 }}
+              className="p-6 rounded-2xl bg-neutral-50/70 border border-neutral-200 hover:border-neutral-300 hover:bg-white transition-all space-y-3 flex flex-col justify-between shadow-xs hover:shadow-md"
+            >
               <div className="space-y-3">
                 <div className="h-10 w-10 rounded-xl bg-white border border-neutral-200 flex items-center justify-center shadow-xs">
                   <ShieldCheck className="h-5 w-5 text-emerald-600" />
                 </div>
-                <h3 className="text-lg font-bold text-neutral-900 font-sans">
+                <h3 className="text-lg font-bold text-neutral-950 font-display tracking-tight">
                   Operational Bulletin Generator
                 </h3>
-                <p className="text-xs text-neutral-600 leading-relaxed">
+                <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed font-sans">
                   Generates ready-to-print official meteorological briefing bulletins for disaster managers, state authorities, and operational forecasters with actionable risk directives.
                 </p>
               </div>
-              <div className="pt-3 border-t border-neutral-200 text-[11px] font-mono text-neutral-500">
+              <div className="pt-3 border-t border-neutral-200 text-[11px] font-mono text-neutral-500 font-medium">
                 Operational Forecaster Advisory
               </div>
-            </div>
+            </motion.div>
 
           </div>
         </div>
       </section>
 
       {/* Rapidly Evolving Atmospheric Systems Section */}
-      <section id="systems" className="py-20 bg-neutral-50 border-t border-neutral-200">
+      <section id="systems" className="py-24 bg-neutral-50 border-t border-neutral-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="text-center max-w-3xl mx-auto space-y-3 mb-14">
-            <span className="text-xs font-mono font-semibold text-rose-600 uppercase tracking-wider">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="text-center max-w-3xl mx-auto space-y-3 mb-16"
+          >
+            <span className="text-xs font-mono font-bold text-rose-600 uppercase tracking-[0.2em] block">
               Problem Statement Benchmark Events
             </span>
-            <h2 className="text-3xl sm:text-4xl font-black text-neutral-900 tracking-tight font-sans">
+            <h2 className="text-3xl sm:text-5xl font-black text-neutral-950 tracking-tight font-display">
               Calibrated on India&apos;s Most Volatile Weather
             </h2>
-            <p className="text-sm text-neutral-600 leading-relaxed">
+            <p className="text-sm sm:text-base text-neutral-600 leading-relaxed font-sans">
               Trained on actual historical systems (&le;2022) and validated on completely unseen future events (&ge;2023) across India&apos;s 6 critical synoptic regimes.
             </p>
-          </div>
+          </motion.div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {systems.map((s) => (
-              <div
+            {systems.map((s, idx) => (
+              <motion.div
                 key={s.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.08 }}
+                whileHover={{ y: -4 }}
                 className="p-5 rounded-2xl bg-white border border-neutral-200 hover:border-neutral-300 transition-all space-y-3 shadow-xs hover:shadow-md"
               >
                 <div className="flex items-center justify-between">
                   <div className="p-2 rounded-xl bg-neutral-100 border border-neutral-200">
                     {s.icon}
                   </div>
-                  <span className="text-[10px] font-mono text-neutral-500 uppercase">
+                  <span className="text-[10px] font-mono font-semibold text-neutral-500 uppercase tracking-wider">
                     {s.zone.split('&')[0]}
                   </span>
                 </div>
                 <div>
-                  <h4 className="text-base font-bold text-neutral-900 font-sans">{s.name}</h4>
-                  <span className="text-xs text-neutral-500 font-medium">{s.zone}</span>
+                  <h4 className="text-base font-bold text-neutral-950 font-display">{s.name}</h4>
+                  <span className="text-xs text-neutral-500 font-sans font-medium">{s.zone}</span>
                 </div>
-                <p className="text-xs text-neutral-600 leading-relaxed">
+                <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed font-sans">
                   {s.desc}
                 </p>
-              </div>
+              </motion.div>
             ))}
           </div>
 
-          <div className="mt-12 text-center">
+          <div className="mt-14 text-center">
             <motion.button
-              whileHover={{ scale: 1.03 }}
+              whileHover={{ scale: 1.04, y: -2 }}
               whileTap={{ scale: 0.98 }}
               onClick={onLaunchDashboard}
-              className="inline-flex items-center space-x-2 px-6 py-3 rounded-xl bg-neutral-900 text-white font-bold text-xs shadow-md hover:bg-black transition-all"
+              className="inline-flex items-center space-x-2 px-7 py-3.5 rounded-xl bg-neutral-900 text-white font-display font-bold text-xs shadow-md hover:bg-black transition-all"
             >
               <span>Test All 6 Regimes in Console</span>
               <ArrowRight className="h-3.5 w-3.5" />
@@ -502,81 +624,121 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       </section>
 
       {/* ML Pipeline & Architecture Section */}
-      <section id="architecture" className="py-20 bg-white border-t border-neutral-200">
+      <section id="architecture" className="py-24 bg-white border-t border-neutral-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="text-center max-w-3xl mx-auto space-y-3 mb-14">
-            <span className="text-xs font-mono font-semibold text-emerald-600 uppercase tracking-wider">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="text-center max-w-3xl mx-auto space-y-3 mb-16"
+          >
+            <span className="text-xs font-mono font-bold text-emerald-600 uppercase tracking-[0.2em] block">
               Scientifically Rigorous &bull; No Synthetic Shortcuts
             </span>
-            <h2 className="text-3xl sm:text-4xl font-black text-neutral-900 tracking-tight font-sans">
+            <h2 className="text-3xl sm:text-5xl font-black text-neutral-950 tracking-tight font-display">
               End-to-End AI/ML Architecture
             </h2>
-            <p className="text-sm text-neutral-600 leading-relaxed">
+            <p className="text-sm sm:text-base text-neutral-600 leading-relaxed font-sans">
               How real NWP model forecasts, ECMWF ERA5 reanalysis ground truth, and LightGBM GBDT combine into operational intelligence.
             </p>
-          </div>
+          </motion.div>
 
           {/* Workflow Diagram */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             
-            <div className="p-5 rounded-2xl bg-neutral-50 border border-neutral-200 space-y-2 relative shadow-xs">
-              <span className="text-xs font-mono text-emerald-700 font-bold block">STEP 01</span>
-              <h4 className="text-sm font-bold text-neutral-900 font-sans">Real Data Ingestion</h4>
-              <p className="text-xs text-neutral-600 leading-relaxed">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.05 }}
+              whileHover={{ y: -3 }}
+              className="p-5 rounded-2xl bg-neutral-50 border border-neutral-200 space-y-2 relative shadow-xs hover:bg-white transition-all"
+            >
+              <span className="text-xs font-mono text-emerald-700 font-bold tracking-wider block">STEP 01</span>
+              <h4 className="text-sm font-bold text-neutral-950 font-display">Real Data Ingestion</h4>
+              <p className="text-xs text-neutral-600 leading-relaxed font-sans">
                 Ingests real NOAA GFS operational runs (CAPE, winds at 850/500hPa, Z500, RH) alongside ECMWF ERA5 gridded reanalysis ground truth.
               </p>
-            </div>
+            </motion.div>
 
-            <div className="p-5 rounded-2xl bg-neutral-50 border border-neutral-200 space-y-2 relative shadow-xs">
-              <span className="text-xs font-mono text-emerald-700 font-bold block">STEP 02</span>
-              <h4 className="text-sm font-bold text-neutral-900 font-sans">Physical Feature Extraction</h4>
-              <p className="text-xs text-neutral-600 leading-relaxed">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.12 }}
+              whileHover={{ y: -3 }}
+              className="p-5 rounded-2xl bg-neutral-50 border border-neutral-200 space-y-2 relative shadow-xs hover:bg-white transition-all"
+            >
+              <span className="text-xs font-mono text-emerald-700 font-bold tracking-wider block">STEP 02</span>
+              <h4 className="text-sm font-bold text-neutral-950 font-display">Physical Feature Extraction</h4>
+              <p className="text-xs text-neutral-600 leading-relaxed font-sans">
                 Computes deep-layer shear (|V500 - V850|), Eady baroclinic growth rate (&sigma;<sub>BI</sub>), and 500hPa geopotential thickness wave anomalies.
               </p>
-            </div>
+            </motion.div>
 
-            <div className="p-5 rounded-2xl bg-neutral-50 border border-neutral-200 space-y-2 relative shadow-xs">
-              <span className="text-xs font-mono text-emerald-700 font-bold block">STEP 03</span>
-              <h4 className="text-sm font-bold text-neutral-900 font-sans">LightGBM GBDT Classifier</h4>
-              <p className="text-xs text-neutral-600 leading-relaxed">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.19 }}
+              whileHover={{ y: -3 }}
+              className="p-5 rounded-2xl bg-neutral-50 border border-neutral-200 space-y-2 relative shadow-xs hover:bg-white transition-all"
+            >
+              <span className="text-xs font-mono text-emerald-700 font-bold tracking-wider block">STEP 03</span>
+              <h4 className="text-sm font-bold text-neutral-950 font-display">LightGBM GBDT Classifier</h4>
+              <p className="text-xs text-neutral-600 leading-relaxed font-sans">
                 Trained on historical systems (&le;2022) with a strict time-based split. Evaluated on unseen 2023–2024 systems achieving AUC 0.966.
               </p>
-            </div>
+            </motion.div>
 
-            <div className="p-5 rounded-2xl bg-neutral-50 border border-neutral-200 space-y-2 relative shadow-xs">
-              <span className="text-xs font-mono text-emerald-700 font-bold block">STEP 04</span>
-              <h4 className="text-sm font-bold text-neutral-900 font-sans">SHAP XAI & Decision Support</h4>
-              <p className="text-xs text-neutral-600 leading-relaxed">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.26 }}
+              whileHover={{ y: -3 }}
+              className="p-5 rounded-2xl bg-neutral-50 border border-neutral-200 space-y-2 relative shadow-xs hover:bg-white transition-all"
+            >
+              <span className="text-xs font-mono text-emerald-700 font-bold tracking-wider block">STEP 04</span>
+              <h4 className="text-sm font-bold text-neutral-950 font-display">SHAP XAI & Decision Support</h4>
+              <p className="text-xs text-neutral-600 leading-relaxed font-sans">
                 Real `TreeExplainer` computes exact feature attribution weights for forecasters, with automatic bulletin generation.
               </p>
-            </div>
+            </motion.div>
 
           </div>
         </div>
       </section>
 
       {/* Footer Call to Action Banner */}
-      <section className="py-16 bg-gradient-to-b from-neutral-50 to-neutral-100 border-t border-neutral-200">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center space-y-6">
+      <section className="py-24 bg-gradient-to-b from-neutral-50 to-neutral-100 border-t border-neutral-200">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="max-w-4xl mx-auto px-4 sm:px-6 text-center space-y-6"
+        >
           <BrandLogo size="h-12 w-12 mx-auto" />
-          <h2 className="text-3xl sm:text-4xl font-black text-neutral-900 tracking-tight font-sans">
+          <h2 className="text-3xl sm:text-5xl font-black text-neutral-950 tracking-tight font-display">
             Ready to Explore the Forecast Bust Detection System?
           </h2>
-          <p className="text-neutral-600 text-sm max-w-2xl mx-auto">
+          <p className="text-neutral-600 text-sm sm:text-base max-w-2xl mx-auto font-sans leading-relaxed">
             Experience the full operational console with ESRI high-resolution satellite imagery, interactive lead-time scrubbers, and live SHAP meteorological explainability.
           </p>
-          <div className="pt-2">
+          <div className="pt-3">
             <motion.button
-              whileHover={{ scale: 1.04 }}
+              whileHover={{ scale: 1.04, y: -2 }}
               whileTap={{ scale: 0.98 }}
               onClick={onLaunchDashboard}
-              className="px-8 py-4 rounded-2xl bg-neutral-900 text-white font-bold text-sm shadow-xl hover:bg-black transition-all inline-flex items-center space-x-2.5"
+              className="px-8 py-4 rounded-2xl bg-neutral-900 text-white font-display font-bold text-sm shadow-xl hover:bg-black transition-all inline-flex items-center space-x-2.5"
             >
               <span>Launch Operational Console</span>
               <ArrowRight className="h-4 w-4" />
             </motion.button>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* Footer */}

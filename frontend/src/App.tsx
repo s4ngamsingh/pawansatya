@@ -26,6 +26,7 @@ import { NwpHistoricalComparator } from './components/NwpHistoricalComparator';
 import { CustomEvaluatorModal } from './components/CustomEvaluatorModal';
 import { ReportExportModal } from './components/ReportExportModal';
 import { ModelValidationModal } from './components/ModelValidationModal';
+import { LoadingScreen } from './components/LoadingScreen';
 
 import {
   Sparkles,
@@ -39,6 +40,7 @@ import {
 } from 'lucide-react';
 
 export function App() {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [currentView, setCurrentView] = useState<'landing' | 'dashboard'>('landing');
 
   const [scenarios, setScenarios] = useState<Scenario[]>(FALLBACK_SCENARIOS);
@@ -151,6 +153,12 @@ export function App() {
   return (
     <div className="min-h-screen bg-neutral-50 text-neutral-900 flex flex-col font-sans selection:bg-neutral-900 selection:text-white">
       
+      <AnimatePresence>
+        {isLoading && (
+          <LoadingScreen onComplete={() => setIsLoading(false)} durationMs={2600} />
+        )}
+      </AnimatePresence>
+
       <AnimatePresence mode="wait">
         {currentView === 'landing' ? (
           <motion.div
