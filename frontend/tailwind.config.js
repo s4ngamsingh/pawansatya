@@ -8,13 +8,13 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: '#09090b',
-        surface: '#121215',
-        'surface-subtle': '#18181b',
-        'surface-border': '#27272a',
-        'surface-hover': '#2e2e33',
-        foreground: '#f8fafc',
-        'foreground-muted': '#a1a1aa',
+        background: '#ffffff',
+        surface: '#f8fafc',
+        'surface-subtle': '#f1f5f9',
+        'surface-border': '#e2e8f0',
+        'surface-hover': '#e2e8f0',
+        foreground: '#0f172a',
+        'foreground-muted': '#64748b',
         // Safety / Danger colors
         danger: {
           DEFAULT: '#ef4444',

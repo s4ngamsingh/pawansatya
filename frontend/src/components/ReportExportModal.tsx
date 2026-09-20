@@ -68,26 +68,26 @@ ${scenario.historical_analog}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
         >
           <motion.div
             initial={{ opacity: 0, scale: 0.94, y: 16 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.94, y: 16 }}
             transition={{ type: 'spring', stiffness: 350, damping: 26 }}
-            className="bg-neutral-900 border border-neutral-800 rounded-2xl w-full max-w-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
+            className="bg-white border border-neutral-200 rounded-2xl w-full max-w-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
           >
             {/* Header */}
-            <div className="p-4 border-b border-neutral-800 flex items-center justify-between bg-neutral-950/70">
+            <div className="p-4 border-b border-neutral-200 flex items-center justify-between bg-neutral-50">
               <div className="flex items-center space-x-3">
-                <div className="h-9 w-9 rounded-xl bg-neutral-900 border border-neutral-800 flex items-center justify-center">
-                  <FileText className="h-5 w-5 text-white" />
+                <div className="h-9 w-9 rounded-xl bg-neutral-100 border border-neutral-200 flex items-center justify-center">
+                  <FileText className="h-5 w-5 text-neutral-900" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-white tracking-tight font-sans">
+                  <h3 className="text-sm font-bold text-neutral-900 tracking-tight font-sans">
                     Operational Forecaster Briefing Bulletin
                   </h3>
-                  <p className="text-xs text-neutral-400">
+                  <p className="text-xs text-neutral-500">
                     Official medium-range forecast uncertainty &amp; bust advisory document
                   </p>
                 </div>
@@ -96,24 +96,24 @@ ${scenario.historical_analog}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={onClose}
-                className="p-1.5 text-neutral-400 hover:text-white rounded-lg hover:bg-neutral-800 transition-colors"
+                className="p-1.5 text-neutral-400 hover:text-neutral-900 rounded-lg hover:bg-neutral-100 transition-colors"
               >
                 <X className="h-5 w-5" />
               </motion.button>
             </div>
 
             {/* Bulletin Body */}
-            <div className="p-6 overflow-y-auto space-y-5 text-xs text-white">
+            <div className="p-6 overflow-y-auto space-y-5 text-xs text-neutral-900">
               
               {/* Header Banner */}
-              <div className="border border-neutral-800 bg-neutral-950/70 p-4 rounded-xl text-center space-y-1">
-                <span className="text-[10px] tracking-wider text-neutral-400 uppercase font-medium">
+              <div className="border border-neutral-200 bg-neutral-50 p-4 rounded-xl text-center space-y-1">
+                <span className="text-[10px] tracking-wider text-neutral-500 uppercase font-medium">
                   GOVERNMENT OF INDIA &bull; MINISTRY OF EARTH SCIENCES
                 </span>
-                <h2 className="text-sm font-bold text-white uppercase tracking-wider font-sans">
+                <h2 className="text-sm font-bold text-neutral-900 uppercase tracking-wider font-sans">
                   Medium-Range NWP Forecast Bust Risk Bulletin
                 </h2>
-                <div className="text-[11px] text-neutral-400 flex justify-center items-center gap-3 pt-1 font-mono">
+                <div className="text-[11px] text-neutral-500 flex justify-center items-center gap-3 pt-1 font-mono">
                   <span>ISSUED: {reportDate}</span>
                   <span>&bull;</span>
                   <span>VALIDITY: DAY {leadTime} (+{leadTime * 24}H)</span>
@@ -121,45 +121,45 @@ ${scenario.historical_analog}
               </div>
 
               {/* Scenario Overview */}
-              <div className="bg-neutral-950/60 p-3.5 rounded-xl border border-neutral-800 space-y-2">
+              <div className="bg-neutral-50 p-3.5 rounded-xl border border-neutral-200 space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="font-semibold text-white text-xs">{scenario.name}</span>
-                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-neutral-900 border border-neutral-800 text-neutral-300">
+                  <span className="font-semibold text-neutral-900 text-xs">{scenario.name}</span>
+                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-white border border-neutral-200 text-neutral-700 font-medium">
                     {scenario.category}
                   </span>
                 </div>
-                <p className="text-neutral-400 text-xs leading-relaxed">
+                <p className="text-neutral-600 text-xs leading-relaxed">
                   {scenario.description}
                 </p>
               </div>
 
               {/* Key Metrics Table */}
               <div className="grid grid-cols-3 gap-2.5">
-                <div className="bg-rose-950/30 border border-rose-900/40 p-3 rounded-xl text-center">
-                  <span className="text-[10px] text-rose-400 block uppercase font-semibold">High Bust Danger</span>
-                  <span className="text-xl font-bold font-mono text-rose-400">{summary.danger_count}</span>
-                  <span className="text-[10px] text-rose-300/80 block mt-0.5">Subdivisions</span>
+                <div className="bg-rose-50 border border-rose-200 p-3 rounded-xl text-center">
+                  <span className="text-[10px] text-rose-700 block uppercase font-semibold">High Bust Danger</span>
+                  <span className="text-xl font-bold font-mono text-rose-600">{summary.danger_count}</span>
+                  <span className="text-[10px] text-rose-600/80 block mt-0.5">Subdivisions</span>
                 </div>
-                <div className="bg-amber-950/30 border border-amber-900/40 p-3 rounded-xl text-center">
-                  <span className="text-[10px] text-amber-400 block uppercase font-semibold">Caution Zones</span>
-                  <span className="text-xl font-bold font-mono text-amber-300">{summary.caution_count}</span>
-                  <span className="text-[10px] text-amber-300/80 block mt-0.5">Subdivisions</span>
+                <div className="bg-amber-50 border border-amber-200 p-3 rounded-xl text-center">
+                  <span className="text-[10px] text-amber-700 block uppercase font-semibold">Caution Zones</span>
+                  <span className="text-xl font-bold font-mono text-amber-600">{summary.caution_count}</span>
+                  <span className="text-[10px] text-amber-700/80 block mt-0.5">Subdivisions</span>
                 </div>
-                <div className="bg-emerald-950/30 border border-emerald-900/40 p-3 rounded-xl text-center">
-                  <span className="text-[10px] text-emerald-400 block uppercase font-semibold">Safe Zones</span>
-                  <span className="text-xl font-bold font-mono text-emerald-400">{summary.safe_count}</span>
-                  <span className="text-[10px] text-emerald-300/80 block mt-0.5">High Confidence</span>
+                <div className="bg-emerald-50 border border-emerald-200 p-3 rounded-xl text-center">
+                  <span className="text-[10px] text-emerald-700 block uppercase font-semibold">Safe Zones</span>
+                  <span className="text-xl font-bold font-mono text-emerald-600">{summary.safe_count}</span>
+                  <span className="text-[10px] text-emerald-700/80 block mt-0.5">High Confidence</span>
                 </div>
               </div>
 
               {/* Priority Alert Zones Table */}
               <div>
-                <span className="text-[11px] text-neutral-400 font-semibold block mb-2">
+                <span className="text-[11px] text-neutral-700 font-semibold block mb-2">
                   Priority Error-Prone Subdivisions (Day {leadTime})
                 </span>
-                <div className="border border-neutral-800 rounded-xl overflow-hidden">
+                <div className="border border-neutral-200 rounded-xl overflow-hidden">
                   <table className="w-full text-left text-xs">
-                    <thead className="bg-neutral-950 text-neutral-400 text-[10px] uppercase border-b border-neutral-800">
+                    <thead className="bg-neutral-50 text-neutral-600 text-[10px] uppercase border-b border-neutral-200">
                       <tr>
                         <th className="p-2.5 font-medium">Subdivision</th>
                         <th className="p-2.5 font-medium">Zone</th>
@@ -168,14 +168,14 @@ ${scenario.historical_analog}
                         <th className="p-2.5 font-medium">Exp. Error</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-neutral-800 bg-neutral-950/40">
+                    <tbody className="divide-y divide-neutral-200 bg-white">
                       {hotspots.slice(0, 6).map((h) => (
                         <tr key={h.id}>
-                          <td className="p-2.5 font-semibold text-white">{h.name}</td>
-                          <td className="p-2.5 text-neutral-400">{h.zone}</td>
-                          <td className="p-2.5 font-bold font-mono text-rose-400">{h.bust_probability}%</td>
-                          <td className="p-2.5 font-bold font-mono text-emerald-400">{h.confidence_score}%</td>
-                          <td className="p-2.5 text-neutral-400 font-mono">&plusmn;{h.expected_error_km}km / &plusmn;{h.expected_error_precip_mm}mm</td>
+                          <td className="p-2.5 font-semibold text-neutral-900">{h.name}</td>
+                          <td className="p-2.5 text-neutral-600">{h.zone}</td>
+                          <td className="p-2.5 font-bold font-mono text-rose-600">{h.bust_probability}%</td>
+                          <td className="p-2.5 font-bold font-mono text-emerald-600">{h.confidence_score}%</td>
+                          <td className="p-2.5 text-neutral-600 font-mono">&plusmn;{h.expected_error_km}km / &plusmn;{h.expected_error_precip_mm}mm</td>
                         </tr>
                       ))}
                     </tbody>
@@ -184,12 +184,12 @@ ${scenario.historical_analog}
               </div>
 
               {/* Operational Advisory */}
-              <div className="bg-neutral-950/80 border border-rose-900/40 p-3.5 rounded-xl">
-                <div className="flex items-center space-x-2 text-rose-400 font-semibold mb-1">
+              <div className="bg-rose-50 border border-rose-200 p-3.5 rounded-xl">
+                <div className="flex items-center space-x-2 text-rose-700 font-semibold mb-1">
                   <ShieldAlert className="h-4 w-4" />
                   <span>Operational Advisory For Decision Makers</span>
                 </div>
-                <p className="text-neutral-300 leading-relaxed text-xs">
+                <p className="text-neutral-800 leading-relaxed text-xs">
                   {scenario.advisory}
                 </p>
               </div>
@@ -197,14 +197,14 @@ ${scenario.historical_analog}
             </div>
 
             {/* Footer */}
-            <div className="p-4 border-t border-neutral-800 bg-neutral-950/70 flex items-center justify-between">
+            <div className="p-4 border-t border-neutral-200 bg-neutral-50 flex items-center justify-between">
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={handleCopy}
-                className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl border border-neutral-800 hover:border-white text-xs text-white transition-colors bg-neutral-900"
+                className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl border border-neutral-200 hover:border-neutral-900 text-xs text-neutral-700 hover:text-neutral-900 transition-colors bg-white shadow-sm"
               >
-                {copied ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
+                {copied ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5" />}
                 <span>{copied ? 'Copied to Clipboard' : 'Copy Text'}</span>
               </motion.button>
 
@@ -213,7 +213,7 @@ ${scenario.historical_analog}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => window.print()}
-                  className="flex items-center space-x-1.5 px-4 py-1.5 rounded-xl bg-white text-black font-semibold text-xs hover:bg-neutral-200 transition-colors shadow"
+                  className="flex items-center space-x-1.5 px-4 py-1.5 rounded-xl bg-neutral-900 text-white font-semibold text-xs hover:bg-black transition-colors shadow-sm"
                 >
                   <Printer className="h-3.5 w-3.5" />
                   <span>Print Bulletin</span>

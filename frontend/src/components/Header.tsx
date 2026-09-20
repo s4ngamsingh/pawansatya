@@ -39,7 +39,7 @@ const BrandLogo: React.FC = () => (
       cx="22"
       cy="22"
       r="20"
-      stroke="rgba(255, 255, 255, 0.15)"
+      stroke="rgba(0, 0, 0, 0.12)"
       strokeWidth="1.5"
       strokeDasharray="3 3"
     />
@@ -48,7 +48,7 @@ const BrandLogo: React.FC = () => (
       cx="22"
       cy="22"
       r="13"
-      stroke="rgba(255, 255, 255, 0.25)"
+      stroke="rgba(0, 0, 0, 0.2)"
       strokeWidth="1.5"
     />
     {/* Cyclonic Vortex Spiral */}
@@ -64,7 +64,7 @@ const BrandLogo: React.FC = () => (
       <linearGradient id="vortexGrad" x1="6" y1="6" x2="38" y2="38" gradientUnits="userSpaceOnUse">
         <stop stopColor="#f43f5e" />
         <stop offset="0.5" stopColor="#fb7185" />
-        <stop offset="1" stopColor="#ffffff" />
+        <stop offset="1" stopColor="#0f172a" />
       </linearGradient>
     </defs>
   </svg>
@@ -104,7 +104,7 @@ export const Header: React.FC<HeaderProps> = ({
   }, []);
 
   return (
-    <header className="border-b border-neutral-800/80 bg-neutral-950/85 backdrop-blur-xl sticky top-0 z-50">
+    <header className="border-b border-neutral-200 bg-white/90 backdrop-blur-xl sticky top-0 z-50">
       <div className="max-w-[1700px] mx-auto px-4 sm:px-6 py-3">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3 sm:gap-4">
           
@@ -117,22 +117,22 @@ export const Header: React.FC<HeaderProps> = ({
             <motion.div
               whileHover={{ rotate: 15, scale: 1.05 }}
               transition={{ type: 'spring', stiffness: 300, damping: 15 }}
-              className="p-1.5 rounded-xl bg-neutral-900 border border-neutral-800 shadow-md flex items-center justify-center"
+              className="p-1.5 rounded-xl bg-neutral-50 border border-neutral-200 shadow-xs flex items-center justify-center"
             >
               <BrandLogo />
             </motion.div>
             <div>
               <div className="flex items-center space-x-2">
-                <span className="text-lg sm:text-xl font-black tracking-tight text-white font-sans group-hover:text-rose-400 transition-colors">
-                  PAWAN<span className="font-light text-rose-500">SATYA</span>
+                <span className="text-lg sm:text-xl font-black tracking-tight text-neutral-900 font-sans group-hover:text-rose-600 transition-colors">
+                  PAWAN<span className="font-light text-rose-600">SATYA</span>
                 </span>
-                <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/25">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                   Operational
                 </span>
               </div>
-              <p className="text-xs text-neutral-400 font-normal">
-                AI Medium-Range Forecast Bust Detection <span className="text-neutral-600 hidden sm:inline">&bull;</span> <span className="text-neutral-500 hidden sm:inline">NOAA GFS & ERA5 Reanalysis</span>
+              <p className="text-xs text-neutral-500 font-normal">
+                AI Medium-Range Forecast Bust Detection <span className="text-neutral-300 hidden sm:inline">&bull;</span> <span className="text-neutral-400 hidden sm:inline">NOAA GFS & ERA5 Reanalysis</span>
               </p>
             </div>
           </div>
@@ -143,37 +143,37 @@ export const Header: React.FC<HeaderProps> = ({
               initial={{ opacity: 0, y: -4 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
-              className="flex items-center space-x-2 bg-neutral-900/90 border border-neutral-800/90 px-3 py-1.5 rounded-xl text-xs shadow-inner"
+              className="flex items-center space-x-2 bg-neutral-50 border border-neutral-200 px-3 py-1.5 rounded-xl text-xs shadow-xs"
             >
               {/* Danger */}
-              <div className="flex items-center space-x-1.5 px-2 py-0.5 rounded-md bg-rose-950/30 text-rose-400 border border-rose-900/30">
-                <AlertTriangle className="h-3.5 w-3.5 text-rose-500" />
+              <div className="flex items-center space-x-1.5 px-2 py-0.5 rounded-md bg-rose-50 text-rose-700 border border-rose-200">
+                <AlertTriangle className="h-3.5 w-3.5 text-rose-600" />
                 <span className="font-mono font-bold">
                   <AnimatedNumber value={summary.danger_count} />
                 </span>
-                <span className="text-[11px] font-medium text-rose-300">Bust Risk</span>
+                <span className="text-[11px] font-medium text-rose-600">Bust Risk</span>
               </div>
 
               {/* Caution */}
-              <div className="flex items-center space-x-1.5 px-2 py-0.5 rounded-md bg-amber-950/30 text-amber-300 border border-amber-900/30">
+              <div className="flex items-center space-x-1.5 px-2 py-0.5 rounded-md bg-amber-50 text-amber-800 border border-amber-200">
                 <span className="font-mono font-bold">
                   <AnimatedNumber value={summary.caution_count} />
                 </span>
-                <span className="text-[11px] font-medium text-amber-400">Caution</span>
+                <span className="text-[11px] font-medium text-amber-700">Caution</span>
               </div>
 
               {/* Safe */}
-              <div className="flex items-center space-x-1.5 px-2 py-0.5 rounded-md bg-emerald-950/30 text-emerald-300 border border-emerald-900/30">
-                <ShieldCheck className="h-3.5 w-3.5 text-emerald-400" />
+              <div className="flex items-center space-x-1.5 px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200">
+                <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" />
                 <span className="font-mono font-bold">
                   <AnimatedNumber value={summary.safe_count} />
                 </span>
-                <span className="text-[11px] font-medium text-emerald-400">Safe</span>
+                <span className="text-[11px] font-medium text-emerald-700">Safe</span>
               </div>
 
-              <div className="hidden sm:flex items-center space-x-1 pl-2 border-l border-neutral-800 text-neutral-400 text-xs">
+              <div className="hidden sm:flex items-center space-x-1 pl-2 border-l border-neutral-200 text-neutral-500 text-xs">
                 <span>Avg Conf:</span>
-                <span className="font-mono font-bold text-white">
+                <span className="font-mono font-bold text-neutral-900">
                   <AnimatedNumber value={summary.avg_confidence} decimals={1} suffix="%" />
                 </span>
               </div>
@@ -184,11 +184,11 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="flex flex-wrap items-center gap-2">
             
             {/* Clocks */}
-            <div className="hidden xl:flex items-center space-x-2 text-[11px] font-mono bg-neutral-900/80 border border-neutral-800 px-2.5 py-1.5 rounded-lg text-neutral-400">
-              <Clock className="h-3.5 w-3.5 text-neutral-500" />
+            <div className="hidden xl:flex items-center space-x-2 text-[11px] font-mono bg-neutral-100 border border-neutral-200 px-2.5 py-1.5 rounded-lg text-neutral-600">
+              <Clock className="h-3.5 w-3.5 text-neutral-400" />
               <span>{timeUtc}</span>
-              <span className="text-neutral-700">/</span>
-              <span className="text-neutral-200">{timeIst}</span>
+              <span className="text-neutral-300">/</span>
+              <span className="text-neutral-900 font-medium">{timeIst}</span>
             </div>
 
             {/* Scenario Dropdown with AnimatePresence */}
@@ -197,7 +197,7 @@ export const Header: React.FC<HeaderProps> = ({
                 whileHover={{ scale: 1.01 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => setDropdownOpen(!dropdownOpen)}
-                className="flex items-center space-x-2 px-3 py-1.5 bg-neutral-900 border border-neutral-700/80 hover:border-neutral-600 text-xs font-medium text-white rounded-lg shadow-sm transition-all"
+                className="flex items-center space-x-2 px-3 py-1.5 bg-white border border-neutral-300 hover:border-neutral-400 text-xs font-medium text-neutral-800 rounded-lg shadow-xs transition-all"
               >
                 <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse" />
                 <span className="max-w-[170px] sm:max-w-[210px] truncate">
@@ -207,7 +207,7 @@ export const Header: React.FC<HeaderProps> = ({
                   animate={{ rotate: dropdownOpen ? 180 : 0 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <ChevronDown className="h-3.5 w-3.5 text-neutral-400" />
+                  <ChevronDown className="h-3.5 w-3.5 text-neutral-500" />
                 </motion.div>
               </motion.button>
 
@@ -218,38 +218,38 @@ export const Header: React.FC<HeaderProps> = ({
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -6, scale: 0.96 }}
                     transition={{ type: 'spring', duration: 0.25, stiffness: 350, damping: 25 }}
-                    className="absolute right-0 mt-2 w-84 bg-neutral-900/95 backdrop-blur-2xl border border-neutral-800 rounded-xl shadow-2xl py-1.5 z-50 overflow-hidden"
+                    className="absolute right-0 mt-2 w-84 bg-white/95 backdrop-blur-2xl border border-neutral-200 rounded-xl shadow-xl py-1.5 z-50 overflow-hidden"
                   >
-                    <div className="px-3.5 py-1.5 text-[11px] font-medium text-neutral-400 border-b border-neutral-800/80">
+                    <div className="px-3.5 py-1.5 text-[11px] font-medium text-neutral-500 border-b border-neutral-100">
                       Rapidly Evolving Synoptic Scenarios
                     </div>
-                    <div className="max-h-80 overflow-y-auto divide-y divide-neutral-800/50">
+                    <div className="max-h-80 overflow-y-auto divide-y divide-neutral-100">
                       {scenarios.map((sc) => {
                         const isSelected = selectedScenario?.id === sc.id;
                         return (
                           <motion.button
                             key={sc.id}
-                            whileHover={{ backgroundColor: 'rgba(255, 255, 255, 0.05)' }}
+                            whileHover={{ backgroundColor: 'rgba(0, 0, 0, 0.03)' }}
                             onClick={() => {
                               onSelectScenario(sc);
                               setDropdownOpen(false);
                             }}
                             className={`w-full text-left px-3.5 py-2.5 text-xs transition-colors flex items-start justify-between gap-2 ${
                               isSelected
-                                ? 'bg-neutral-800/80 text-white font-medium'
-                                : 'text-neutral-300'
+                                ? 'bg-neutral-100 text-neutral-900 font-medium'
+                                : 'text-neutral-700'
                             }`}
                           >
                             <div className="min-w-0">
-                              <div className="font-semibold text-white flex items-center gap-1.5">
+                              <div className="font-semibold text-neutral-900 flex items-center gap-1.5">
                                 <span>{sc.name}</span>
                               </div>
-                              <p className="text-[11px] text-neutral-400 line-clamp-1 mt-0.5">
+                              <p className="text-[11px] text-neutral-500 line-clamp-1 mt-0.5">
                                 {sc.description}
                               </p>
                             </div>
                             {isSelected && (
-                              <Check className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
+                              <Check className="h-4 w-4 text-emerald-600 shrink-0 mt-0.5" />
                             )}
                           </motion.button>
                         );
@@ -265,12 +265,12 @@ export const Header: React.FC<HeaderProps> = ({
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={onOpenValidationModal}
-              className="flex items-center space-x-1.5 px-3 py-1.5 bg-neutral-900 border border-neutral-800 hover:border-emerald-500/50 text-xs text-neutral-200 hover:text-white rounded-lg shadow-sm transition-all"
+              className="flex items-center space-x-1.5 px-3 py-1.5 bg-white border border-neutral-300 hover:border-emerald-500/60 text-xs text-neutral-800 hover:text-neutral-900 rounded-lg shadow-xs transition-all"
               title="View Holdout Validation Metrics, ROC Curve & Download Dataset"
             >
-              <Cpu className="h-3.5 w-3.5 text-emerald-400" />
+              <Cpu className="h-3.5 w-3.5 text-emerald-600" />
               <span className="hidden sm:inline font-medium">ML Validation</span>
-              <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-emerald-950/60 text-emerald-400 border border-emerald-800/50 font-bold">
+              <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 font-bold">
                 AUC 0.966
               </span>
             </motion.button>
@@ -280,10 +280,10 @@ export const Header: React.FC<HeaderProps> = ({
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={onOpenCustomSimulator}
-              className="flex items-center space-x-1.5 px-2.5 py-1.5 bg-neutral-900 border border-neutral-800 hover:border-neutral-600 text-xs text-neutral-300 hover:text-white rounded-lg shadow-sm transition-all"
+              className="flex items-center space-x-1.5 px-2.5 py-1.5 bg-white border border-neutral-300 hover:border-neutral-400 text-xs text-neutral-700 hover:text-neutral-900 rounded-lg shadow-xs transition-all"
               title="Test custom meteorological parameters"
             >
-              <Sliders className="h-3.5 w-3.5 text-neutral-400" />
+              <Sliders className="h-3.5 w-3.5 text-neutral-500" />
               <span className="hidden md:inline font-medium">Simulator</span>
             </motion.button>
 
@@ -292,10 +292,10 @@ export const Header: React.FC<HeaderProps> = ({
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={onOpenReportModal}
-              className="flex items-center space-x-1.5 px-3 py-1.5 bg-white text-black font-semibold text-xs rounded-lg shadow-md hover:bg-neutral-100 transition-all"
+              className="flex items-center space-x-1.5 px-3 py-1.5 bg-neutral-900 text-white font-semibold text-xs rounded-lg shadow-md hover:bg-black transition-all"
               title="Generate Operational Forecast Bust Bulletin"
             >
-              <FileText className="h-3.5 w-3.5 text-black" />
+              <FileText className="h-3.5 w-3.5 text-white" />
               <span>Bulletin</span>
             </motion.button>
 

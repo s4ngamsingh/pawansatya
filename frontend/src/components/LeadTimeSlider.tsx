@@ -30,24 +30,24 @@ export const LeadTimeSlider: React.FC<LeadTimeSliderProps> = ({
   const days = Array.from({ length: 10 }, (_, i) => i + 1);
 
   return (
-    <div className="bg-neutral-900/90 border border-neutral-800 rounded-2xl p-4 shadow-xl">
+    <div className="bg-white border border-neutral-200 rounded-2xl p-4 shadow-sm">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-3.5">
         
         {/* Title and Forecast horizon */}
         <div className="flex items-center space-x-3">
-          <div className="h-8 w-8 rounded-xl bg-neutral-950 border border-neutral-800 flex items-center justify-center">
-            <Clock className="h-4 w-4 text-neutral-300" />
+          <div className="h-8 w-8 rounded-xl bg-neutral-100 border border-neutral-200 flex items-center justify-center">
+            <Clock className="h-4 w-4 text-neutral-700" />
           </div>
           <div>
             <div className="flex items-center space-x-2">
-              <span className="text-sm font-semibold text-white font-sans">
+              <span className="text-sm font-semibold text-neutral-900 font-sans">
                 Forecast Lead-Time Horizon
               </span>
-              <span className="text-[11px] px-2 py-0.5 rounded-full bg-neutral-800 text-neutral-300 border border-neutral-700 font-medium">
+              <span className="text-[11px] px-2 py-0.5 rounded-full bg-neutral-100 text-neutral-700 border border-neutral-200 font-medium">
                 Day 1 &ndash; 10
               </span>
             </div>
-            <p className="text-xs text-neutral-400">
+            <p className="text-xs text-neutral-500">
               Lorenz atmospheric error growth progression across medium-range lead times.
             </p>
           </div>
@@ -55,14 +55,14 @@ export const LeadTimeSlider: React.FC<LeadTimeSliderProps> = ({
 
         {/* Playback Controls & Selected Day Indicator */}
         <div className="flex items-center space-x-3 self-end md:self-auto">
-          <div className="flex items-center bg-neutral-950 border border-neutral-800 rounded-xl p-1 shadow-inner">
+          <div className="flex items-center bg-neutral-100 border border-neutral-200 rounded-xl p-1 shadow-inner">
             <motion.button
               whileTap={{ scale: 0.95 }}
               onClick={() => setIsPlaying(!isPlaying)}
               className={`px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors flex items-center gap-1.5 ${
                 isPlaying
                   ? 'bg-rose-600 text-white'
-                  : 'text-neutral-400 hover:text-white hover:bg-neutral-800'
+                  : 'text-neutral-600 hover:text-neutral-900 hover:bg-neutral-200'
               }`}
               title={isPlaying ? 'Pause simulation' : 'Auto-advance Day 1 to 10'}
             >
@@ -72,7 +72,7 @@ export const LeadTimeSlider: React.FC<LeadTimeSliderProps> = ({
             <motion.button
               whileTap={{ scale: 0.95 }}
               onClick={() => onChangeLeadTime(1)}
-              className="p-1.5 text-neutral-400 hover:text-white rounded-lg hover:bg-neutral-800 transition-colors"
+              className="p-1.5 text-neutral-600 hover:text-neutral-900 rounded-lg hover:bg-neutral-200 transition-colors"
               title="Reset to Day 1"
             >
               <RotateCcw className="h-3.5 w-3.5" />
@@ -80,9 +80,9 @@ export const LeadTimeSlider: React.FC<LeadTimeSliderProps> = ({
           </div>
 
           {/* Large active indicator */}
-          <div className="bg-white text-black font-bold px-3.5 py-1.5 rounded-xl text-sm shadow-md flex items-center gap-1.5">
+          <div className="bg-neutral-900 text-white font-bold px-3.5 py-1.5 rounded-xl text-sm shadow-md flex items-center gap-1.5">
             <span className="font-mono">DAY {currentLeadTime}</span>
-            <span className="text-xs font-normal text-neutral-600 font-mono">
+            <span className="text-xs font-normal text-neutral-300 font-mono">
               (+{currentLeadTime * 24}h)
             </span>
           </div>
@@ -109,19 +109,19 @@ export const LeadTimeSlider: React.FC<LeadTimeSliderProps> = ({
                 <motion.div
                   layoutId="activeLeadTime"
                   transition={{ type: 'spring', stiffness: 450, damping: 30 }}
-                  className="absolute inset-0 bg-white rounded-xl shadow-lg z-0"
+                  className="absolute inset-0 bg-neutral-900 rounded-xl shadow-md z-0"
                 />
               )}
 
               {/* Inactive border/bg */}
               {!isSelected && (
                 <div
-                  className={`absolute inset-0 rounded-xl border transition-colors bg-neutral-950/60 ${
+                  className={`absolute inset-0 rounded-xl border transition-colors bg-neutral-50 hover:bg-neutral-100 ${
                     day <= 3
-                      ? 'border-emerald-900/40 hover:border-emerald-700/60'
+                      ? 'border-emerald-200 hover:border-emerald-400'
                       : day <= 6
-                      ? 'border-amber-900/40 hover:border-amber-700/60'
-                      : 'border-rose-900/40 hover:border-rose-700/60'
+                      ? 'border-amber-200 hover:border-amber-400'
+                      : 'border-rose-200 hover:border-rose-400'
                   }`}
                 />
               )}
@@ -138,14 +138,14 @@ export const LeadTimeSlider: React.FC<LeadTimeSliderProps> = ({
               <div className="relative z-10 flex flex-col items-center">
                 <span
                   className={`text-xs font-mono font-bold ${
-                    isSelected ? 'text-black' : 'text-white'
+                    isSelected ? 'text-white' : 'text-neutral-900'
                   }`}
                 >
                   D{day}
                 </span>
                 <span
                   className={`text-[10px] font-mono ${
-                    isSelected ? 'text-neutral-600' : 'text-neutral-400'
+                    isSelected ? 'text-neutral-300' : 'text-neutral-500'
                   }`}
                 >
                   +{day * 24}h
@@ -155,12 +155,12 @@ export const LeadTimeSlider: React.FC<LeadTimeSliderProps> = ({
                 <div
                   className={`mt-1.5 h-1 w-6 rounded-full ${
                     isSelected
-                      ? 'bg-neutral-900'
+                      ? 'bg-white'
                       : day <= 3
-                      ? 'bg-emerald-500/70'
+                      ? 'bg-emerald-500'
                       : day <= 6
-                      ? 'bg-amber-500/70'
-                      : 'bg-rose-500/70'
+                      ? 'bg-amber-500'
+                      : 'bg-rose-500'
                   }`}
                 />
               </div>
@@ -170,7 +170,7 @@ export const LeadTimeSlider: React.FC<LeadTimeSliderProps> = ({
       </div>
 
       {/* Legend */}
-      <div className="flex flex-wrap items-center justify-between text-[11px] text-neutral-400 mt-3 pt-2.5 border-t border-neutral-800/80">
+      <div className="flex flex-wrap items-center justify-between text-[11px] text-neutral-600 mt-3 pt-2.5 border-t border-neutral-200">
         <div className="flex items-center space-x-4">
           <div className="flex items-center space-x-1.5">
             <span className="w-2 h-2 rounded-full bg-emerald-500" />
@@ -187,7 +187,7 @@ export const LeadTimeSlider: React.FC<LeadTimeSliderProps> = ({
         </div>
 
         {criticalLeadTimes.length > 0 && (
-          <div className="flex items-center space-x-1.5 text-rose-400 font-medium">
+          <div className="flex items-center space-x-1.5 text-rose-600 font-medium">
             <AlertCircle className="h-3.5 w-3.5" />
             <span>High-risk bifurcation window at Day {criticalLeadTimes.join(', ')}</span>
           </div>

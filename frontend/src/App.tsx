@@ -149,7 +149,7 @@ export function App() {
   };
 
   return (
-    <div className="min-h-screen bg-neutral-950 text-neutral-100 flex flex-col font-sans selection:bg-white selection:text-black">
+    <div className="min-h-screen bg-neutral-50 text-neutral-900 flex flex-col font-sans selection:bg-neutral-900 selection:text-white">
       
       <AnimatePresence mode="wait">
         {currentView === 'landing' ? (
@@ -197,22 +197,22 @@ export function App() {
             >
               
               {/* Rapidly Evolving System Selectors */}
-              <motion.div variants={itemVariants} className="bg-neutral-900/80 border border-neutral-800 rounded-2xl p-3.5 shadow-md">
+              <motion.div variants={itemVariants} className="bg-white border border-neutral-200 rounded-2xl p-3.5 shadow-sm">
                 <div className="flex items-center justify-between mb-2.5 px-1">
                   <div className="flex items-center space-x-2">
-                    <span className="text-xs font-semibold text-neutral-300">
+                    <span className="text-xs font-semibold text-neutral-800">
                       Rapidly Evolving Atmospheric Systems &bull; Benchmark Regimes
                     </span>
                     <button
                       onClick={() => setCurrentView('landing')}
-                      className="px-2 py-0.5 rounded text-[11px] bg-neutral-800 hover:bg-neutral-700 text-neutral-300 transition-colors flex items-center gap-1"
+                      className="px-2 py-0.5 rounded text-[11px] bg-neutral-100 hover:bg-neutral-200 text-neutral-700 transition-colors flex items-center gap-1"
                       title="Back to Landing Page"
                     >
                       <Home className="h-3 w-3" />
                       <span>Overview</span>
                     </button>
                   </div>
-                  <span className="text-[11px] text-neutral-400">
+                  <span className="text-[11px] text-neutral-500">
                     Select synoptic regime to test bust profile
                   </span>
                 </div>
@@ -228,18 +228,18 @@ export function App() {
                         onClick={() => setSelectedScenario(sc)}
                         className={`p-3 rounded-xl border text-left transition-all flex items-center space-x-3 select-none ${
                           isSelected
-                            ? 'bg-white text-black border-white shadow-lg'
-                            : 'bg-neutral-950/70 border-neutral-800/80 hover:border-neutral-700 text-neutral-300 hover:text-white'
+                            ? 'bg-neutral-900 text-white border-neutral-900 shadow-md'
+                            : 'bg-white border-neutral-200 hover:border-neutral-300 text-neutral-700 hover:text-neutral-900 hover:bg-neutral-50/80 shadow-xs'
                         }`}
                       >
-                        <div className={`p-2 rounded-lg shrink-0 ${isSelected ? 'bg-neutral-900 text-white' : 'bg-neutral-900 border border-neutral-800'}`}>
+                        <div className={`p-2 rounded-lg shrink-0 ${isSelected ? 'bg-neutral-850 text-white' : 'bg-neutral-100 border border-neutral-200'}`}>
                           {getSystemIcon(sc.id)}
                         </div>
                         <div className="min-w-0">
                           <span className="text-xs font-semibold truncate block leading-tight">
                             {sc.name.split(' (')[0].split(' - ')[0]}
                           </span>
-                          <span className={`text-[10px] font-mono block mt-0.5 ${isSelected ? 'text-neutral-700' : 'text-neutral-400'}`}>
+                          <span className={`text-[10px] font-mono block mt-0.5 ${isSelected ? 'text-neutral-300' : 'text-neutral-500'}`}>
                             D{sc.critical_lead_times.join(', ')} Critical
                           </span>
                         </div>
@@ -255,36 +255,36 @@ export function App() {
                   <motion.div
                     key={selectedScenario.id}
                     variants={itemVariants}
-                    className="bg-neutral-900/90 border border-neutral-800 rounded-2xl p-5 shadow-xl flex flex-col md:flex-row md:items-center md:justify-between gap-4 relative overflow-hidden"
+                    className="bg-white border border-neutral-200 rounded-2xl p-5 shadow-sm flex flex-col md:flex-row md:items-center md:justify-between gap-4 relative overflow-hidden"
                   >
                     <div className="space-y-1.5 z-10">
                       <div className="flex flex-wrap items-center gap-2">
-                        <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-neutral-950 border border-neutral-800 text-neutral-300">
+                        <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-neutral-100 border border-neutral-200 text-neutral-700">
                           Active Synoptic Pattern
                         </span>
-                        <span className="text-xs font-semibold text-rose-400">
+                        <span className="text-xs font-semibold text-rose-600">
                           {selectedScenario.category}
                         </span>
-                        <span className="text-neutral-700">&bull;</span>
-                        <span className="text-xs text-neutral-400">
-                          Critical Lead Times: <strong className="text-white font-mono">Day {selectedScenario.critical_lead_times.join(', ')}</strong>
+                        <span className="text-neutral-300">&bull;</span>
+                        <span className="text-xs text-neutral-500">
+                          Critical Lead Times: <strong className="text-neutral-900 font-mono">Day {selectedScenario.critical_lead_times.join(', ')}</strong>
                         </span>
                       </div>
-                      <h2 className="text-lg sm:text-xl font-bold text-white font-sans">
+                      <h2 className="text-lg sm:text-xl font-bold text-neutral-900 font-sans">
                         {selectedScenario.name}
                       </h2>
-                      <p className="text-xs text-neutral-400 max-w-4xl leading-relaxed">
+                      <p className="text-xs text-neutral-600 max-w-4xl leading-relaxed">
                         {selectedScenario.description}
                       </p>
                     </div>
 
                     {/* Historical Analog Snippet */}
-                    <div className="bg-neutral-950/80 border border-neutral-800/80 p-3.5 rounded-xl text-xs max-w-md self-start md:self-auto z-10 shrink-0">
-                      <div className="flex items-center space-x-1.5 text-neutral-400 text-[11px] font-semibold mb-1">
-                        <Sparkles className="h-3.5 w-3.5 text-amber-400" />
+                    <div className="bg-neutral-50 border border-neutral-200 p-3.5 rounded-xl text-xs max-w-md self-start md:self-auto z-10 shrink-0">
+                      <div className="flex items-center space-x-1.5 text-neutral-500 text-[11px] font-semibold mb-1">
+                        <Sparkles className="h-3.5 w-3.5 text-amber-500" />
                         <span>Historical Analog Match</span>
                       </div>
-                      <p className="text-neutral-300 text-xs line-clamp-2 leading-relaxed">
+                      <p className="text-neutral-700 text-xs line-clamp-2 leading-relaxed">
                         {selectedScenario.historical_analog}
                       </p>
                     </div>
@@ -355,11 +355,11 @@ export function App() {
             </motion.main>
 
             {/* Footer */}
-            <footer className="border-t border-neutral-800/80 bg-neutral-950 py-4 text-xs text-neutral-400 mt-8">
+            <footer className="border-t border-neutral-200 bg-white py-4 text-xs text-neutral-500 mt-8">
               <div className="max-w-[1700px] mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
                 <div className="flex items-center space-x-2">
-                  <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-                  <span className="text-white font-semibold">PAWANSATYA SYSTEM</span>
+                  <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+                  <span className="text-neutral-900 font-semibold">PAWANSATYA SYSTEM</span>
                   <span>&bull;</span>
                   <span>Smart India Hackathon (SIH)</span>
                 </div>
@@ -370,7 +370,7 @@ export function App() {
                   <span>&bull;</span>
                   <span>IMD 36 Subdivisions</span>
                   <span>&bull;</span>
-                  <span className="text-white font-bold">v1.2.0</span>
+                  <span className="text-neutral-900 font-bold">v1.2.0</span>
                 </div>
               </div>
             </footer>

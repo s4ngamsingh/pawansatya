@@ -41,7 +41,7 @@ const BrandLogo: React.FC<{ size?: string }> = ({ size = 'h-9 w-9' }) => (
       cx="22"
       cy="22"
       r="20"
-      stroke="rgba(255, 255, 255, 0.15)"
+      stroke="rgba(0, 0, 0, 0.12)"
       strokeWidth="1.5"
       strokeDasharray="3 3"
     />
@@ -49,7 +49,7 @@ const BrandLogo: React.FC<{ size?: string }> = ({ size = 'h-9 w-9' }) => (
       cx="22"
       cy="22"
       r="13"
-      stroke="rgba(255, 255, 255, 0.25)"
+      stroke="rgba(0, 0, 0, 0.2)"
       strokeWidth="1.5"
     />
     <path
@@ -63,7 +63,7 @@ const BrandLogo: React.FC<{ size?: string }> = ({ size = 'h-9 w-9' }) => (
       <linearGradient id="vortexGradLanding" x1="6" y1="6" x2="38" y2="38" gradientUnits="userSpaceOnUse">
         <stop stopColor="#f43f5e" />
         <stop offset="0.5" stopColor="#fb7185" />
-        <stop offset="1" stopColor="#ffffff" />
+        <stop offset="1" stopColor="#0f172a" />
       </linearGradient>
     </defs>
   </svg>
@@ -133,32 +133,32 @@ export const LandingPage: React.FC<LandingPageProps> = ({
   ];
 
   return (
-    <div className="min-h-screen bg-neutral-950 text-neutral-100 flex flex-col font-sans selection:bg-white selection:text-black overflow-x-hidden">
+    <div className="min-h-screen bg-neutral-50 text-neutral-900 flex flex-col font-sans selection:bg-neutral-900 selection:text-white overflow-x-hidden">
       
       {/* Top Floating Navigation */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-neutral-950/80 backdrop-blur-xl border-b border-neutral-800/80">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-white/85 backdrop-blur-xl border-b border-neutral-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <BrandLogo size="h-8 w-8" />
             <div className="flex items-center space-x-2">
-              <span className="text-xl font-black tracking-tight text-white font-sans">
-                PAWAN<span className="font-light text-rose-500">SATYA</span>
+              <span className="text-xl font-black tracking-tight text-neutral-900 font-sans">
+                PAWAN<span className="font-light text-rose-600">SATYA</span>
               </span>
-              <span className="hidden sm:inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono bg-neutral-900 border border-neutral-800 text-neutral-400">
+              <span className="hidden sm:inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono bg-neutral-100 border border-neutral-200 text-neutral-600">
                 SIH 2024
               </span>
             </div>
           </div>
 
-          <nav className="hidden md:flex items-center space-x-8 text-xs font-medium text-neutral-400">
-            <a href="#features" className="hover:text-white transition-colors">Capabilities</a>
-            <a href="#systems" className="hover:text-white transition-colors">Synoptic Systems</a>
-            <a href="#architecture" className="hover:text-white transition-colors">ML Architecture</a>
+          <nav className="hidden md:flex items-center space-x-8 text-xs font-medium text-neutral-600">
+            <a href="#features" className="hover:text-neutral-900 transition-colors">Capabilities</a>
+            <a href="#systems" className="hover:text-neutral-900 transition-colors">Synoptic Systems</a>
+            <a href="#architecture" className="hover:text-neutral-900 transition-colors">ML Architecture</a>
             <button
               onClick={onOpenValidationModal}
-              className="hover:text-emerald-400 transition-colors flex items-center gap-1 font-mono text-[11px]"
+              className="hover:text-emerald-700 transition-colors flex items-center gap-1 font-mono text-[11px]"
             >
-              <Cpu className="h-3.5 w-3.5 text-emerald-400" />
+              <Cpu className="h-3.5 w-3.5 text-emerald-600" />
               <span>Validation (AUC 0.966)</span>
             </button>
           </nav>
@@ -168,7 +168,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
               onClick={onLaunchDashboard}
-              className="px-4 py-2 rounded-xl bg-white text-black font-bold text-xs shadow-lg hover:bg-neutral-200 transition-all flex items-center space-x-2"
+              className="px-4 py-2 rounded-xl bg-neutral-900 text-white font-bold text-xs shadow-md hover:bg-black transition-all flex items-center space-x-2"
             >
               <span>Launch Console</span>
               <ArrowRight className="h-3.5 w-3.5" />
@@ -189,20 +189,20 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             muted
             playsInline
             poster={heroImage}
-            className="w-full h-full object-cover object-center opacity-40 scale-105"
+            className="w-full h-full object-cover object-center opacity-25 scale-105"
             src="https://svs.gsfc.nasa.gov/vis/a010000/a012600/a012635/12635_Hurricane_Matthew_twitter_720.mp4"
           />
           
-          {/* Subtle Atmospheric Gradient Masks */}
-          <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/65 to-neutral-950/80" />
-          <div className="absolute inset-0 bg-radial-gradient from-transparent via-neutral-950/50 to-neutral-950" />
+          {/* Subtle Atmospheric Light Gradient Masks */}
+          <div className="absolute inset-0 bg-gradient-to-t from-neutral-50 via-white/70 to-white/85" />
+          <div className="absolute inset-0 bg-radial-gradient from-transparent via-white/50 to-neutral-50" />
           
           {/* Scanning Radar Vector Line */}
-          <div className="absolute inset-0 pointer-events-none opacity-25">
+          <div className="absolute inset-0 pointer-events-none opacity-20">
             <div
               className="w-full h-full"
               style={{
-                backgroundImage: 'radial-gradient(rgba(244,63,94,0.15) 1px, transparent 1px)',
+                backgroundImage: 'radial-gradient(rgba(244,63,94,0.2) 1px, transparent 1px)',
                 backgroundSize: '40px 40px'
               }}
             />
@@ -212,10 +212,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         {/* Video Play/Pause Floating Toggle */}
         <button
           onClick={toggleVideo}
-          className="absolute bottom-8 right-8 z-20 p-2.5 rounded-full bg-neutral-900/80 border border-neutral-700/80 text-neutral-300 hover:text-white backdrop-blur-md transition-all shadow-lg hover:scale-105"
+          className="absolute bottom-8 right-8 z-20 p-2.5 rounded-full bg-white/90 border border-neutral-300 text-neutral-700 hover:text-neutral-900 backdrop-blur-md transition-all shadow-md hover:scale-105"
           title={isPlaying ? 'Pause Background Video' : 'Play Background Video'}
         >
-          {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4 fill-white" />}
+          {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4 fill-neutral-900" />}
         </button>
 
         {/* Hero Content */}
@@ -226,12 +226,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-neutral-900/90 border border-neutral-800 text-xs font-medium text-neutral-300 shadow-xl backdrop-blur-md"
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 border border-neutral-200 text-xs font-medium text-neutral-800 shadow-md backdrop-blur-md"
           >
             <span className="w-2 h-2 rounded-full bg-rose-500 animate-ping" />
-            <span className="text-white font-semibold">Smart India Hackathon</span>
-            <span className="text-neutral-600">&bull;</span>
-            <span className="text-neutral-400">AI-Based Forecast Bust Detection</span>
+            <span className="text-neutral-900 font-semibold">Smart India Hackathon</span>
+            <span className="text-neutral-300">&bull;</span>
+            <span className="text-neutral-600">AI-Based Forecast Bust Detection</span>
           </motion.div>
 
           {/* Main Headline */}
@@ -241,13 +241,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             transition={{ duration: 0.5, delay: 0.1 }}
             className="space-y-3"
           >
-            <h1 className="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight text-white font-sans leading-[1.1]">
+            <h1 className="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight text-neutral-900 font-sans leading-[1.1]">
               Predict Forecast Busts <br />
-              <span className="bg-gradient-to-r from-rose-500 via-amber-300 to-emerald-400 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-rose-600 via-amber-600 to-emerald-600 bg-clip-text text-transparent">
                 Before They Strike.
               </span>
             </h1>
-            <p className="max-w-3xl mx-auto text-base sm:text-lg text-neutral-300 leading-relaxed font-normal">
+            <p className="max-w-3xl mx-auto text-base sm:text-lg text-neutral-600 leading-relaxed font-normal">
               Medium-range weather forecasts can fail dramatically during rapidly evolving cyclones, monsoon depressions, and heavy deluge events. PawanSatya compares current NWP patterns with 10-year ERA5 error behaviour, delivering region-wise confidence maps and explainable AI risk indicators from Day 1 to Day 10.
             </p>
           </motion.div>
@@ -263,7 +263,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.98 }}
               onClick={onLaunchDashboard}
-              className="px-8 py-4 rounded-2xl bg-white text-black font-bold text-sm shadow-2xl hover:bg-neutral-100 transition-all flex items-center space-x-2.5 group"
+              className="px-8 py-4 rounded-2xl bg-neutral-900 text-white font-bold text-sm shadow-xl hover:bg-black transition-all flex items-center space-x-2.5 group"
             >
               <span>Launch Operational Console</span>
               <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
@@ -273,11 +273,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.98 }}
               onClick={onOpenValidationModal}
-              className="px-6 py-4 rounded-2xl bg-neutral-900/90 border border-neutral-700/80 hover:border-emerald-500/50 text-white font-medium text-sm shadow-lg backdrop-blur-md transition-all flex items-center space-x-2"
+              className="px-6 py-4 rounded-2xl bg-white border border-neutral-300 hover:border-emerald-500/60 text-neutral-800 font-medium text-sm shadow-md backdrop-blur-md transition-all flex items-center space-x-2"
             >
-              <Cpu className="h-4 w-4 text-emerald-400" />
+              <Cpu className="h-4 w-4 text-emerald-600" />
               <span>Model Holdout Validation</span>
-              <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-400 font-bold border border-emerald-800/40">
+              <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-bold border border-emerald-200">
                 AUC 0.966
               </span>
             </motion.button>
@@ -290,28 +290,28 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             transition={{ duration: 0.5, delay: 0.3 }}
             className="grid grid-cols-2 md:grid-cols-4 gap-3 pt-6 max-w-4xl mx-auto"
           >
-            <div className="p-4 rounded-2xl bg-neutral-900/80 border border-neutral-800 backdrop-blur-md text-left">
-              <span className="text-[11px] text-neutral-400 block font-medium">Holdout AUC-ROC</span>
-              <span className="text-2xl sm:text-3xl font-bold font-mono text-white">0.966</span>
-              <span className="text-[11px] text-emerald-400 block mt-0.5 font-medium">+46.6% vs Climatology</span>
+            <div className="p-4 rounded-2xl bg-white/90 border border-neutral-200 shadow-sm backdrop-blur-md text-left">
+              <span className="text-[11px] text-neutral-500 block font-medium">Holdout AUC-ROC</span>
+              <span className="text-2xl sm:text-3xl font-bold font-mono text-neutral-900">0.966</span>
+              <span className="text-[11px] text-emerald-600 block mt-0.5 font-medium">+46.6% vs Climatology</span>
             </div>
 
-            <div className="p-4 rounded-2xl bg-neutral-900/80 border border-neutral-800 backdrop-blur-md text-left">
-              <span className="text-[11px] text-neutral-400 block font-medium">Forecast Horizon</span>
-              <span className="text-2xl sm:text-3xl font-bold font-mono text-white">Day 1 &ndash; 10</span>
-              <span className="text-[11px] text-neutral-400 block mt-0.5">Lorenz Growth Tracking</span>
+            <div className="p-4 rounded-2xl bg-white/90 border border-neutral-200 shadow-sm backdrop-blur-md text-left">
+              <span className="text-[11px] text-neutral-500 block font-medium">Forecast Horizon</span>
+              <span className="text-2xl sm:text-3xl font-bold font-mono text-neutral-900">Day 1 &ndash; 10</span>
+              <span className="text-[11px] text-neutral-500 block mt-0.5">Lorenz Growth Tracking</span>
             </div>
 
-            <div className="p-4 rounded-2xl bg-neutral-900/80 border border-neutral-800 backdrop-blur-md text-left">
-              <span className="text-[11px] text-neutral-400 block font-medium">IMD Subdivisions</span>
-              <span className="text-2xl sm:text-3xl font-bold font-mono text-white">36 Regions</span>
-              <span className="text-[11px] text-neutral-400 block mt-0.5">ESRI Satellite Layer</span>
+            <div className="p-4 rounded-2xl bg-white/90 border border-neutral-200 shadow-sm backdrop-blur-md text-left">
+              <span className="text-[11px] text-neutral-500 block font-medium">IMD Subdivisions</span>
+              <span className="text-2xl sm:text-3xl font-bold font-mono text-neutral-900">36 Regions</span>
+              <span className="text-[11px] text-neutral-500 block mt-0.5">ESRI Satellite Layer</span>
             </div>
 
-            <div className="p-4 rounded-2xl bg-neutral-900/80 border border-neutral-800 backdrop-blur-md text-left">
-              <span className="text-[11px] text-neutral-400 block font-medium">Ground Truth</span>
-              <span className="text-2xl sm:text-3xl font-bold text-white font-mono">ERA5 + GFS</span>
-              <span className="text-[11px] text-neutral-400 block mt-0.5 font-mono">Time-Based Split</span>
+            <div className="p-4 rounded-2xl bg-white/90 border border-neutral-200 shadow-sm backdrop-blur-md text-left">
+              <span className="text-[11px] text-neutral-500 block font-medium">Ground Truth</span>
+              <span className="text-2xl sm:text-3xl font-bold text-neutral-900 font-mono">ERA5 + GFS</span>
+              <span className="text-[11px] text-neutral-500 block mt-0.5 font-mono">Time-Based Split</span>
             </div>
           </motion.div>
 
@@ -319,16 +319,16 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       </section>
 
       {/* Core Capabilities Section */}
-      <section id="features" className="py-20 bg-neutral-950 border-t border-neutral-900 relative">
+      <section id="features" className="py-20 bg-white border-t border-neutral-200 relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center max-w-3xl mx-auto space-y-3 mb-14">
-            <span className="text-xs font-mono font-semibold text-rose-400 uppercase tracking-wider">
+            <span className="text-xs font-mono font-semibold text-rose-600 uppercase tracking-wider">
               Engineered for Operational Meteorologists
             </span>
-            <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight font-sans">
+            <h2 className="text-3xl sm:text-4xl font-black text-neutral-900 tracking-tight font-sans">
               Five Pillars of Forecast Bust Detection
             </h2>
-            <p className="text-sm text-neutral-400 leading-relaxed">
+            <p className="text-sm text-neutral-600 leading-relaxed">
               Designed specifically to meet and exceed every technical deliverable outlined in the Smart India Hackathon problem statement.
             </p>
           </div>
@@ -336,109 +336,109 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             
             {/* Pillar 1 */}
-            <div className="p-6 rounded-2xl bg-neutral-900/70 border border-neutral-800 hover:border-neutral-700 transition-all space-y-3 flex flex-col justify-between">
+            <div className="p-6 rounded-2xl bg-neutral-50/70 border border-neutral-200 hover:border-neutral-300 hover:bg-white transition-all space-y-3 flex flex-col justify-between shadow-xs hover:shadow-md">
               <div className="space-y-3">
-                <div className="h-10 w-10 rounded-xl bg-neutral-950 border border-neutral-800 flex items-center justify-center">
-                  <Satellite className="h-5 w-5 text-emerald-400" />
+                <div className="h-10 w-10 rounded-xl bg-white border border-neutral-200 flex items-center justify-center shadow-xs">
+                  <Satellite className="h-5 w-5 text-emerald-600" />
                 </div>
-                <h3 className="text-lg font-bold text-white font-sans">
+                <h3 className="text-lg font-bold text-neutral-900 font-sans">
                   High-Resolution Satellite Confidence Map
                 </h3>
-                <p className="text-xs text-neutral-400 leading-relaxed">
+                <p className="text-xs text-neutral-600 leading-relaxed">
                   Interactive ESRI World Imagery basemap covering all 36 IMD meteorological subdivisions. Red/Green/Amber color-coded polygons immediately highlight areas where NWP guidance is unreliable.
                 </p>
               </div>
-              <div className="pt-3 border-t border-neutral-800/80 text-[11px] font-mono text-neutral-500">
+              <div className="pt-3 border-t border-neutral-200 text-[11px] font-mono text-neutral-500">
                 Deliverable 1 &bull; Region-wise Confidence Map
               </div>
             </div>
 
             {/* Pillar 2 */}
-            <div className="p-6 rounded-2xl bg-neutral-900/70 border border-neutral-800 hover:border-neutral-700 transition-all space-y-3 flex flex-col justify-between">
+            <div className="p-6 rounded-2xl bg-neutral-50/70 border border-neutral-200 hover:border-neutral-300 hover:bg-white transition-all space-y-3 flex flex-col justify-between shadow-xs hover:shadow-md">
               <div className="space-y-3">
-                <div className="h-10 w-10 rounded-xl bg-neutral-950 border border-neutral-800 flex items-center justify-center">
-                  <TrendingUp className="h-5 w-5 text-rose-400" />
+                <div className="h-10 w-10 rounded-xl bg-white border border-neutral-200 flex items-center justify-center shadow-xs">
+                  <TrendingUp className="h-5 w-5 text-rose-600" />
                 </div>
-                <h3 className="text-lg font-bold text-white font-sans">
+                <h3 className="text-lg font-bold text-neutral-900 font-sans">
                   Day 1 to Day 10 Lead-Time Scrubber
                 </h3>
-                <p className="text-xs text-neutral-400 leading-relaxed">
+                <p className="text-xs text-neutral-600 leading-relaxed">
                   Models the chaotic error growth trajectory using Lorenz atmospheric dynamics. Identify the exact bifurcation window (e.g. Day 4 vs Day 7) where model spread explodes.
                 </p>
               </div>
-              <div className="pt-3 border-t border-neutral-800/80 text-[11px] font-mono text-neutral-500">
+              <div className="pt-3 border-t border-neutral-200 text-[11px] font-mono text-neutral-500">
                 Deliverable 2 &bull; Forecast Bust Probability
               </div>
             </div>
 
             {/* Pillar 3 */}
-            <div className="p-6 rounded-2xl bg-neutral-900/70 border border-neutral-800 hover:border-neutral-700 transition-all space-y-3 flex flex-col justify-between">
+            <div className="p-6 rounded-2xl bg-neutral-50/70 border border-neutral-200 hover:border-neutral-300 hover:bg-white transition-all space-y-3 flex flex-col justify-between shadow-xs hover:shadow-md">
               <div className="space-y-3">
-                <div className="h-10 w-10 rounded-xl bg-neutral-950 border border-neutral-800 flex items-center justify-center">
-                  <Layers className="h-5 w-5 text-amber-400" />
+                <div className="h-10 w-10 rounded-xl bg-white border border-neutral-200 flex items-center justify-center shadow-xs">
+                  <Layers className="h-5 w-5 text-amber-600" />
                 </div>
-                <h3 className="text-lg font-bold text-white font-sans">
+                <h3 className="text-lg font-bold text-neutral-900 font-sans">
                   Explainable AI (SHAP Waterfall)
                 </h3>
-                <p className="text-xs text-neutral-400 leading-relaxed">
+                <p className="text-xs text-neutral-600 leading-relaxed">
                   Transparent meteorological reasoning: inspect exact physical feature attributions including CAPE, 0–6km deep-layer wind shear, Z500 geopotential vorticity, and moisture flux convergence.
                 </p>
               </div>
-              <div className="pt-3 border-t border-neutral-800/80 text-[11px] font-mono text-neutral-500">
+              <div className="pt-3 border-t border-neutral-200 text-[11px] font-mono text-neutral-500">
                 Deliverable 3 &bull; Key Reasons / XAI
               </div>
             </div>
 
             {/* Pillar 4 */}
-            <div className="p-6 rounded-2xl bg-neutral-900/70 border border-neutral-800 hover:border-neutral-700 transition-all space-y-3 flex flex-col justify-between">
+            <div className="p-6 rounded-2xl bg-neutral-50/70 border border-neutral-200 hover:border-neutral-300 hover:bg-white transition-all space-y-3 flex flex-col justify-between shadow-xs hover:shadow-md">
               <div className="space-y-3">
-                <div className="h-10 w-10 rounded-xl bg-neutral-950 border border-neutral-800 flex items-center justify-center">
-                  <AlertTriangle className="h-5 w-5 text-rose-500" />
+                <div className="h-10 w-10 rounded-xl bg-white border border-neutral-200 flex items-center justify-center shadow-xs">
+                  <AlertTriangle className="h-5 w-5 text-rose-600" />
                 </div>
-                <h3 className="text-lg font-bold text-white font-sans">
+                <h3 className="text-lg font-bold text-neutral-900 font-sans">
                   Ranked Error-Prone Hotspot Detection
                 </h3>
-                <p className="text-xs text-neutral-400 leading-relaxed">
+                <p className="text-xs text-neutral-600 leading-relaxed">
                   Automated detection and ranking of subdivisions exceeding critical bust thresholds (&ge;65%). Includes estimated track displacement error (&plusmn;km) and precipitation magnitude error (&plusmn;mm).
                 </p>
               </div>
-              <div className="pt-3 border-t border-neutral-800/80 text-[11px] font-mono text-neutral-500">
+              <div className="pt-3 border-t border-neutral-200 text-[11px] font-mono text-neutral-500">
                 Deliverable 4 &bull; Error-Prone Area Detection
               </div>
             </div>
 
             {/* Pillar 5 */}
-            <div className="p-6 rounded-2xl bg-neutral-900/70 border border-neutral-800 hover:border-neutral-700 transition-all space-y-3 flex flex-col justify-between">
+            <div className="p-6 rounded-2xl bg-neutral-50/70 border border-neutral-200 hover:border-neutral-300 hover:bg-white transition-all space-y-3 flex flex-col justify-between shadow-xs hover:shadow-md">
               <div className="space-y-3">
-                <div className="h-10 w-10 rounded-xl bg-neutral-950 border border-neutral-800 flex items-center justify-center">
-                  <Database className="h-5 w-5 text-sky-400" />
+                <div className="h-10 w-10 rounded-xl bg-white border border-neutral-200 flex items-center justify-center shadow-xs">
+                  <Database className="h-5 w-5 text-sky-600" />
                 </div>
-                <h3 className="text-lg font-bold text-white font-sans">
+                <h3 className="text-lg font-bold text-neutral-900 font-sans">
                   NWP vs. Historical Error Comparator
                 </h3>
-                <p className="text-xs text-neutral-400 leading-relaxed">
+                <p className="text-xs text-neutral-600 leading-relaxed">
                   Benchmarks current multi-model spread (GFS, ECMWF IFS, NCUM, GEFS) against 10-year ERA5 historical forecast error distributions to detect systematic model biases.
                 </p>
               </div>
-              <div className="pt-3 border-t border-neutral-800/80 text-[11px] font-mono text-neutral-500">
+              <div className="pt-3 border-t border-neutral-200 text-[11px] font-mono text-neutral-500">
                 Deliverable 5 &bull; Historical Comparison
               </div>
             </div>
 
             {/* Pillar 6 */}
-            <div className="p-6 rounded-2xl bg-neutral-900/70 border border-neutral-800 hover:border-neutral-700 transition-all space-y-3 flex flex-col justify-between">
+            <div className="p-6 rounded-2xl bg-neutral-50/70 border border-neutral-200 hover:border-neutral-300 hover:bg-white transition-all space-y-3 flex flex-col justify-between shadow-xs hover:shadow-md">
               <div className="space-y-3">
-                <div className="h-10 w-10 rounded-xl bg-neutral-950 border border-neutral-800 flex items-center justify-center">
-                  <ShieldCheck className="h-5 w-5 text-emerald-400" />
+                <div className="h-10 w-10 rounded-xl bg-white border border-neutral-200 flex items-center justify-center shadow-xs">
+                  <ShieldCheck className="h-5 w-5 text-emerald-600" />
                 </div>
-                <h3 className="text-lg font-bold text-white font-sans">
+                <h3 className="text-lg font-bold text-neutral-900 font-sans">
                   Operational Bulletin Generator
                 </h3>
-                <p className="text-xs text-neutral-400 leading-relaxed">
+                <p className="text-xs text-neutral-600 leading-relaxed">
                   Generates ready-to-print official meteorological briefing bulletins for disaster managers, state authorities, and operational forecasters with actionable risk directives.
                 </p>
               </div>
-              <div className="pt-3 border-t border-neutral-800/80 text-[11px] font-mono text-neutral-500">
+              <div className="pt-3 border-t border-neutral-200 text-[11px] font-mono text-neutral-500">
                 Operational Forecaster Advisory
               </div>
             </div>
@@ -448,16 +448,16 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       </section>
 
       {/* Rapidly Evolving Atmospheric Systems Section */}
-      <section id="systems" className="py-20 bg-neutral-900/40 border-t border-neutral-900">
+      <section id="systems" className="py-20 bg-neutral-50 border-t border-neutral-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center max-w-3xl mx-auto space-y-3 mb-14">
-            <span className="text-xs font-mono font-semibold text-rose-400 uppercase tracking-wider">
+            <span className="text-xs font-mono font-semibold text-rose-600 uppercase tracking-wider">
               Problem Statement Benchmark Events
             </span>
-            <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight font-sans">
+            <h2 className="text-3xl sm:text-4xl font-black text-neutral-900 tracking-tight font-sans">
               Calibrated on India&apos;s Most Volatile Weather
             </h2>
-            <p className="text-sm text-neutral-400 leading-relaxed">
+            <p className="text-sm text-neutral-600 leading-relaxed">
               Trained on actual historical systems (&le;2022) and validated on completely unseen future events (&ge;2023) across India&apos;s 6 critical synoptic regimes.
             </p>
           </div>
@@ -466,21 +466,21 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             {systems.map((s) => (
               <div
                 key={s.id}
-                className="p-5 rounded-2xl bg-neutral-950/70 border border-neutral-800/90 hover:border-neutral-700 transition-all space-y-3"
+                className="p-5 rounded-2xl bg-white border border-neutral-200 hover:border-neutral-300 transition-all space-y-3 shadow-xs hover:shadow-md"
               >
                 <div className="flex items-center justify-between">
-                  <div className="p-2 rounded-xl bg-neutral-900 border border-neutral-800">
+                  <div className="p-2 rounded-xl bg-neutral-100 border border-neutral-200">
                     {s.icon}
                   </div>
-                  <span className="text-[10px] font-mono text-neutral-400 uppercase">
+                  <span className="text-[10px] font-mono text-neutral-500 uppercase">
                     {s.zone.split('&')[0]}
                   </span>
                 </div>
                 <div>
-                  <h4 className="text-base font-bold text-white font-sans">{s.name}</h4>
-                  <span className="text-xs text-neutral-400 font-medium">{s.zone}</span>
+                  <h4 className="text-base font-bold text-neutral-900 font-sans">{s.name}</h4>
+                  <span className="text-xs text-neutral-500 font-medium">{s.zone}</span>
                 </div>
-                <p className="text-xs text-neutral-400 leading-relaxed">
+                <p className="text-xs text-neutral-600 leading-relaxed">
                   {s.desc}
                 </p>
               </div>
@@ -492,7 +492,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.98 }}
               onClick={onLaunchDashboard}
-              className="inline-flex items-center space-x-2 px-6 py-3 rounded-xl bg-white text-black font-bold text-xs shadow-lg hover:bg-neutral-200 transition-all"
+              className="inline-flex items-center space-x-2 px-6 py-3 rounded-xl bg-neutral-900 text-white font-bold text-xs shadow-md hover:bg-black transition-all"
             >
               <span>Test All 6 Regimes in Console</span>
               <ArrowRight className="h-3.5 w-3.5" />
@@ -502,16 +502,16 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       </section>
 
       {/* ML Pipeline & Architecture Section */}
-      <section id="architecture" className="py-20 bg-neutral-950 border-t border-neutral-900">
+      <section id="architecture" className="py-20 bg-white border-t border-neutral-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center max-w-3xl mx-auto space-y-3 mb-14">
-            <span className="text-xs font-mono font-semibold text-emerald-400 uppercase tracking-wider">
+            <span className="text-xs font-mono font-semibold text-emerald-600 uppercase tracking-wider">
               Scientifically Rigorous &bull; No Synthetic Shortcuts
             </span>
-            <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight font-sans">
+            <h2 className="text-3xl sm:text-4xl font-black text-neutral-900 tracking-tight font-sans">
               End-to-End AI/ML Architecture
             </h2>
-            <p className="text-sm text-neutral-400 leading-relaxed">
+            <p className="text-sm text-neutral-600 leading-relaxed">
               How real NWP model forecasts, ECMWF ERA5 reanalysis ground truth, and LightGBM GBDT combine into operational intelligence.
             </p>
           </div>
@@ -519,34 +519,34 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           {/* Workflow Diagram */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             
-            <div className="p-5 rounded-2xl bg-neutral-900/60 border border-neutral-800 space-y-2 relative">
-              <span className="text-xs font-mono text-emerald-400 font-bold block">STEP 01</span>
-              <h4 className="text-sm font-bold text-white font-sans">Real Data Ingestion</h4>
-              <p className="text-xs text-neutral-400 leading-relaxed">
+            <div className="p-5 rounded-2xl bg-neutral-50 border border-neutral-200 space-y-2 relative shadow-xs">
+              <span className="text-xs font-mono text-emerald-700 font-bold block">STEP 01</span>
+              <h4 className="text-sm font-bold text-neutral-900 font-sans">Real Data Ingestion</h4>
+              <p className="text-xs text-neutral-600 leading-relaxed">
                 Ingests real NOAA GFS operational runs (CAPE, winds at 850/500hPa, Z500, RH) alongside ECMWF ERA5 gridded reanalysis ground truth.
               </p>
             </div>
 
-            <div className="p-5 rounded-2xl bg-neutral-900/60 border border-neutral-800 space-y-2 relative">
-              <span className="text-xs font-mono text-emerald-400 font-bold block">STEP 02</span>
-              <h4 className="text-sm font-bold text-white font-sans">Physical Feature Extraction</h4>
-              <p className="text-xs text-neutral-400 leading-relaxed">
+            <div className="p-5 rounded-2xl bg-neutral-50 border border-neutral-200 space-y-2 relative shadow-xs">
+              <span className="text-xs font-mono text-emerald-700 font-bold block">STEP 02</span>
+              <h4 className="text-sm font-bold text-neutral-900 font-sans">Physical Feature Extraction</h4>
+              <p className="text-xs text-neutral-600 leading-relaxed">
                 Computes deep-layer shear (|V500 - V850|), Eady baroclinic growth rate (&sigma;<sub>BI</sub>), and 500hPa geopotential thickness wave anomalies.
               </p>
             </div>
 
-            <div className="p-5 rounded-2xl bg-neutral-900/60 border border-neutral-800 space-y-2 relative">
-              <span className="text-xs font-mono text-emerald-400 font-bold block">STEP 03</span>
-              <h4 className="text-sm font-bold text-white font-sans">LightGBM GBDT Classifier</h4>
-              <p className="text-xs text-neutral-400 leading-relaxed">
+            <div className="p-5 rounded-2xl bg-neutral-50 border border-neutral-200 space-y-2 relative shadow-xs">
+              <span className="text-xs font-mono text-emerald-700 font-bold block">STEP 03</span>
+              <h4 className="text-sm font-bold text-neutral-900 font-sans">LightGBM GBDT Classifier</h4>
+              <p className="text-xs text-neutral-600 leading-relaxed">
                 Trained on historical systems (&le;2022) with a strict time-based split. Evaluated on unseen 2023–2024 systems achieving AUC 0.966.
               </p>
             </div>
 
-            <div className="p-5 rounded-2xl bg-neutral-900/60 border border-neutral-800 space-y-2 relative">
-              <span className="text-xs font-mono text-emerald-400 font-bold block">STEP 04</span>
-              <h4 className="text-sm font-bold text-white font-sans">SHAP XAI & Decision Support</h4>
-              <p className="text-xs text-neutral-400 leading-relaxed">
+            <div className="p-5 rounded-2xl bg-neutral-50 border border-neutral-200 space-y-2 relative shadow-xs">
+              <span className="text-xs font-mono text-emerald-700 font-bold block">STEP 04</span>
+              <h4 className="text-sm font-bold text-neutral-900 font-sans">SHAP XAI & Decision Support</h4>
+              <p className="text-xs text-neutral-600 leading-relaxed">
                 Real `TreeExplainer` computes exact feature attribution weights for forecasters, with automatic bulletin generation.
               </p>
             </div>
@@ -556,13 +556,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       </section>
 
       {/* Footer Call to Action Banner */}
-      <section className="py-16 bg-gradient-to-b from-neutral-950 to-neutral-900 border-t border-neutral-800">
+      <section className="py-16 bg-gradient-to-b from-neutral-50 to-neutral-100 border-t border-neutral-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center space-y-6">
           <BrandLogo size="h-12 w-12 mx-auto" />
-          <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight font-sans">
+          <h2 className="text-3xl sm:text-4xl font-black text-neutral-900 tracking-tight font-sans">
             Ready to Explore the Forecast Bust Detection System?
           </h2>
-          <p className="text-neutral-400 text-sm max-w-2xl mx-auto">
+          <p className="text-neutral-600 text-sm max-w-2xl mx-auto">
             Experience the full operational console with ESRI high-resolution satellite imagery, interactive lead-time scrubbers, and live SHAP meteorological explainability.
           </p>
           <div className="pt-2">
@@ -570,7 +570,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.98 }}
               onClick={onLaunchDashboard}
-              className="px-8 py-4 rounded-2xl bg-white text-black font-bold text-sm shadow-2xl hover:bg-neutral-100 transition-all inline-flex items-center space-x-2.5"
+              className="px-8 py-4 rounded-2xl bg-neutral-900 text-white font-bold text-sm shadow-xl hover:bg-black transition-all inline-flex items-center space-x-2.5"
             >
               <span>Launch Operational Console</span>
               <ArrowRight className="h-4 w-4" />
@@ -580,15 +580,15 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-neutral-800/80 bg-neutral-950 py-6 text-xs text-neutral-500">
+      <footer className="border-t border-neutral-200 bg-white py-6 text-xs text-neutral-500">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex items-center space-x-2">
-            <span className="h-2 w-2 rounded-full bg-emerald-400" />
-            <span className="text-white font-semibold">PAWANSATYA SYSTEM</span>
+            <span className="h-2 w-2 rounded-full bg-emerald-500" />
+            <span className="text-neutral-900 font-semibold">PAWANSATYA SYSTEM</span>
             <span>&bull;</span>
             <span>Smart India Hackathon (SIH 2024)</span>
           </div>
-          <div className="text-neutral-400 font-mono text-[11px]">
+          <div className="text-neutral-500 font-mono text-[11px]">
             AI-Based Forecast Bust Detection for Medium-Range Weather Forecasts
           </div>
         </div>
