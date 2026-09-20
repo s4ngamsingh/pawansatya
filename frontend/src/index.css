@@ -1,0 +1,101 @@
+@import "tailwindcss";
+
+@import 'leaflet/dist/leaflet.css';
+
+:root {
+  color-scheme: dark;
+  --bg-primary: #09090b;
+  --bg-surface: #121215;
+  --text-primary: #f8fafc;
+  --text-muted: #a1a1aa;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #09090b;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #27272a;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3f3f46;
+}
+
+/* Leaflet dark theme customizations */
+.leaflet-container {
+  background: #09090b !important;
+  font-family: inherit;
+  width: 100%;
+  height: 100%;
+}
+
+.leaflet-tile {
+  filter: brightness(0.7) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3) !important;
+}
+
+.leaflet-popup-content-wrapper {
+  background: #18181b !important;
+  color: #f8fafc !important;
+  border: 1px solid #27272a !important;
+  border-radius: 8px !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.7) !important;
+}
+
+.leaflet-popup-tip {
+  background: #18181b !important;
+}
+
+/* Radar pulse animation for dangerous regions */
+@keyframes dangerPulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+  }
+  70% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 14px rgba(239, 68, 68, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+  }
+}
+
+.danger-pulse-glow {
+  animation: dangerPulse 2s infinite;
+}
+
+@keyframes safePulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(34, 197, 94, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+  }
+}
+
+.safe-pulse-glow {
+  animation: safePulse 3s infinite;
+}

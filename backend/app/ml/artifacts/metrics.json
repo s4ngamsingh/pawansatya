@@ -1,0 +1,240 @@
+{
+  "model_type": "LightGBM Classifier (GBDT)",
+  "split_strategy": "Time-Based Event Holdout (Train: <=2022, Test: >=2023)",
+  "train_samples": 1760,
+  "test_samples": 2300,
+  "train_events": "Aug 2019 Odisha Depression, Jul 2021 Break Monsoon, May 2022 Heatwave",
+  "test_events": "Jun 2023 Cyclone Biparjoy, Jul 2023 HP Deluge, Dec 2023 Cyclone Michaung, Jan 2024 Stable Flow",
+  "features_count": 8,
+  "features": [
+    "lead_time",
+    "ensemble_spread",
+    "cape",
+    "vertical_wind_shear",
+    "z500_vorticity_gradient",
+    "moisture_flux_convergence",
+    "baroclinic_growth_rate",
+    "climatological_anomaly"
+  ],
+  "metrics": {
+    "auc_roc": 0.966,
+    "baseline_auc_roc": 0.5,
+    "accuracy": 0.9496,
+    "precision": 0.6049,
+    "recall": 0.7799,
+    "f1_score": 0.6813,
+    "brier_score": 0.0396,
+    "baseline_brier_score": 0.0664,
+    "brier_skill_score": 0.4032
+  },
+  "confusion_matrix": {
+    "true_negatives": 2060,
+    "false_positives": 81,
+    "false_negatives": 35,
+    "true_positives": 124
+  },
+  "roc_curve": [
+    {
+      "fpr": 0.0,
+      "tpr": 0.0
+    },
+    {
+      "fpr": 0.0037,
+      "tpr": 0.0943
+    },
+    {
+      "fpr": 0.007,
+      "tpr": 0.4151
+    },
+    {
+      "fpr": 0.0107,
+      "tpr": 0.522
+    },
+    {
+      "fpr": 0.0173,
+      "tpr": 0.5912
+    },
+    {
+      "fpr": 0.0215,
+      "tpr": 0.6667
+    },
+    {
+      "fpr": 0.0304,
+      "tpr": 0.7484
+    },
+    {
+      "fpr": 0.0378,
+      "tpr": 0.7862
+    },
+    {
+      "fpr": 0.05,
+      "tpr": 0.8302
+    },
+    {
+      "fpr": 0.0682,
+      "tpr": 0.8742
+    },
+    {
+      "fpr": 0.0789,
+      "tpr": 0.9119
+    },
+    {
+      "fpr": 0.1406,
+      "tpr": 0.9371
+    },
+    {
+      "fpr": 0.1859,
+      "tpr": 0.9497
+    },
+    {
+      "fpr": 0.2676,
+      "tpr": 0.9748
+    },
+    {
+      "fpr": 0.3358,
+      "tpr": 1.0
+    },
+    {
+      "fpr": 0.397,
+      "tpr": 1.0
+    },
+    {
+      "fpr": 0.4362,
+      "tpr": 1.0
+    },
+    {
+      "fpr": 0.4876,
+      "tpr": 1.0
+    },
+    {
+      "fpr": 0.5465,
+      "tpr": 1.0
+    },
+    {
+      "fpr": 0.5745,
+      "tpr": 1.0
+    },
+    {
+      "fpr": 0.5862,
+      "tpr": 1.0
+    },
+    {
+      "fpr": 0.6324,
+      "tpr": 1.0
+    },
+    {
+      "fpr": 0.6511,
+      "tpr": 1.0
+    },
+    {
+      "fpr": 0.6688,
+      "tpr": 1.0
+    },
+    {
+      "fpr": 0.6978,
+      "tpr": 1.0
+    },
+    {
+      "fpr": 0.7249,
+      "tpr": 1.0
+    },
+    {
+      "fpr": 0.7426,
+      "tpr": 1.0
+    },
+    {
+      "fpr": 0.7576,
+      "tpr": 1.0
+    },
+    {
+      "fpr": 0.7721,
+      "tpr": 1.0
+    },
+    {
+      "fpr": 0.7894,
+      "tpr": 1.0
+    },
+    {
+      "fpr": 0.8094,
+      "tpr": 1.0
+    },
+    {
+      "fpr": 0.8262,
+      "tpr": 1.0
+    },
+    {
+      "fpr": 0.8421,
+      "tpr": 1.0
+    },
+    {
+      "fpr": 0.8585,
+      "tpr": 1.0
+    },
+    {
+      "fpr": 0.8786,
+      "tpr": 1.0
+    },
+    {
+      "fpr": 0.8902,
+      "tpr": 1.0
+    },
+    {
+      "fpr": 0.908,
+      "tpr": 1.0
+    },
+    {
+      "fpr": 0.9262,
+      "tpr": 1.0
+    },
+    {
+      "fpr": 0.9458,
+      "tpr": 1.0
+    },
+    {
+      "fpr": 0.9608,
+      "tpr": 1.0
+    },
+    {
+      "fpr": 0.9785,
+      "tpr": 1.0
+    }
+  ],
+  "feature_importances": [
+    {
+      "feature": "climatological_anomaly",
+      "importance": 880
+    },
+    {
+      "feature": "ensemble_spread",
+      "importance": 633
+    },
+    {
+      "feature": "lead_time",
+      "importance": 474
+    },
+    {
+      "feature": "moisture_flux_convergence",
+      "importance": 400
+    },
+    {
+      "feature": "z500_vorticity_gradient",
+      "importance": 383
+    },
+    {
+      "feature": "vertical_wind_shear",
+      "importance": 354
+    },
+    {
+      "feature": "cape",
+      "importance": 291
+    },
+    {
+      "feature": "baroclinic_growth_rate",
+      "importance": 91
+    }
+  ],
+  "climatology_baseline": {
+    "prior_bust_rate": 0.1148,
+    "description": "Historical climatological bust frequency by region and season."
+  }
+}
