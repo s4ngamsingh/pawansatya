@@ -48,7 +48,7 @@ export const LoadingScreen: React.FC<LoadingScreenProps> = ({
       initial={{ opacity: 1 }}
       exit={{ opacity: 0, scale: 1.02, filter: 'blur(8px)' }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-      className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-gradient-to-b from-white via-neutral-50 to-neutral-100 p-6 select-none"
+      className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-gradient-to-b from-white via-neutral-50 to-neutral-100 p-6 select-none"
     >
       {/* Subtle background atmospheric contour ripples */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-40">

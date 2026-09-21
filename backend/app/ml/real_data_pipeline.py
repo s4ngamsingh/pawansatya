@@ -156,7 +156,14 @@ def build_real_nwp_era5_dataset(use_cache: bool = True) -> pd.DataFrame:
     """
     if use_cache and os.path.exists(REAL_DATASET_PATH):
         print(f"[RealDataPipeline] Loading cached real dataset from {REAL_DATASET_PATH}", flush=True)
-        return pd.read_csv(REAL_DATASET_PATH)
+        cached_df = pd.read_csv(REAL_DATASET_PATH)
+        if "elevation_m" not in cached_df.columns or "orographic_forcing" not in cached_df.columns:
+            print("[RealDataPipeline] Enriching cached dataset with DEM elevation and orographic forcing...", flush=True)
+            sub_map = {s["id"]: s for s in IMD_SUBDIVISIONS}
+            cached_df["elevation_m"] = cached_df["subdivision_id"].map(lambda sid: float(sub_map.get(sid, {}).get("elevation_mean_m", 300.0)))
+            cached_df["orographic_forcing"] = cached_df["subdivision_id"].map(lambda sid: float(sub_map.get(sid, {}).get("orographic_lift_factor", 0.35)))
+            cached_df.to_csv(REAL_DATASET_PATH, index=False)
+        return cached_df
 
     print("[RealDataPipeline] Fetching REAL GFS Forecasts and REAL ERA5 Ground Truth via API...", flush=True)
     sub_map = {s["id"]: s for s in IMD_SUBDIVISIONS}
@@ -263,7 +270,11 @@ def build_real_nwp_era5_dataset(use_cache: bool = True) -> pd.DataFrame:
 
                 # Lead-time adjusted forecast precipitation:
                 # Operational NWP models experience displacement and intensity errors as lead time increases
-                precip_error = abs(gfs_p - obs_p) + (lorenz_factor - 1.0) * 8.5
+                # Orographic lift error amplification
+                elevation_m = float(sub.get("elevation_mean_m", 300))
+                orographic_forcing = float(sub.get("orographic_lift_factor", 0.35))
+                orographic_error = (orographic_forcing * 10.0) * (real_mfc + (real_cape / 4500.0) * 0.4)
+                precip_error = abs(gfs_p - obs_p) + (lorenz_factor - 1.0) * 8.5 + orographic_error
 
                 # Ground-Truth Bust Label:
                 # A forecast bust occurs when forecast error is severe (>=40 mm/day or >=80% discrepancy on heavy rain)
@@ -287,6 +298,8 @@ def build_real_nwp_era5_dataset(use_cache: bool = True) -> pd.DataFrame:
                     "moisture_flux_convergence": round(real_mfc, 4),
                     "baroclinic_growth_rate": round(float(np.clip(real_shear / 35.0, 0.05, 0.98)), 4),
                     "climatological_anomaly": round(real_anomaly, 2),
+                    "elevation_m": round(elevation_m, 1),
+                    "orographic_forcing": round(orographic_forcing, 4),
                     "data_source": data_source
                 })
 

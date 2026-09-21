@@ -13,6 +13,7 @@ from app.data.scenarios import get_all_scenarios, get_scenario_by_id
 from app.data.india_subdivisions import get_all_subdivisions, get_subdivision_by_id
 from app.models.bust_detector import ForecastBustDetector
 from app.models.explainability import MeteorologicalExplainer
+from app.models.climate_dynamics import compute_climate_phenotype
 
 router = APIRouter(prefix="/api", tags=["Forecast Bust Detection"])
 
@@ -30,6 +31,8 @@ class CustomEvaluateRequest(BaseModel):
     moisture_flux_convergence: float = Field(default=0.80, ge=0.0, le=1.0)
     baroclinic_growth_rate: float = Field(default=0.60, ge=0.0, le=1.0)
     climatological_anomaly: float = Field(default=0.75, ge=0.0, le=1.0)
+    elevation_m: float = Field(default=450.0, ge=0.0, le=9000.0, description="Terrain elevation in meters ASL")
+    orographic_forcing: float = Field(default=0.40, ge=0.0, le=1.0, description="Orographic lift factor [0-1]")
 
 @router.get("/scenarios")
 def list_scenarios():
@@ -100,10 +103,22 @@ def get_confidence_map(
                 for k, v in drivers.items()
             }
 
+        # Inject subdivision-specific DEM terrain attributes
+        drivers["elevation_m"] = float(sub.get("elevation_mean_m", 300.0))
+        drivers["orographic_forcing"] = float(sub.get("orographic_lift_factor", 0.35))
+
         eval_res = ForecastBustDetector.evaluate(
             drivers,
             lead_time_days=lead_time,
             is_affected=is_affected
+        )
+
+        climate_res = compute_climate_phenotype(
+            sub=sub,
+            scenario_id=scenario_id,
+            lead_time=lead_time,
+            drivers=drivers,
+            eval_res=eval_res
         )
 
         if eval_res["risk_level"] == "DANGER":
@@ -123,6 +138,10 @@ def get_confidence_map(
             "zone": sub["zone"],
             "lat": sub["lat"],
             "lon": sub["lon"],
+            "elevation_mean_m": sub.get("elevation_mean_m", 300),
+            "elevation_max_m": sub.get("elevation_max_m", 1000),
+            "terrain_ruggedness": sub.get("terrain_ruggedness", 0.3),
+            "orographic_lift_factor": sub.get("orographic_lift_factor", 0.35),
             "coordinates": sub["coordinates"],
             "vulnerable_to": sub["vulnerable_to"],
             "is_affected_system": is_affected,
@@ -134,6 +153,12 @@ def get_confidence_map(
             "reliability_tag": eval_res["reliability_tag"],
             "expected_error_km": eval_res["expected_error_km"],
             "expected_error_precip_mm": eval_res["expected_error_precip_mm"],
+            "weather_condition": climate_res.get("weather_condition", "MODERATE_RAIN"),
+            "temperature_c": climate_res.get("temperature_c", 28.0),
+            "rainfall_mm": climate_res.get("rainfall_mm", 10.0),
+            "wind_speed_kmh": climate_res.get("wind_speed_kmh", 15.0),
+            "weather_summary": climate_res.get("weather_summary", ""),
+            "climate_regime": climate_res.get("climate_regime", "Synoptic Flow"),
             "is_ml_inferred": eval_res.get("is_ml_inferred", True),
             "model_type": eval_res.get("model_type", "LightGBM")
         })
@@ -191,6 +216,10 @@ def explain_region(
             for k, v in drivers.items()
         }
 
+    # Inject subdivision-specific DEM terrain attributes
+    drivers["elevation_m"] = float(sub.get("elevation_mean_m", 300.0))
+    drivers["orographic_forcing"] = float(sub.get("orographic_lift_factor", 0.35))
+
     eval_res = ForecastBustDetector.evaluate(
         drivers,
         lead_time_days=lead_time,
@@ -219,6 +248,10 @@ def explain_region(
             "zone": sub["zone"],
             "lat": sub["lat"],
             "lon": sub["lon"],
+            "elevation_mean_m": sub.get("elevation_mean_m", 300),
+            "elevation_max_m": sub.get("elevation_max_m", 1000),
+            "terrain_ruggedness": sub.get("terrain_ruggedness", 0.3),
+            "orographic_lift_factor": sub.get("orographic_lift_factor", 0.35),
             "vulnerable_to": sub["vulnerable_to"],
             "is_affected": is_affected
         },
@@ -241,7 +274,9 @@ def custom_evaluate(req: CustomEvaluateRequest):
         "vorticity_gradient": req.vorticity_gradient,
         "moisture_flux_convergence": req.moisture_flux_convergence,
         "baroclinic_growth_rate": req.baroclinic_growth_rate,
-        "climatological_anomaly": req.climatological_anomaly
+        "climatological_anomaly": req.climatological_anomaly,
+        "elevation_m": req.elevation_m,
+        "orographic_forcing": req.orographic_forcing
     }
 
     eval_res = ForecastBustDetector.evaluate(

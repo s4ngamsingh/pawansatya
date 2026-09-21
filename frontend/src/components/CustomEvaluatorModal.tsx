@@ -28,6 +28,8 @@ export const CustomEvaluatorModal: React.FC<CustomEvaluatorModalProps> = ({
   const [mfc, setMfc] = useState<number>(0.82);
   const [baroclinic, setBaroclinic] = useState<number>(0.65);
   const [anomaly, setAnomaly] = useState<number>(0.80);
+  const [elevation, setElevation] = useState<number>(selectedSubdivision?.elevation_mean_m || 450);
+  const [orographicForcing, setOrographicForcing] = useState<number>(selectedSubdivision?.orographic_lift_factor || 0.40);
   const [loading, setLoading] = useState<boolean>(false);
 
   // Quick Preset Handlers
@@ -40,6 +42,8 @@ export const CustomEvaluatorModal: React.FC<CustomEvaluatorModalProps> = ({
       setMfc(0.96);
       setBaroclinic(0.85);
       setAnomaly(0.90);
+      setElevation(150);
+      setOrographicForcing(0.35);
     } else if (preset === 'depression') {
       setEnsembleSpread(0.80);
       setCape(2400);
@@ -48,6 +52,8 @@ export const CustomEvaluatorModal: React.FC<CustomEvaluatorModalProps> = ({
       setMfc(0.85);
       setBaroclinic(0.68);
       setAnomaly(0.75);
+      setElevation(350);
+      setOrographicForcing(0.55);
     } else if (preset === 'heatwave') {
       setEnsembleSpread(0.55);
       setCape(700);
@@ -56,6 +62,18 @@ export const CustomEvaluatorModal: React.FC<CustomEvaluatorModalProps> = ({
       setMfc(0.12);
       setBaroclinic(0.40);
       setAnomaly(0.88);
+      setElevation(250);
+      setOrographicForcing(0.15);
+    } else if (preset === 'orographic_himalayan') {
+      setEnsembleSpread(0.75);
+      setCape(1900);
+      setShear(35);
+      setVorticity(0.70);
+      setMfc(0.78);
+      setBaroclinic(0.82);
+      setAnomaly(0.85);
+      setElevation(2800);
+      setOrographicForcing(0.96);
     } else {
       // Stable
       setEnsembleSpread(0.20);
@@ -65,6 +83,17 @@ export const CustomEvaluatorModal: React.FC<CustomEvaluatorModalProps> = ({
       setMfc(0.22);
       setBaroclinic(0.20);
       setAnomaly(0.15);
+      setElevation(200);
+      setOrographicForcing(0.20);
+    }
+  };
+
+  const handleSubdivisionChange = (newSubId: string) => {
+    setSubId(newSubId);
+    const target = subdivisions.find((s) => s.id === newSubId);
+    if (target) {
+      if (target.elevation_mean_m !== undefined) setElevation(target.elevation_mean_m);
+      if (target.orographic_lift_factor !== undefined) setOrographicForcing(target.orographic_lift_factor);
     }
   };
 
@@ -79,7 +108,9 @@ export const CustomEvaluatorModal: React.FC<CustomEvaluatorModalProps> = ({
       vorticity_gradient: vorticity,
       moisture_flux_convergence: mfc,
       baroclinic_growth_rate: baroclinic,
-      climatological_anomaly: anomaly
+      climatological_anomaly: anomaly,
+      elevation_m: elevation,
+      orographic_forcing: orographicForcing
     };
 
     const result = await submitCustomEvaluation(payload);
@@ -96,7 +127,7 @@ export const CustomEvaluatorModal: React.FC<CustomEvaluatorModalProps> = ({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+          className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
         >
           <motion.div
             initial={{ opacity: 0, scale: 0.94, y: 16 }}
@@ -184,7 +215,7 @@ export const CustomEvaluatorModal: React.FC<CustomEvaluatorModalProps> = ({
                   <label className="text-neutral-700 block mb-1.5 font-medium">Target Subdivision</label>
                   <select
                     value={subId}
-                    onChange={(e) => setSubId(e.target.value)}
+                    onChange={(e) => handleSubdivisionChange(e.target.value)}
                     className="w-full bg-neutral-50 border border-neutral-200 rounded-xl p-2.5 text-neutral-900 text-xs focus:outline-none focus:border-neutral-900"
                   >
                     {subdivisions.map((s) => (
@@ -296,6 +327,40 @@ export const CustomEvaluatorModal: React.FC<CustomEvaluatorModalProps> = ({
                     value={mfc}
                     onChange={(e) => setMfc(parseFloat(e.target.value))}
                     className="w-full accent-emerald-500 bg-neutral-200"
+                  />
+                </div>
+
+                {/* Mean Terrain Elevation (DEM) */}
+                <div>
+                  <div className="flex justify-between mb-1 text-xs">
+                    <span className="text-neutral-700 font-medium">Mean Terrain Elevation (DEM Topography)</span>
+                    <span className="text-neutral-900 font-mono font-bold">{elevation} m ASL</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="0"
+                    max="6000"
+                    step="50"
+                    value={elevation}
+                    onChange={(e) => setElevation(parseInt(e.target.value))}
+                    className="w-full accent-indigo-600 bg-neutral-200"
+                  />
+                </div>
+
+                {/* Orographic Lift Factor */}
+                <div>
+                  <div className="flex justify-between mb-1 text-xs">
+                    <span className="text-neutral-700 font-medium">Orographic Lift & Mountain Slope Forcing</span>
+                    <span className="text-neutral-900 font-mono font-bold">{Math.round(orographicForcing * 100)}%</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.02"
+                    value={orographicForcing}
+                    onChange={(e) => setOrographicForcing(parseFloat(e.target.value))}
+                    className="w-full accent-indigo-600 bg-neutral-200"
                   />
                 </div>
 

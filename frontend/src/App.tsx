@@ -320,6 +320,7 @@ export function App() {
                     selectedSubdivision={selectedSubdivision}
                     onSelectSubdivision={(sub) => setSelectedSubdivision(sub)}
                     leadTime={leadTime}
+                    scenario={selectedScenario}
                   />
 
                   {/* NWP vs Historical Forecast Error Behaviour Comparator */}

@@ -1,5 +1,13 @@
 export type RiskLevel = 'SAFE' | 'CAUTION' | 'DANGER';
 
+export type WeatherConditionType = 
+  | 'HEAT_WAVE'        // ☀️ Severe to Extreme Heat
+  | 'MODERATE_HEAT'    // ⛅ Above Normal Temperatures
+  | 'MODERATE_RAIN'    // 🌧️ Moderate Rainfall (Likely at Many Places)
+  | 'HEAVY_STORM'      // ⛈️ Heavy to Very Heavy Rainfall / Thunderstorm
+  | 'SNOW_STORM'       // ❄️ Western Disturbance / Snow & Sleet
+  | 'CYCLONE_VORTEX';  // 🌀 Tropical Cyclone / Strong Squall
+
 export interface Subdivision {
   id: string;
   code: string;
@@ -7,6 +15,10 @@ export interface Subdivision {
   zone: string;
   lat: number;
   lon: number;
+  elevation_mean_m?: number;
+  elevation_max_m?: number;
+  terrain_ruggedness?: number;
+  orographic_lift_factor?: number;
   coordinates: [number, number][];
   vulnerable_to: string[];
   is_affected_system: boolean;
@@ -18,6 +30,12 @@ export interface Subdivision {
   reliability_tag: string;
   expected_error_km: number;
   expected_error_precip_mm: number;
+  weather_condition?: WeatherConditionType;
+  temperature_c?: number;
+  rainfall_mm?: number;
+  wind_speed_kmh?: number;
+  weather_summary?: string;
+  climate_regime?: string;
 }
 
 export interface Scenario {
@@ -90,6 +108,10 @@ export interface ExplainResponse {
     zone: string;
     lat: number;
     lon: number;
+    elevation_mean_m?: number;
+    elevation_max_m?: number;
+    terrain_ruggedness?: number;
+    orographic_lift_factor?: number;
     vulnerable_to: string[];
     is_affected: boolean;
   };
@@ -118,4 +140,6 @@ export interface CustomEvaluatePayload {
   moisture_flux_convergence: number;
   baroclinic_growth_rate: number;
   climatological_anomaly: number;
+  elevation_m?: number;
+  orographic_forcing?: number;
 }

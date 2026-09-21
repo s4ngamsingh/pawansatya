@@ -21,7 +21,9 @@ FEATURE_COLS = [
     "z500_vorticity_gradient",
     "moisture_flux_convergence",
     "baroclinic_growth_rate",
-    "climatological_anomaly"
+    "climatological_anomaly",
+    "elevation_m",
+    "orographic_forcing"
 ]
 
 METRIC_METADATA = {
@@ -64,6 +66,16 @@ METRIC_METADATA = {
         "name": "Forecast Horizon (Lead Time)",
         "unit": "days",
         "danger_description": "Chaotic error doubling over time degrades deterministic skill beyond the predictability horizon."
+    },
+    "elevation_m": {
+        "name": "Mean Terrain Elevation (DEM)",
+        "unit": "m ASL",
+        "danger_description": "High-altitude topography modifies boundary-layer dynamics and traps thermal/moisture gradients that standard NWP models fail to resolve."
+    },
+    "orographic_forcing": {
+        "name": "Orographic Lift & Slope Index",
+        "unit": "index [0-1]",
+        "danger_description": "Steep mountain barriers (Western Ghats, Himalayan arc) force incoming moisture upward, triggering unparameterized sub-grid convective cloudbursts and heavy precipitation busts."
     }
 }
 
@@ -140,7 +152,7 @@ class MeteorologicalExplainer:
 
                     val = feature_dict.get(feat_key, 0.0)
                     contribution = round(float(shap_val * 100.0), 2)
-                    is_risk_driver = shap_val > 0.04
+                    is_risk_driver = bool(shap_val > 0.04)
 
                     feature_contributions.append({
                         "feature_key": feat_key,
@@ -166,7 +178,7 @@ class MeteorologicalExplainer:
                 meta = METRIC_METADATA.get(feat_key, {"name": feat_key, "danger_description": ""})
                 norm_val = val / 3500.0 if feat_key == "cape" else val / 50.0 if feat_key == "vertical_wind_shear" else val
                 contrib = round((norm_val - 0.35) * 22.0, 1)
-                is_driver = contrib > 5.0
+                is_driver = bool(contrib > 5.0)
 
                 feature_contributions.append({
                     "feature_key": feat_key,

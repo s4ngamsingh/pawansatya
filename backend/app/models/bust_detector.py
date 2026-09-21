@@ -20,7 +20,9 @@ FEATURE_COLS = [
     "z500_vorticity_gradient",
     "moisture_flux_convergence",
     "baroclinic_growth_rate",
-    "climatological_anomaly"
+    "climatological_anomaly",
+    "elevation_m",
+    "orographic_forcing"
 ]
 
 class ForecastBustDetector:
@@ -63,6 +65,8 @@ class ForecastBustDetector:
         raw_mfc = float(features.get("moisture_flux_convergence", 0.35))
         raw_baro = float(features.get("baroclinic_growth_rate", 0.35))
         raw_anomaly = float(features.get("climatological_anomaly", 1.0))
+        raw_elevation = float(features.get("elevation_m", 300.0))
+        raw_orographic = float(features.get("orographic_forcing", 0.35))
 
         # Adjust for affected status if not already scaled
         if is_affected and raw_spread < 0.5:
@@ -77,7 +81,9 @@ class ForecastBustDetector:
             "z500_vorticity_gradient": raw_vort,
             "moisture_flux_convergence": raw_mfc,
             "baroclinic_growth_rate": raw_baro,
-            "climatological_anomaly": raw_anomaly
+            "climatological_anomaly": raw_anomaly,
+            "elevation_m": raw_elevation,
+            "orographic_forcing": raw_orographic
         }
 
         # Real ML Inference
@@ -89,7 +95,8 @@ class ForecastBustDetector:
         else:
             # Calibrated fallback if model artifact not yet generated
             growth = 1.0 + 0.30 * (max(1, min(10, lead_time_days)) - 1) ** 1.15
-            base = (raw_spread * 0.35 + raw_vort * 0.25 + (raw_cape / 3500.0) * 0.2 + (raw_shear / 50.0) * 0.2)
+            orographic_boost = 0.20 * raw_orographic * (raw_mfc + (raw_cape / 4500.0) * 0.4)
+            base = (raw_spread * 0.30 + raw_vort * 0.20 + (raw_cape / 3500.0) * 0.15 + (raw_shear / 50.0) * 0.15 + orographic_boost)
             proba = 1.0 / (1.0 + np.exp(-6.5 * (base * (growth / 2.5) - 0.5)))
             is_ml_inferred = False
             model_name = "Calibrated Statistical Engine (Pre-training)"

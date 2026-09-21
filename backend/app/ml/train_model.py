@@ -40,7 +40,9 @@ FEATURE_COLS = [
     "z500_vorticity_gradient",
     "moisture_flux_convergence",
     "baroclinic_growth_rate",
-    "climatological_anomaly"
+    "climatological_anomaly",
+    "elevation_m",
+    "orographic_forcing"
 ]
 
 def train_and_evaluate():
@@ -60,7 +62,8 @@ def train_and_evaluate():
         "event_name", "split", "subdivision_name", "lead_time",
         "observed_era5_precip", "nwp_forecast_precip", "forecast_error_magnitude",
         "is_bust", "ensemble_spread", "cape", "vertical_wind_shear",
-        "z500_vorticity_gradient", "moisture_flux_convergence"
+        "z500_vorticity_gradient", "moisture_flux_convergence",
+        "elevation_m", "orographic_forcing"
     ]
     df[sample_cols].head(500).to_csv(sample_path, index=False)
     print(f"      Saved real event sample dataset to: {sample_path}")

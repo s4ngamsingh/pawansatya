@@ -1,6 +1,7 @@
 """
 India Meteorological Department (IMD) 36 Meteorological Subdivisions
-With centroid coordinates, bounding polygons, and regional vulnerability profiles.
+With centroid coordinates, bounding polygons, regional vulnerability profiles,
+and Digital Elevation Model (DEM) topographic parameters (elevation, ruggedness, orographic lift).
 """
 
 from typing import List, Dict, Any
@@ -13,6 +14,10 @@ IMD_SUBDIVISIONS: List[Dict[str, Any]] = [
         "zone": "Island",
         "lat": 11.667,
         "lon": 92.735,
+        "elevation_mean_m": 120,
+        "elevation_max_m": 732,
+        "terrain_ruggedness": 0.45,
+        "orographic_lift_factor": 0.50,
         "bounds": [[6.5, 92.0], [13.7, 94.0]],
         "vulnerable_to": ["Cyclones", "Heavy Rainfall", "Monsoon Surge"],
         "coordinates": [
@@ -26,6 +31,10 @@ IMD_SUBDIVISIONS: List[Dict[str, Any]] = [
         "zone": "Northeast",
         "lat": 28.218,
         "lon": 94.727,
+        "elevation_mean_m": 3200,
+        "elevation_max_m": 7090,
+        "terrain_ruggedness": 0.95,
+        "orographic_lift_factor": 0.95,
         "bounds": [[26.6, 91.5], [29.5, 97.4]],
         "vulnerable_to": ["Cloudbursts", "Flash Floods", "Orographic Rain"],
         "coordinates": [
@@ -39,6 +48,10 @@ IMD_SUBDIVISIONS: List[Dict[str, Any]] = [
         "zone": "Northeast",
         "lat": 26.200,
         "lon": 92.937,
+        "elevation_mean_m": 650,
+        "elevation_max_m": 1965,
+        "terrain_ruggedness": 0.75,
+        "orographic_lift_factor": 0.98,
         "bounds": [[24.5, 89.8], [28.0, 96.0]],
         "vulnerable_to": ["Brahmaputra Floods", "Heavy Monsoon Rain", "Landslides"],
         "coordinates": [
@@ -52,6 +65,10 @@ IMD_SUBDIVISIONS: List[Dict[str, Any]] = [
         "zone": "Northeast",
         "lat": 24.500,
         "lon": 93.500,
+        "elevation_mean_m": 950,
+        "elevation_max_m": 3826,
+        "terrain_ruggedness": 0.80,
+        "orographic_lift_factor": 0.85,
         "bounds": [[21.9, 91.2], [27.0, 95.2]],
         "vulnerable_to": ["Heavy Rainfall", "Flash Floods", "Landslides"],
         "coordinates": [
@@ -65,6 +82,10 @@ IMD_SUBDIVISIONS: List[Dict[str, Any]] = [
         "zone": "East",
         "lat": 26.800,
         "lon": 88.500,
+        "elevation_mean_m": 2100,
+        "elevation_max_m": 8586,
+        "terrain_ruggedness": 0.95,
+        "orographic_lift_factor": 0.96,
         "bounds": [[25.5, 87.9], [28.1, 89.9]],
         "vulnerable_to": ["Break Monsoon Torrential Rain", "Landslides", "Floods"],
         "coordinates": [
@@ -78,6 +99,10 @@ IMD_SUBDIVISIONS: List[Dict[str, Any]] = [
         "zone": "East",
         "lat": 22.800,
         "lon": 87.800,
+        "elevation_mean_m": 35,
+        "elevation_max_m": 150,
+        "terrain_ruggedness": 0.08,
+        "orographic_lift_factor": 0.15,
         "bounds": [[21.5, 86.5], [24.5, 89.0]],
         "vulnerable_to": ["Monsoon Depressions", "Nor'westers (Kalbaishakhi)", "Cyclonic Storms"],
         "coordinates": [
@@ -91,6 +116,10 @@ IMD_SUBDIVISIONS: List[Dict[str, Any]] = [
         "zone": "East",
         "lat": 20.500,
         "lon": 84.500,
+        "elevation_mean_m": 320,
+        "elevation_max_m": 1672,
+        "terrain_ruggedness": 0.55,
+        "orographic_lift_factor": 0.60,
         "bounds": [[17.8, 81.3], [22.6, 87.5]],
         "vulnerable_to": ["Monsoon Depressions", "Tropical Cyclones", "Extreme Rainfall"],
         "coordinates": [
@@ -104,6 +133,10 @@ IMD_SUBDIVISIONS: List[Dict[str, Any]] = [
         "zone": "East",
         "lat": 23.600,
         "lon": 85.300,
+        "elevation_mean_m": 450,
+        "elevation_max_m": 1365,
+        "terrain_ruggedness": 0.45,
+        "orographic_lift_factor": 0.45,
         "bounds": [[21.9, 83.3], [25.3, 87.9]],
         "vulnerable_to": ["Depression Track Incursions", "Thunderstorms", "Heatwaves"],
         "coordinates": [
@@ -117,6 +150,10 @@ IMD_SUBDIVISIONS: List[Dict[str, Any]] = [
         "zone": "East",
         "lat": 25.800,
         "lon": 85.800,
+        "elevation_mean_m": 65,
+        "elevation_max_m": 880,
+        "terrain_ruggedness": 0.15,
+        "orographic_lift_factor": 0.25,
         "bounds": [[24.3, 83.3], [27.5, 88.3]],
         "vulnerable_to": ["Break Monsoon Downpours", "Kosi Floods", "Lightning Storms"],
         "coordinates": [
@@ -130,6 +167,10 @@ IMD_SUBDIVISIONS: List[Dict[str, Any]] = [
         "zone": "North",
         "lat": 26.500,
         "lon": 82.500,
+        "elevation_mean_m": 85,
+        "elevation_max_m": 250,
+        "terrain_ruggedness": 0.08,
+        "orographic_lift_factor": 0.10,
         "bounds": [[24.0, 80.5], [28.5, 84.5]],
         "vulnerable_to": ["Trough Shift Errors", "Monsoon Floods", "Heatwaves"],
         "coordinates": [
@@ -143,6 +184,10 @@ IMD_SUBDIVISIONS: List[Dict[str, Any]] = [
         "zone": "North",
         "lat": 28.000,
         "lon": 78.500,
+        "elevation_mean_m": 165,
+        "elevation_max_m": 350,
+        "terrain_ruggedness": 0.10,
+        "orographic_lift_factor": 0.12,
         "bounds": [[26.0, 77.0], [30.0, 80.5]],
         "vulnerable_to": ["Western Disturbance Interaction", "Dust Storms", "Heatwaves"],
         "coordinates": [
@@ -156,6 +201,10 @@ IMD_SUBDIVISIONS: List[Dict[str, Any]] = [
         "zone": "North",
         "lat": 30.200,
         "lon": 79.200,
+        "elevation_mean_m": 2800,
+        "elevation_max_m": 7816,
+        "terrain_ruggedness": 0.96,
+        "orographic_lift_factor": 0.98,
         "bounds": [[28.7, 77.6], [31.5, 81.1]],
         "vulnerable_to": ["Cloudbursts", "Orographic Rain Amplification", "Landslides"],
         "coordinates": [
@@ -169,6 +218,10 @@ IMD_SUBDIVISIONS: List[Dict[str, Any]] = [
         "zone": "North",
         "lat": 29.200,
         "lon": 76.800,
+        "elevation_mean_m": 220,
+        "elevation_max_m": 450,
+        "terrain_ruggedness": 0.15,
+        "orographic_lift_factor": 0.18,
         "bounds": [[27.6, 74.4], [30.9, 77.6]],
         "vulnerable_to": ["Urban Floods", "WD-Monsoon Interaction", "Fog & Heatwaves"],
         "coordinates": [
@@ -182,6 +235,10 @@ IMD_SUBDIVISIONS: List[Dict[str, Any]] = [
         "zone": "North",
         "lat": 31.000,
         "lon": 75.400,
+        "elevation_mean_m": 240,
+        "elevation_max_m": 650,
+        "terrain_ruggedness": 0.15,
+        "orographic_lift_factor": 0.20,
         "bounds": [[29.5, 73.8], [32.5, 76.9]],
         "vulnerable_to": ["Western Disturbances", "Pre-monsoon Squalls", "Coldwaves"],
         "coordinates": [
@@ -195,6 +252,10 @@ IMD_SUBDIVISIONS: List[Dict[str, Any]] = [
         "zone": "North",
         "lat": 31.800,
         "lon": 77.200,
+        "elevation_mean_m": 2700,
+        "elevation_max_m": 6816,
+        "terrain_ruggedness": 0.96,
+        "orographic_lift_factor": 0.97,
         "bounds": [[30.3, 75.6], [33.3, 79.0]],
         "vulnerable_to": ["Heavy Snowfall", "Cloudbursts", "Glacial Lake Outbursts"],
         "coordinates": [
@@ -208,6 +269,10 @@ IMD_SUBDIVISIONS: List[Dict[str, Any]] = [
         "zone": "North",
         "lat": 34.000,
         "lon": 76.500,
+        "elevation_mean_m": 3500,
+        "elevation_max_m": 8611,
+        "terrain_ruggedness": 0.98,
+        "orographic_lift_factor": 0.95,
         "bounds": [[32.2, 73.4], [37.1, 80.3]],
         "vulnerable_to": ["Western Disturbances", "Snowstorms", "Avalanches"],
         "coordinates": [
@@ -221,6 +286,10 @@ IMD_SUBDIVISIONS: List[Dict[str, Any]] = [
         "zone": "Northwest",
         "lat": 26.900,
         "lon": 72.000,
+        "elevation_mean_m": 180,
+        "elevation_max_m": 420,
+        "terrain_ruggedness": 0.12,
+        "orographic_lift_factor": 0.10,
         "bounds": [[24.5, 69.5], [30.2, 74.5]],
         "vulnerable_to": ["Extreme Heatwaves", "Desert Cyclogenesis Errors", "Dust Storms"],
         "coordinates": [
@@ -234,6 +303,10 @@ IMD_SUBDIVISIONS: List[Dict[str, Any]] = [
         "zone": "Northwest",
         "lat": 25.800,
         "lon": 75.800,
+        "elevation_mean_m": 360,
+        "elevation_max_m": 1722,
+        "terrain_ruggedness": 0.45,
+        "orographic_lift_factor": 0.40,
         "bounds": [[23.5, 73.0], [28.2, 78.2]],
         "vulnerable_to": ["Flash Floods", "Heatwaves", "Monsoon Trough Errors"],
         "coordinates": [
@@ -247,6 +320,10 @@ IMD_SUBDIVISIONS: List[Dict[str, Any]] = [
         "zone": "Central",
         "lat": 23.500,
         "lon": 76.500,
+        "elevation_mean_m": 420,
+        "elevation_max_m": 880,
+        "terrain_ruggedness": 0.35,
+        "orographic_lift_factor": 0.30,
         "bounds": [[21.1, 74.0], [26.9, 79.0]],
         "vulnerable_to": ["Depression Crossing Heavy Rain", "Heatwaves", "Thunderstorms"],
         "coordinates": [
@@ -260,6 +337,10 @@ IMD_SUBDIVISIONS: List[Dict[str, Any]] = [
         "zone": "Central",
         "lat": 23.200,
         "lon": 80.800,
+        "elevation_mean_m": 480,
+        "elevation_max_m": 1350,
+        "terrain_ruggedness": 0.45,
+        "orographic_lift_factor": 0.42,
         "bounds": [[21.5, 78.5], [25.3, 82.8]],
         "vulnerable_to": ["Monsoon Depressions", "Lightning", "Floods"],
         "coordinates": [
@@ -273,6 +354,10 @@ IMD_SUBDIVISIONS: List[Dict[str, Any]] = [
         "zone": "West",
         "lat": 22.500,
         "lon": 72.800,
+        "elevation_mean_m": 95,
+        "elevation_max_m": 1117,
+        "terrain_ruggedness": 0.28,
+        "orographic_lift_factor": 0.35,
         "bounds": [[20.1, 71.5], [24.7, 74.5]],
         "vulnerable_to": ["Mid-Tropospheric Cyclones", "Heavy Monsoon Rain", "Floods"],
         "coordinates": [
@@ -286,6 +371,10 @@ IMD_SUBDIVISIONS: List[Dict[str, Any]] = [
         "zone": "West",
         "lat": 22.300,
         "lon": 70.300,
+        "elevation_mean_m": 75,
+        "elevation_max_m": 1117,
+        "terrain_ruggedness": 0.25,
+        "orographic_lift_factor": 0.28,
         "bounds": [[20.7, 68.1], [24.7, 72.2]],
         "vulnerable_to": ["Arabian Sea Cyclones", "Coastal Surges", "Flash Floods"],
         "coordinates": [
@@ -299,6 +388,10 @@ IMD_SUBDIVISIONS: List[Dict[str, Any]] = [
         "zone": "West",
         "lat": 17.500,
         "lon": 73.400,
+        "elevation_mean_m": 150,
+        "elevation_max_m": 1646,
+        "terrain_ruggedness": 0.78,
+        "orographic_lift_factor": 0.94,
         "bounds": [[14.9, 72.6], [20.2, 73.9]],
         "vulnerable_to": ["Offshore Trough Deluges", "Urban Mumbai Floods", "Cyclonic Landfall"],
         "coordinates": [
@@ -312,6 +405,10 @@ IMD_SUBDIVISIONS: List[Dict[str, Any]] = [
         "zone": "West",
         "lat": 18.500,
         "lon": 74.800,
+        "elevation_mean_m": 580,
+        "elevation_max_m": 1646,
+        "terrain_ruggedness": 0.55,
+        "orographic_lift_factor": 0.70,
         "bounds": [[15.7, 73.5], [22.0, 76.5]],
         "vulnerable_to": ["Ghat Heavy Rainfall", "Drought / Rain-Shadow", "Hailstorms"],
         "coordinates": [
@@ -325,6 +422,10 @@ IMD_SUBDIVISIONS: List[Dict[str, Any]] = [
         "zone": "West",
         "lat": 19.200,
         "lon": 76.300,
+        "elevation_mean_m": 480,
+        "elevation_max_m": 750,
+        "terrain_ruggedness": 0.22,
+        "orographic_lift_factor": 0.25,
         "bounds": [[17.6, 74.5], [20.7, 78.2]],
         "vulnerable_to": ["Monsoon Breaks", "Severe Convective Storms", "Drought"],
         "coordinates": [
@@ -338,6 +439,10 @@ IMD_SUBDIVISIONS: List[Dict[str, Any]] = [
         "zone": "Central",
         "lat": 21.000,
         "lon": 79.200,
+        "elevation_mean_m": 310,
+        "elevation_max_m": 1177,
+        "terrain_ruggedness": 0.35,
+        "orographic_lift_factor": 0.35,
         "bounds": [[19.5, 75.9], [21.8, 80.9]],
         "vulnerable_to": ["Severe Heatwaves", "Depression Heavy Rain", "Hailstorms"],
         "coordinates": [
@@ -351,6 +456,10 @@ IMD_SUBDIVISIONS: List[Dict[str, Any]] = [
         "zone": "Central",
         "lat": 21.500,
         "lon": 82.000,
+        "elevation_mean_m": 380,
+        "elevation_max_m": 1276,
+        "terrain_ruggedness": 0.48,
+        "orographic_lift_factor": 0.50,
         "bounds": [[17.8, 80.2], [24.1, 84.4]],
         "vulnerable_to": ["Monsoon Depression Path", "Mahanadi Floods", "Lightning"],
         "coordinates": [
@@ -364,6 +473,10 @@ IMD_SUBDIVISIONS: List[Dict[str, Any]] = [
         "zone": "South",
         "lat": 16.500,
         "lon": 81.500,
+        "elevation_mean_m": 85,
+        "elevation_max_m": 1680,
+        "terrain_ruggedness": 0.52,
+        "orographic_lift_factor": 0.58,
         "bounds": [[13.5, 79.8], [19.2, 85.0]],
         "vulnerable_to": ["Bay of Bengal Cyclones", "Storm Surges", "Gale Winds"],
         "coordinates": [
@@ -377,6 +490,10 @@ IMD_SUBDIVISIONS: List[Dict[str, Any]] = [
         "zone": "South",
         "lat": 17.800,
         "lon": 79.100,
+        "elevation_mean_m": 460,
+        "elevation_max_m": 700,
+        "terrain_ruggedness": 0.25,
+        "orographic_lift_factor": 0.28,
         "bounds": [[15.8, 77.2], [19.9, 81.8]],
         "vulnerable_to": ["Urban Flash Floods (Hyderabad)", "Heatwaves", "Monsoon Lows"],
         "coordinates": [
@@ -390,6 +507,10 @@ IMD_SUBDIVISIONS: List[Dict[str, Any]] = [
         "zone": "South",
         "lat": 14.800,
         "lon": 78.200,
+        "elevation_mean_m": 420,
+        "elevation_max_m": 1150,
+        "terrain_ruggedness": 0.42,
+        "orographic_lift_factor": 0.40,
         "bounds": [[12.6, 76.8], [16.3, 80.0]],
         "vulnerable_to": ["Northeast Monsoon Cyclonic Rain", "Dry Spells", "Heat"],
         "coordinates": [
@@ -403,6 +524,10 @@ IMD_SUBDIVISIONS: List[Dict[str, Any]] = [
         "zone": "South",
         "lat": 11.100,
         "lon": 78.800,
+        "elevation_mean_m": 260,
+        "elevation_max_m": 2637,
+        "terrain_ruggedness": 0.60,
+        "orographic_lift_factor": 0.68,
         "bounds": [[8.1, 76.2], [13.6, 80.4]],
         "vulnerable_to": ["Northeast Monsoon Deluges", "Cyclones", "Chennai Urban Floods"],
         "coordinates": [
@@ -416,6 +541,10 @@ IMD_SUBDIVISIONS: List[Dict[str, Any]] = [
         "zone": "South",
         "lat": 13.800,
         "lon": 74.800,
+        "elevation_mean_m": 120,
+        "elevation_max_m": 1892,
+        "terrain_ruggedness": 0.82,
+        "orographic_lift_factor": 0.96,
         "bounds": [[12.5, 74.0], [15.1, 75.3]],
         "vulnerable_to": ["Extremely Heavy Monsoon Rainfall", "Landslides", "Coastal Inundation"],
         "coordinates": [
@@ -429,6 +558,10 @@ IMD_SUBDIVISIONS: List[Dict[str, Any]] = [
         "zone": "South",
         "lat": 16.000,
         "lon": 75.900,
+        "elevation_mean_m": 520,
+        "elevation_max_m": 850,
+        "terrain_ruggedness": 0.25,
+        "orographic_lift_factor": 0.25,
         "bounds": [[14.3, 74.5], [17.8, 77.7]],
         "vulnerable_to": ["Drought", "Erratic Monsoon Pulses", "Heatwaves"],
         "coordinates": [
@@ -442,6 +575,10 @@ IMD_SUBDIVISIONS: List[Dict[str, Any]] = [
         "zone": "South",
         "lat": 13.200,
         "lon": 76.500,
+        "elevation_mean_m": 780,
+        "elevation_max_m": 1930,
+        "terrain_ruggedness": 0.55,
+        "orographic_lift_factor": 0.62,
         "bounds": [[11.6, 75.1], [14.5, 78.4]],
         "vulnerable_to": ["Bengaluru Convective Storms", "Monsoon Deficits", "Pre-monsoon Squalls"],
         "coordinates": [
@@ -455,6 +592,10 @@ IMD_SUBDIVISIONS: List[Dict[str, Any]] = [
         "zone": "South",
         "lat": 10.400,
         "lon": 76.300,
+        "elevation_mean_m": 220,
+        "elevation_max_m": 2695,
+        "terrain_ruggedness": 0.88,
+        "orographic_lift_factor": 0.98,
         "bounds": [[8.3, 74.9], [12.8, 77.4]],
         "vulnerable_to": ["Monsoon Onset Deluges", "Western Ghats Landslides", "Reservoir Overtopping"],
         "coordinates": [
@@ -468,6 +609,10 @@ IMD_SUBDIVISIONS: List[Dict[str, Any]] = [
         "zone": "Island",
         "lat": 10.570,
         "lon": 72.636,
+        "elevation_mean_m": 2,
+        "elevation_max_m": 15,
+        "terrain_ruggedness": 0.02,
+        "orographic_lift_factor": 0.05,
         "bounds": [[8.2, 71.5], [12.4, 74.2]],
         "vulnerable_to": ["Arabian Sea Cyclogenesis", "Monsoon Surges", "Sea-level Swells"],
         "coordinates": [
@@ -476,11 +621,10 @@ IMD_SUBDIVISIONS: List[Dict[str, Any]] = [
     }
 ]
 
+SUBDIVISION_MAP = {s["id"]: s for s in IMD_SUBDIVISIONS}
+
 def get_subdivision_by_id(sub_id: str) -> Dict[str, Any]:
-    for sub in IMD_SUBDIVISIONS:
-        if sub["id"] == sub_id:
-            return sub
-    return IMD_SUBDIVISIONS[0]
+    return SUBDIVISION_MAP.get(sub_id, IMD_SUBDIVISIONS[0])
 
 def get_all_subdivisions() -> List[Dict[str, Any]]:
     return IMD_SUBDIVISIONS

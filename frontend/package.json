@@ -10,10 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@types/d3-contour": "^3.0.6",
     "clsx": "^2.1.1",
+    "d3-contour": "^4.0.2",
     "framer-motion": "^13.4.0",
     "leaflet": "^1.9.4",
     "lucide-react": "^1.47.0",
+    "maplibre-gl": "^6.10.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-leaflet": "^5.0.0",

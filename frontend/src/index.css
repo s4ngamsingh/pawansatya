@@ -95,3 +95,187 @@ body {
 .safe-pulse-glow {
   animation: safePulse 3s infinite;
 }
+
+/* MapLibre 3D Terrain Markers - Keep 100% visible on 3D terrain */
+.maplibregl-marker {
+  opacity: 1 !important;
+  z-index: 10;
+}
+.maplibregl-marker-covered {
+  opacity: 0.95 !important;
+}
+
+/* IMD Weather Forecast Glyphs Animations */
+@keyframes rainDropAnim {
+  0% {
+    transform: translateY(-2px);
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(4px);
+    opacity: 0;
+  }
+}
+
+.rain-drops .drop-1 {
+  animation: rainDropAnim 1.2s infinite ease-in;
+}
+.rain-drops .drop-2 {
+  animation: rainDropAnim 1.2s infinite ease-in 0.4s;
+}
+.rain-drops .drop-3 {
+  animation: rainDropAnim 1.2s infinite ease-in 0.8s;
+}
+
+.rain-drops-heavy .drop-1 {
+  animation: rainDropAnim 0.7s infinite ease-in;
+}
+.rain-drops-heavy .drop-3 {
+  animation: rainDropAnim 0.7s infinite ease-in 0.35s;
+}
+
+@keyframes lightningFlashAnim {
+  0%, 100% {
+    opacity: 0.2;
+    transform: scale(0.95);
+  }
+  48%, 52% {
+    opacity: 1;
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 4px #fbbf24);
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+.lightning-flash {
+  animation: lightningFlashAnim 2.5s infinite ease-in-out;
+}
+
+@keyframes sunPulseAnim {
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 2px rgba(249, 115, 22, 0.4));
+  }
+  50% {
+    transform: scale(1.08);
+    filter: drop-shadow(0 0 8px rgba(220, 38, 38, 0.8));
+  }
+}
+
+.sun-pulse {
+  animation: sunPulseAnim 3s infinite ease-in-out;
+}
+
+@keyframes sunRaysSpin {
+  0% {
+    transform: rotate(0deg);
+    transform-origin: center;
+  }
+  100% {
+    transform: rotate(360deg);
+    transform-origin: center;
+  }
+}
+
+.sun-rays {
+  animation: sunRaysSpin 20s linear infinite;
+}
+
+@keyframes cycloneSpinAnim {
+  0% {
+    transform: rotate(0deg);
+    transform-origin: center;
+  }
+  100% {
+    transform: rotate(-360deg);
+    transform-origin: center;
+  }
+}
+
+.cyclone-spin {
+  animation: cycloneSpinAnim 6s linear infinite;
+}
+
+/* Southwest Monsoon Wind Streamlines Animation */
+@keyframes windFlowAnim {
+  0% {
+    stroke-dashoffset: 24;
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.9;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0.2;
+  }
+}
+
+.monsoon-wind-stream {
+  stroke-dasharray: 6, 6;
+  animation: windFlowAnim 2s linear infinite;
+}
+
+/* Synoptic Station & Contour Tooltip Styles */
+.synoptic-station-marker {
+  background: transparent !important;
+  border: none !important;
+}
+
+.contour-percentage-label {
+  background: transparent !important;
+  border: none !important;
+}
+
+.synoptic-contour-tooltip {
+  background: rgba(255, 255, 255, 0.96) !important;
+  border: 1px solid #737373 !important;
+  border-radius: 6px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  padding: 4px 8px !important;
+}
+
+/* Ensure Leaflet controls and popups stay strictly confined to map stacking context */
+.leaflet-container {
+  isolation: isolate;
+  z-index: 0 !important;
+}
+
+.leaflet-top,
+.leaflet-bottom {
+  z-index: 10 !important;
+}
+
+.leaflet-pane {
+  z-index: 1 !important;
+}
+
+.leaflet-tile-pane {
+  z-index: 2 !important;
+}
+
+.leaflet-overlay-pane {
+  z-index: 3 !important;
+}
+
+.leaflet-shadow-pane {
+  z-index: 4 !important;
+}
+
+.leaflet-marker-pane {
+  z-index: 5 !important;
+}
+
+.leaflet-tooltip-pane {
+  z-index: 6 !important;
+}
+
+.leaflet-popup-pane {
+  z-index: 7 !important;
+}
+

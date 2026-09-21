@@ -104,7 +104,7 @@ export const Header: React.FC<HeaderProps> = ({
   }, []);
 
   return (
-    <header className="border-b border-neutral-200 bg-white/90 backdrop-blur-xl sticky top-0 z-50">
+    <header className="border-b border-neutral-200 bg-white/90 backdrop-blur-xl sticky top-0 z-[100]">
       <div className="max-w-[1700px] mx-auto px-4 sm:px-6 py-3">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3 sm:gap-4">
           

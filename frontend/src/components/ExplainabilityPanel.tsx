@@ -9,7 +9,8 @@ import {
   ChevronDown,
   Info,
   Activity,
-  Gauge
+  Gauge,
+  Mountain
 } from 'lucide-react';
 import { AnimatedNumber } from './AnimatedNumber';
 
@@ -64,6 +65,12 @@ export const ExplainabilityPanel: React.FC<ExplainabilityPanelProps> = ({
                 <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-neutral-100 text-neutral-700 border border-neutral-200">
                   SHAP
                 </span>
+                {selectedSubdivision.elevation_mean_m && (
+                  <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-indigo-50 text-indigo-700 border border-indigo-200 flex items-center gap-1">
+                    <Mountain className="h-2.5 w-2.5" />
+                    DEM {selectedSubdivision.elevation_mean_m}m
+                  </span>
+                )}
               </div>
               <h2 className="text-xl sm:text-2xl font-bold text-neutral-900 tracking-tight font-sans">
                 {explanation.subdivision_name}
@@ -153,6 +160,51 @@ export const ExplainabilityPanel: React.FC<ExplainabilityPanelProps> = ({
               </div>
             </div>
           </div>
+
+          {/* Topography & DEM Orographic Lift Metrics Card */}
+          {selectedSubdivision.elevation_mean_m !== undefined && (
+            <div className="p-3.5 rounded-xl bg-gradient-to-br from-neutral-50 to-neutral-100/60 border border-neutral-200 text-xs">
+              <div className="flex items-center justify-between mb-2">
+                <span className="font-semibold text-neutral-900 flex items-center gap-1.5">
+                  <Mountain className="h-3.5 w-3.5 text-neutral-700" />
+                  Topography & Orographic Lift Profile (DEM)
+                </span>
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-white text-neutral-600 border border-neutral-200 shadow-2xs">
+                  NASA / Copernicus DEM
+                </span>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                <div className="bg-white p-2 rounded-lg border border-neutral-200 shadow-2xs">
+                  <span className="text-[10px] text-neutral-500 block">Mean Elevation</span>
+                  <span className="text-sm font-bold font-mono text-neutral-900">{selectedSubdivision.elevation_mean_m}m</span>
+                </div>
+                <div className="bg-white p-2 rounded-lg border border-neutral-200 shadow-2xs">
+                  <span className="text-[10px] text-neutral-500 block">Peak Elevation</span>
+                  <span className="text-sm font-bold font-mono text-neutral-900">{selectedSubdivision.elevation_max_m}m</span>
+                </div>
+                <div className="bg-white p-2 rounded-lg border border-neutral-200 shadow-2xs">
+                  <span className="text-[10px] text-neutral-500 block">Orographic Factor</span>
+                  <span className="text-sm font-bold font-mono text-neutral-900">
+                    {Math.round((selectedSubdivision.orographic_lift_factor || 0) * 100)}%
+                  </span>
+                </div>
+                <div className="bg-white p-2 rounded-lg border border-neutral-200 shadow-2xs">
+                  <span className="text-[10px] text-neutral-500 block">Ruggedness (TRI)</span>
+                  <span className="text-sm font-bold font-mono text-neutral-900">
+                    {Math.round((selectedSubdivision.terrain_ruggedness || 0) * 100)}%
+                  </span>
+                </div>
+              </div>
+              {(selectedSubdivision.orographic_lift_factor || 0) > 0.7 && (
+                <div className="mt-2 text-[11px] text-amber-800 bg-amber-50 p-2 rounded-lg border border-amber-200 flex items-center gap-1.5">
+                  <AlertTriangle className="h-3.5 w-3.5 text-amber-600 shrink-0" />
+                  <span>
+                    <strong>Orographic Trigger Active:</strong> High mountain barrier forcing amplifies convective precipitation forecast bust probability.
+                  </span>
+                </div>
+              )}
+            </div>
+          )}
 
           {/* Operational Forecaster Advisory Box (Clean typography, non-mono) */}
           <div

@@ -2,11 +2,18 @@
 Historical NWP vs ERA5 Observation Dataset Generator & Ingestion Engine
 Generates realistic multi-year historical medium-range forecast archive (2018-2024)
 across 36 IMD subdivisions for model training, validation, and benchmarking.
+Includes Digital Elevation Model (DEM) topographic features: elevation_m & orographic_forcing.
 """
+
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
 
 import numpy as np
 import pandas as pd
 from typing import Tuple
+
+from app.data.india_subdivisions import IMD_SUBDIVISIONS, SUBDIVISION_MAP
 
 # Seed for reproducibility
 np.random.seed(42)
@@ -26,12 +33,18 @@ SYSTEM_TYPES = [
 def generate_historical_dataset(n_samples: int = 12000) -> pd.DataFrame:
     """
     Generates a calibrated historical dataset of NWP forecast parameters,
-    meteorological instability indicators, and ground-truth ERA5 error labels.
+    meteorological instability indicators, DEM topographic features,
+    and ground-truth ERA5 error labels.
     """
     data = []
 
     for _ in range(n_samples):
         sub_id = np.random.choice(SUBDIVISIONS)
+        sub_info = SUBDIVISION_MAP.get(sub_id, {})
+        elevation_m = float(sub_info.get("elevation_mean_m", 300))
+        orographic_forcing = float(sub_info.get("orographic_lift_factor", 0.3))
+        terrain_ruggedness = float(sub_info.get("terrain_ruggedness", 0.3))
+
         lead_time = np.random.randint(1, 11)  # Day 1 to 10
         season = np.random.choice(SEASONS, p=[0.45, 0.20, 0.20, 0.15])
         
@@ -104,17 +117,23 @@ def generate_historical_dataset(n_samples: int = 12000) -> pd.DataFrame:
         # Non-linear Lorenz lead-time error growth factor
         lead_time_growth = 1.0 + 0.28 * ((lead_time - 1) ** 1.15)
         
+        # Orographic & elevation interaction:
+        # Moisture flux hitting steep mountain ranges (Western Ghats, Himalayas) triggers unparameterized orographic bursts
+        orographic_bust_boost = 0.18 * orographic_forcing * (mfc + (cape / 4500.0) * 0.4)
+        if sys_type == "Western_Disturbance" and elevation_m > 1500:
+            orographic_bust_boost += 0.14 * (elevation_m / 3500.0) * baroclinic
+
         # Combined latent risk probability
         latent_prob = base_bust_rate * (0.4 + 0.6 * (lead_time_growth / 3.7))
-        latent_prob += 0.25 * (ensemble_spread - 0.4) + 0.15 * (vorticity - 0.4)
-        latent_prob = min(0.95, max(0.02, latent_prob))
+        latent_prob += 0.25 * (ensemble_spread - 0.4) + 0.15 * (vorticity - 0.4) + orographic_bust_boost
+        latent_prob = min(0.96, max(0.02, latent_prob))
 
         # Binary bust label (1 = BUST, 0 = RELIABLE)
         is_bust = 1 if np.random.rand() < latent_prob else 0
 
         # Forecast error scale (MAE in mm for rain, or km for track)
         if is_bust:
-            error_scale = np.random.uniform(55.0, 180.0) * (lead_time / 3.0)
+            error_scale = (np.random.uniform(55.0, 180.0) + orographic_forcing * 25.0) * (lead_time / 3.0)
         else:
             error_scale = np.random.uniform(5.0, 35.0) * (lead_time / 3.0)
 
@@ -130,6 +149,8 @@ def generate_historical_dataset(n_samples: int = 12000) -> pd.DataFrame:
             "moisture_flux_convergence": round(float(np.clip(mfc, 0.01, 0.99)), 4),
             "baroclinic_growth_rate": round(float(np.clip(baroclinic, 0.01, 0.99)), 4),
             "climatological_anomaly": round(float(np.clip(anomaly, 0.1, 4.0)), 2),
+            "elevation_m": round(elevation_m, 1),
+            "orographic_forcing": round(orographic_forcing, 4),
             "forecast_error_magnitude": round(float(error_scale), 1),
             "is_bust": is_bust
         })
