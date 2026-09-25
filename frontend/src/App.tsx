@@ -23,6 +23,8 @@ import { BustProbabilityRadar } from './components/BustProbabilityRadar';
 import { ExplainabilityPanel } from './components/ExplainabilityPanel';
 import { ErrorProneHotspots } from './components/ErrorProneHotspots';
 import { NwpHistoricalComparator } from './components/NwpHistoricalComparator';
+import { StationTelemetryPanel } from './components/StationTelemetryPanel';
+import { ForensicDiagnosticsStrip } from './components/ForensicDiagnosticsStrip';
 import { CustomEvaluatorModal } from './components/CustomEvaluatorModal';
 import { ReportExportModal } from './components/ReportExportModal';
 import { ModelValidationModal } from './components/ModelValidationModal';
@@ -120,17 +122,17 @@ export function App() {
   const getSystemIcon = (id: string) => {
     switch (id) {
       case 'monsoon_depression':
-        return <CloudRain className="h-4 w-4 text-sky-400" />;
+        return <CloudRain className="h-4 w-4 text-sky-600" />;
       case 'cyclone_severe':
-        return <Wind className="h-4 w-4 text-rose-500" />;
+        return <Wind className="h-4 w-4 text-[#CC0000]" />;
       case 'western_disturbance':
-        return <Snowflake className="h-4 w-4 text-indigo-400" />;
+        return <Snowflake className="h-4 w-4 text-indigo-600" />;
       case 'heat_wave':
-        return <Sun className="h-4 w-4 text-amber-400" />;
+        return <Sun className="h-4 w-4 text-amber-600" />;
       case 'break_monsoon':
-        return <Waves className="h-4 w-4 text-teal-400" />;
+        return <Waves className="h-4 w-4 text-teal-600" />;
       default:
-        return <CloudLightning className="h-4 w-4 text-neutral-300" />;
+        return <CloudLightning className="h-4 w-4 text-neutral-700" />;
     }
   };
 
@@ -151,7 +153,7 @@ export function App() {
   };
 
   return (
-    <div className="min-h-screen bg-neutral-50 text-neutral-900 flex flex-col font-sans selection:bg-neutral-900 selection:text-white">
+    <div className="min-h-screen bg-[#F9F9F7] text-[#111111] flex flex-col font-serif selection:bg-[#111111] selection:text-white">
       
       <AnimatePresence>
         {isLoading && (
@@ -201,27 +203,27 @@ export function App() {
               variants={containerVariants}
               initial="hidden"
               animate="show"
-              className="flex-1 max-w-[1700px] w-full mx-auto px-4 sm:px-6 py-5 space-y-5"
+              className="flex-1 max-w-[1750px] w-full mx-auto px-3 sm:px-5 py-4 space-y-5"
             >
               
               {/* Rapidly Evolving System Selectors */}
-              <motion.div variants={itemVariants} className="bg-white border border-neutral-200 rounded-2xl p-3.5 shadow-sm">
-                <div className="flex items-center justify-between mb-2.5 px-1">
+              <motion.div variants={itemVariants} className="bg-[#F9F9F7] border-2 border-[#111111] p-3 hard-shadow-sm sharp-corners">
+                <div className="flex items-center justify-between mb-2.5 px-1 border-b border-[#111111] pb-2">
                   <div className="flex items-center space-x-2">
-                    <span className="text-xs font-semibold text-neutral-800">
-                      Rapidly Evolving Atmospheric Systems &bull; Benchmark Regimes
+                    <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#111111]">
+                      RAPIDLY EVOLVING ATMOSPHERIC SYSTEMS &bull; BENCHMARK REGIMES
                     </span>
                     <button
                       onClick={() => setCurrentView('landing')}
-                      className="px-2 py-0.5 rounded text-[11px] bg-neutral-100 hover:bg-neutral-200 text-neutral-700 transition-colors flex items-center gap-1"
+                      className="px-2 py-0.5 text-[11px] font-mono bg-white hover:bg-neutral-100 border border-[#111111] text-[#111111] transition-colors flex items-center gap-1 sharp-corners"
                       title="Back to Landing Page"
                     >
                       <Home className="h-3 w-3" />
                       <span>Overview</span>
                     </button>
                   </div>
-                  <span className="text-[11px] text-neutral-500">
-                    Select synoptic regime to test bust profile
+                  <span className="text-[11px] font-mono text-neutral-600">
+                    SELECT SYNOPTIC REGIME TO TEST BUST PROFILE
                   </span>
                 </div>
 
@@ -231,23 +233,23 @@ export function App() {
                     return (
                       <motion.button
                         key={sc.id}
-                        whileHover={{ y: -2 }}
+                        whileHover={{ y: -1 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={() => setSelectedScenario(sc)}
-                        className={`p-3 rounded-xl border text-left transition-all flex items-center space-x-3 select-none ${
+                        className={`p-2.5 border text-left transition-all flex items-center space-x-2.5 select-none sharp-corners ${
                           isSelected
-                            ? 'bg-neutral-900 text-white border-neutral-900 shadow-md'
-                            : 'bg-white border-neutral-200 hover:border-neutral-300 text-neutral-700 hover:text-neutral-900 hover:bg-neutral-50/80 shadow-xs'
+                            ? 'bg-[#111111] text-white border-[#111111] hard-shadow-sm'
+                            : 'bg-white border-[#111111] hover:bg-neutral-100 text-[#111111]'
                         }`}
                       >
-                        <div className={`p-2 rounded-lg shrink-0 ${isSelected ? 'bg-neutral-850 text-white' : 'bg-neutral-100 border border-neutral-200'}`}>
+                        <div className={`p-1.5 shrink-0 sharp-corners ${isSelected ? 'bg-neutral-800 text-white' : 'bg-neutral-100 border border-[#111111]'}`}>
                           {getSystemIcon(sc.id)}
                         </div>
                         <div className="min-w-0">
-                          <span className="text-xs font-semibold truncate block leading-tight">
+                          <span className="text-xs font-mono font-bold truncate block leading-tight">
                             {sc.name.split(' (')[0].split(' - ')[0]}
                           </span>
-                          <span className={`text-[10px] font-mono block mt-0.5 ${isSelected ? 'text-neutral-300' : 'text-neutral-500'}`}>
+                          <span className={`text-[10px] font-mono block mt-0.5 ${isSelected ? 'text-amber-400' : 'text-neutral-500'}`}>
                             D{sc.critical_lead_times.join(', ')} Critical
                           </span>
                         </div>
@@ -263,74 +265,54 @@ export function App() {
                   <motion.div
                     key={selectedScenario.id}
                     variants={itemVariants}
-                    className="bg-white border border-neutral-200 rounded-2xl p-5 shadow-sm flex flex-col md:flex-row md:items-center md:justify-between gap-4 relative overflow-hidden"
+                    className="bg-[#F9F9F7] border-2 border-[#111111] p-3.5 hard-shadow-sm sharp-corners flex flex-col md:flex-row md:items-center md:justify-between gap-4"
                   >
-                    <div className="space-y-1.5 z-10">
+                    <div className="space-y-1">
                       <div className="flex flex-wrap items-center gap-2">
-                        <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-neutral-100 border border-neutral-200 text-neutral-700">
-                          Active Synoptic Pattern
+                        <span className="text-[10px] font-mono font-bold px-2 py-0.5 bg-[#111111] text-white sharp-corners uppercase">
+                          Active Synoptic Regime
                         </span>
-                        <span className="text-xs font-semibold text-rose-600">
+                        <span className="text-xs font-mono font-bold text-[#CC0000]">
                           {selectedScenario.category}
                         </span>
-                        <span className="text-neutral-300">&bull;</span>
-                        <span className="text-xs text-neutral-500">
-                          Critical Lead Times: <strong className="text-neutral-900 font-mono">Day {selectedScenario.critical_lead_times.join(', ')}</strong>
+                        <span className="text-neutral-400">&bull;</span>
+                        <span className="text-xs font-mono text-neutral-600">
+                          CRITICAL BUST WINDOW: <strong className="text-[#111111] font-mono">DAY {selectedScenario.critical_lead_times.join(', ')}</strong>
                         </span>
                       </div>
-                      <h2 className="text-lg sm:text-xl font-bold text-neutral-900 font-sans">
+                      <h2 className="text-base sm:text-lg font-serif font-black text-[#111111]">
                         {selectedScenario.name}
                       </h2>
-                      <p className="text-xs text-neutral-600 max-w-4xl leading-relaxed">
+                      <p className="text-xs font-serif text-neutral-700 max-w-4xl leading-relaxed">
                         {selectedScenario.description}
                       </p>
                     </div>
 
                     {/* Historical Analog Snippet */}
-                    <div className="bg-neutral-50 border border-neutral-200 p-3.5 rounded-xl text-xs max-w-md self-start md:self-auto z-10 shrink-0">
-                      <div className="flex items-center space-x-1.5 text-neutral-500 text-[11px] font-semibold mb-1">
-                        <Sparkles className="h-3.5 w-3.5 text-amber-500" />
-                        <span>Historical Analog Match</span>
+                    <div className="bg-white border border-[#111111] p-2.5 text-xs max-w-md self-start md:self-auto shrink-0 sharp-corners">
+                      <div className="flex items-center space-x-1.5 text-neutral-600 text-[10px] font-mono font-bold uppercase mb-1">
+                        <Sparkles className="h-3.5 w-3.5 text-amber-600" />
+                        <span>HISTORICAL ANALOG MATCH</span>
                       </div>
-                      <p className="text-neutral-700 text-xs line-clamp-2 leading-relaxed">
-                        {selectedScenario.historical_analog}
+                      <p className="text-neutral-800 text-xs font-serif line-clamp-2 leading-relaxed italic">
+                        "{selectedScenario.historical_analog}"
                       </p>
                     </div>
                   </motion.div>
                 )}
               </AnimatePresence>
 
-              {/* Lead Time Horizon Interactive Scrub Bar */}
-              <motion.div variants={itemVariants}>
-                <LeadTimeSlider
-                  currentLeadTime={leadTime}
-                  onChangeLeadTime={(d) => setLeadTime(d)}
-                  criticalLeadTimes={selectedScenario?.critical_lead_times}
-                />
-              </motion.div>
-
-              {/* Core Dashboard Grid */}
-              <motion.div variants={itemVariants} className="grid grid-cols-1 lg:grid-cols-12 gap-5">
+              {/* TIER 1: Upper Workstation & Synoptic Telemetry (12 cols) */}
+              <motion.div variants={itemVariants} className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
                 
-                {/* Left Column: Satellite Map & Comparative Modules (7 cols) */}
-                <div className="lg:col-span-7 space-y-5">
-                  {/* Satellite Map with ESRI Imagery & Regional Polygons */}
-                  <ConfidenceMap
-                    subdivisions={subdivisions}
+                {/* Left 4 Cols: ECMWF-style Station Telemetry & Regional Bust Hotspots */}
+                <div className="lg:col-span-4 space-y-4">
+                  <StationTelemetryPanel
                     selectedSubdivision={selectedSubdivision}
-                    onSelectSubdivision={(sub) => setSelectedSubdivision(sub)}
-                    leadTime={leadTime}
-                    scenario={selectedScenario}
-                  />
-
-                  {/* NWP vs Historical Forecast Error Behaviour Comparator */}
-                  <NwpHistoricalComparator
-                    selectedSubdivision={selectedSubdivision}
-                    scenario={selectedScenario}
+                    selectedScenario={selectedScenario}
                     leadTime={leadTime}
                   />
 
-                  {/* Error-Prone Hotspots List below Map */}
                   <ErrorProneHotspots
                     hotspots={hotspots}
                     selectedSubdivision={selectedSubdivision}
@@ -339,10 +321,39 @@ export function App() {
                   />
                 </div>
 
-                {/* Right Column: Radar & Explainability (5 cols) */}
-                <div className="lg:col-span-5 space-y-5">
-                  
-                  {/* 10-Day Error Trajectory Curve */}
+                {/* Right 8 Cols: Confidence Spatial Map & Lead-Time Slider */}
+                <div className="lg:col-span-8 space-y-4">
+                  <ConfidenceMap
+                    subdivisions={subdivisions}
+                    selectedSubdivision={selectedSubdivision}
+                    onSelectSubdivision={(sub) => setSelectedSubdivision(sub)}
+                    leadTime={leadTime}
+                    scenario={selectedScenario}
+                  />
+
+                  <LeadTimeSlider
+                    currentLeadTime={leadTime}
+                    onChangeLeadTime={(d) => setLeadTime(d)}
+                    criticalLeadTimes={selectedScenario?.critical_lead_times}
+                  />
+                </div>
+
+              </motion.div>
+
+              {/* TIER 2: Physical Dynamics & Model Verification (12 cols) */}
+              <motion.div variants={itemVariants} className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+                
+                {/* 7 Cols: NWP vs Historical Error Comparator */}
+                <div className="lg:col-span-7 space-y-4">
+                  <NwpHistoricalComparator
+                    selectedSubdivision={selectedSubdivision}
+                    scenario={selectedScenario}
+                    leadTime={leadTime}
+                  />
+                </div>
+
+                {/* 5 Cols: Ensemble Plume Trajectory Radar & Explainability */}
+                <div className="lg:col-span-5 space-y-4">
                   <BustProbabilityRadar
                     trajectory={trajectory}
                     selectedSubdivision={selectedSubdivision}
@@ -350,36 +361,45 @@ export function App() {
                     onSelectLeadTime={(d) => setLeadTime(d)}
                   />
 
-                  {/* Meteorological Explainability & SHAP Waterfall */}
                   <ExplainabilityPanel
                     explanation={explanation}
                     selectedSubdivision={selectedSubdivision}
                     leadTime={leadTime}
                   />
-
                 </div>
 
+              </motion.div>
+
+              {/* TIER 3: Multi-Model Forensic Diagnostic Strip (12 cols) */}
+              <motion.div variants={itemVariants}>
+                <ForensicDiagnosticsStrip
+                  scenario={selectedScenario}
+                  selectedSubdivision={selectedSubdivision}
+                  leadTime={leadTime}
+                  onOpenReportModal={() => setIsReportOpen(true)}
+                  onOpenSimulatorModal={() => setIsSimulatorOpen(true)}
+                />
               </motion.div>
 
             </motion.main>
 
             {/* Footer */}
-            <footer className="border-t border-neutral-200 bg-white py-4 text-xs text-neutral-500 mt-8">
-              <div className="max-w-[1700px] mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-                <div className="flex items-center space-x-2">
-                  <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-                  <span className="text-neutral-900 font-semibold">PAWANSATYA SYSTEM</span>
+            <footer className="border-t-2 border-[#111111] bg-[#F9F9F7] py-3 text-xs text-neutral-600 mt-8">
+              <div className="max-w-[1750px] mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+                <div className="flex items-center space-x-2 font-mono text-[11px]">
+                  <span className="h-2 w-2 bg-emerald-600 animate-pulse" />
+                  <span className="text-[#111111] font-bold">PAWANSATYA OPERATIONAL FORECAST SYSTEM</span>
                   <span>&bull;</span>
-                  <span>Smart India Hackathon (SIH)</span>
+                  <span>ECMWF / IMD SYNOPTIC PROTOCOL</span>
                 </div>
-                <div className="flex items-center space-x-4 text-xs font-mono">
-                  <span>Satellite: ESRI World Imagery</span>
+                <div className="flex items-center space-x-4 text-[10px] font-mono">
+                  <span>SATELLITE: ESRI WORLD IMAGERY</span>
                   <span>&bull;</span>
-                  <span>NWP: GFS 0.25&deg; / GEFS / ECMWF IFS</span>
+                  <span>NWP: GFS 0.25&deg; / IFS / AIFS</span>
                   <span>&bull;</span>
-                  <span>IMD 36 Subdivisions</span>
+                  <span>IMD 36 SUBDIVISIONS</span>
                   <span>&bull;</span>
-                  <span className="text-neutral-900 font-bold">v1.2.0</span>
+                  <span className="text-[#111111] font-bold">v1.2.0-PRO</span>
                 </div>
               </div>
             </footer>

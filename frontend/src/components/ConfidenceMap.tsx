@@ -20,8 +20,7 @@ import { DemTerrainMap3D } from './DemTerrainMap3D';
 import { SynopticOutlookMap } from './SynopticOutlookMap';
 import {
   getWeatherConditionForSubdivision,
-  getWeatherGlyphHtml,
-  WEATHER_CONDITIONS_META
+  getWeatherGlyphHtml
 } from './WeatherGlyph';
 import { Scenario } from '../types';
 
@@ -57,11 +56,14 @@ export const ConfidenceMap: React.FC<ConfidenceMapProps> = ({
   const [viewDimension, setViewDimension] = useState<'2D_SATELLITE' | '3D_DEM_TOPO' | 'SPC_OUTLOOK'>('2D_SATELLITE');
   const [filter, setFilter] = useState<'ALL' | 'DANGER' | 'SAFE'>('ALL');
   const [displayMetric, setDisplayMetric] = useState<'BUST_PROB' | 'CONFIDENCE'>('BUST_PROB');
-  const [mapStyle, setMapStyle] = useState<'SATELLITE_HYBRID' | 'SATELLITE_PURE' | 'DARK'>('SATELLITE_HYBRID');
+  const [mapStyle, setMapStyle] = useState<'SATELLITE_HYBRID' | 'DARK'>('SATELLITE_HYBRID');
   const [showRadarOverlay, setShowRadarOverlay] = useState<boolean>(true);
   const [showWeatherLayer, setShowWeatherLayer] = useState<boolean>(true);
   const [dismissedSubId, setDismissedSubId] = useState<string | null>(null);
   const [isSideSliderOpen, setIsSideSliderOpen] = useState<boolean>(false);
+
+  const [subDomain, setSubDomain] = useState<'ALL_INDIA' | 'BAY_OF_BENGAL' | 'ARABIAN_SEA' | 'INDO_GANGETIC'>('ALL_INDIA');
+  const [modelCompare, setModelCompare] = useState<'GFS' | 'ECMWF' | 'AIFS_ML' | 'ENS_SPREAD'>('GFS');
 
   const filteredSubdivisions = subdivisions.filter((sub) => {
     if (filter === 'DANGER') return sub.risk_level === 'DANGER';
@@ -70,73 +72,126 @@ export const ConfidenceMap: React.FC<ConfidenceMapProps> = ({
   });
 
   return (
-    <div className="bg-white border border-neutral-200 rounded-2xl overflow-hidden shadow-sm flex flex-col h-[680px] relative isolate z-0">
+    <div className="bg-[#F9F9F7] border-2 border-[#111111] overflow-hidden flex flex-col h-[680px] relative isolate z-0 sharp-corners hard-shadow-sm">
       
-      {/* Top Map Toolbar - Single row with horizontal slider scroll if needed */}
-      <div className="p-2.5 bg-white/95 backdrop-blur-xl border-b border-neutral-200 flex items-center justify-between gap-3 z-10 overflow-x-auto scrollbar-none sm:scrollbar-thin">
+      {/* Top Map Toolbar - Broadsheet Single row with domain filters */}
+      <div className="p-2 bg-[#F9F9F7] border-b-2 border-[#111111] flex items-center justify-between gap-2.5 z-10 overflow-x-auto scrollbar-none sm:scrollbar-thin">
         
         {/* Left Side: Title + Always-Visible Map Switcher */}
-        <div className="flex items-center gap-2.5 flex-shrink-0">
-          <div className="h-7 w-7 rounded-lg bg-neutral-100 border border-neutral-200 flex items-center justify-center shrink-0">
+        <div className="flex items-center gap-2 flex-shrink-0">
+          <div className="h-6 w-6 border border-[#111111] bg-white flex items-center justify-center shrink-0">
             {viewDimension === '3D_DEM_TOPO' ? (
-              <Mountain className="h-4 w-4 text-neutral-900" />
+              <Mountain className="h-3.5 w-3.5 text-neutral-900" />
             ) : viewDimension === 'SPC_OUTLOOK' ? (
-              <Layers className="h-4 w-4 text-purple-700" />
+              <Layers className="h-3.5 w-3.5 text-[#CC0000]" />
             ) : (
-              <Satellite className="h-4 w-4 text-neutral-900" />
+              <Satellite className="h-3.5 w-3.5 text-neutral-900" />
             )}
           </div>
-          <div className="hidden sm:block">
-            <span className="text-xs font-semibold text-neutral-900 block leading-tight">
-              {viewDimension === '3D_DEM_TOPO'
-                ? '3D DEM Bust Radar'
-                : viewDimension === 'SPC_OUTLOOK'
-                ? 'SPC Synoptic Outlook'
-                : 'Satellite Radar'}
-            </span>
-          </div>
+          <span className="text-[11px] font-mono font-bold text-[#111111] uppercase hidden sm:inline">
+            {viewDimension === '3D_DEM_TOPO'
+              ? '3D DEM Radar'
+              : viewDimension === 'SPC_OUTLOOK'
+              ? 'SPC Synoptic Outlook'
+              : 'Satellite Radar'}
+          </span>
 
-          {/* Primary Map Switcher - ALWAYS VISIBLE AT THE FRONT */}
-          <div className="flex items-center bg-neutral-100 border border-neutral-200 rounded-xl p-0.5 text-xs shrink-0">
+          {/* Primary Map Switcher */}
+          <div className="flex items-center border border-[#111111] bg-white p-0.5 text-[10px] font-mono shrink-0">
             <button
               onClick={() => setViewDimension('2D_SATELLITE')}
-              className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-all flex items-center gap-1 ${
+              className={`px-2 py-0.5 font-bold transition-all flex items-center gap-1 ${
                 viewDimension === '2D_SATELLITE'
-                  ? 'bg-neutral-900 text-white font-semibold shadow-xs'
-                  : 'text-neutral-600 hover:text-neutral-900'
+                  ? 'bg-[#111111] text-white'
+                  : 'text-neutral-700 hover:text-black'
               }`}
               title="2D High-Resolution Satellite & Radar Sweep"
             >
-              <Satellite className="h-3.5 w-3.5" />
+              <Satellite className="h-3 w-3" />
               <span>2D Sat</span>
             </button>
             <button
               onClick={() => setViewDimension('3D_DEM_TOPO')}
-              className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 ${
+              className={`px-2 py-0.5 font-bold transition-all flex items-center gap-1 ${
                 viewDimension === '3D_DEM_TOPO'
-                  ? 'bg-neutral-900 text-white font-semibold shadow-xs'
-                  : 'text-neutral-600 hover:text-neutral-900'
+                  ? 'bg-[#111111] text-white'
+                  : 'text-neutral-700 hover:text-black'
               }`}
-              title="3D Digital Elevation Model (DEM) with WebGL terrain extrusion"
+              title="3D Digital Elevation Model (DEM)"
             >
-              <Mountain className="h-3.5 w-3.5 text-rose-400" />
+              <Mountain className="h-3 w-3 text-rose-400" />
               <span>3D Topo</span>
-              <span className="text-[9px] px-1 rounded bg-rose-500 text-white font-bold">3D</span>
             </button>
             <button
               onClick={() => setViewDimension('SPC_OUTLOOK')}
-              className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 ${
+              className={`px-2 py-0.5 font-bold transition-all flex items-center gap-1 ${
                 viewDimension === 'SPC_OUTLOOK'
-                  ? 'bg-neutral-900 text-white font-semibold shadow-xs'
-                  : 'text-neutral-600 hover:text-neutral-900'
+                  ? 'bg-[#111111] text-white'
+                  : 'text-neutral-700 hover:text-black'
               }`}
-              title="NOAA SPC Convective Style Probability Contours & Synoptic Stations"
+              title="SPC Convective Style Probability Contours"
             >
-              <Layers className="h-3.5 w-3.5 text-purple-500" />
+              <Layers className="h-3 w-3 text-[#CC0000]" />
               <span>SPC Outlook</span>
-              <span className="text-[9px] px-1 rounded bg-purple-600 text-white font-bold">SPC</span>
             </button>
           </div>
+        </div>
+
+        {/* Center: Sub-domain Filter Tabs */}
+        <div className="hidden xl:flex items-center border border-[#111111] bg-white p-0.5 text-[10px] font-mono shrink-0">
+          <span className="px-1.5 py-0.5 text-neutral-400 font-bold uppercase">DOMAIN:</span>
+          <button
+            onClick={() => setSubDomain('ALL_INDIA')}
+            className={`px-1.5 py-0.5 font-bold ${subDomain === 'ALL_INDIA' ? 'bg-[#111111] text-white' : 'text-neutral-700 hover:text-black'}`}
+          >
+            All India (IMD)
+          </button>
+          <button
+            onClick={() => setSubDomain('BAY_OF_BENGAL')}
+            className={`px-1.5 py-0.5 font-bold ${subDomain === 'BAY_OF_BENGAL' ? 'bg-[#111111] text-white' : 'text-neutral-700 hover:text-black'}`}
+          >
+            Bay of Bengal
+          </button>
+          <button
+            onClick={() => setSubDomain('ARABIAN_SEA')}
+            className={`px-1.5 py-0.5 font-bold ${subDomain === 'ARABIAN_SEA' ? 'bg-[#111111] text-white' : 'text-neutral-700 hover:text-black'}`}
+          >
+            Arabian Sea
+          </button>
+          <button
+            onClick={() => setSubDomain('INDO_GANGETIC')}
+            className={`px-1.5 py-0.5 font-bold ${subDomain === 'INDO_GANGETIC' ? 'bg-[#111111] text-white' : 'text-neutral-700 hover:text-black'}`}
+          >
+            Indo-Gangetic
+          </button>
+        </div>
+
+        {/* Center: Model Comparison Selector */}
+        <div className="hidden 2xl:flex items-center border border-[#111111] bg-white p-0.5 text-[10px] font-mono shrink-0">
+          <button
+            onClick={() => setModelCompare('GFS')}
+            className={`px-1.5 py-0.5 font-bold ${modelCompare === 'GFS' ? 'bg-[#111111] text-white' : 'text-neutral-700'}`}
+          >
+            GFS 0.25°
+          </button>
+          <button
+            onClick={() => setModelCompare('ECMWF')}
+            className={`px-1.5 py-0.5 font-bold ${modelCompare === 'ECMWF' ? 'bg-[#111111] text-white' : 'text-neutral-700'}`}
+          >
+            ECMWF IFS
+          </button>
+          <button
+            onClick={() => setModelCompare('AIFS_ML')}
+            className={`px-1.5 py-0.5 font-bold ${modelCompare === 'AIFS_ML' ? 'bg-[#CC0000] text-white' : 'text-neutral-700'}`}
+          >
+            AIFS (ML)
+          </button>
+          <button
+            onClick={() => setModelCompare('ENS_SPREAD')}
+            className={`px-1.5 py-0.5 font-bold ${modelCompare === 'ENS_SPREAD' ? 'bg-[#111111] text-white' : 'text-neutral-700'}`}
+          >
+            ENS Spread
+          </button>
         </div>
 
         {/* Right Side: Quick Controls + Side Slider Toggle */}
@@ -167,20 +222,12 @@ export const ConfidenceMap: React.FC<ConfidenceMapProps> = ({
                 Sat Hybrid
               </button>
               <button
-                onClick={() => setMapStyle('SATELLITE_PURE')}
-                className={`px-2 py-1 rounded-lg text-xs font-medium transition-colors ${
-                  mapStyle === 'SATELLITE_PURE' ? 'bg-neutral-900 text-white font-semibold shadow-xs' : 'text-neutral-600 hover:text-neutral-900'
-                }`}
-              >
-                Pure Sat
-              </button>
-              <button
                 onClick={() => setMapStyle('DARK')}
                 className={`px-2 py-1 rounded-lg text-xs font-medium transition-colors ${
                   mapStyle === 'DARK' ? 'bg-neutral-900 text-white font-semibold shadow-xs' : 'text-neutral-600 hover:text-neutral-900'
                 }`}
               >
-                Dark
+                Dark Canvas
               </button>
             </div>
           )}
@@ -374,9 +421,9 @@ export const ConfidenceMap: React.FC<ConfidenceMapProps> = ({
               {viewDimension === '2D_SATELLITE' && (
                 <div className="mb-4 pt-3 border-t border-neutral-200">
                   <label className="text-[11px] font-bold text-neutral-500 uppercase tracking-wider block mb-2">
-                    Satellite Basemap
+                    Basemap Theme
                   </label>
-                  <div className="grid grid-cols-3 gap-1.5 text-xs">
+                  <div className="grid grid-cols-2 gap-1.5 text-xs">
                     <button
                       onClick={() => setMapStyle('SATELLITE_HYBRID')}
                       className={`py-1.5 px-2 rounded-lg font-medium border text-center transition-all ${
@@ -388,16 +435,6 @@ export const ConfidenceMap: React.FC<ConfidenceMapProps> = ({
                       Sat Hybrid
                     </button>
                     <button
-                      onClick={() => setMapStyle('SATELLITE_PURE')}
-                      className={`py-1.5 px-2 rounded-lg font-medium border text-center transition-all ${
-                        mapStyle === 'SATELLITE_PURE'
-                          ? 'bg-neutral-900 text-white border-neutral-900 font-semibold'
-                          : 'bg-neutral-50 border-neutral-200 text-neutral-600 hover:bg-neutral-100'
-                      }`}
-                    >
-                      Pure Sat
-                    </button>
-                    <button
                       onClick={() => setMapStyle('DARK')}
                       className={`py-1.5 px-2 rounded-lg font-medium border text-center transition-all ${
                         mapStyle === 'DARK'
@@ -405,7 +442,7 @@ export const ConfidenceMap: React.FC<ConfidenceMapProps> = ({
                           : 'bg-neutral-50 border-neutral-200 text-neutral-600 hover:bg-neutral-100'
                       }`}
                     >
-                      Dark Chart
+                      Dark Canvas
                     </button>
                   </div>
                 </div>
@@ -577,20 +614,20 @@ export const ConfidenceMap: React.FC<ConfidenceMapProps> = ({
                 </>
               )}
 
-              {mapStyle === 'SATELLITE_PURE' && (
-                <TileLayer
-                  attribution='Tiles &copy; Esri &mdash; World Imagery'
-                  url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
-                  maxZoom={18}
-                />
-              )}
-
               {mapStyle === 'DARK' && (
-                <TileLayer
-                  attribution='&copy; <a href="https://carto.com/">CARTO</a>'
-                  url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-                  maxZoom={18}
-                />
+                <>
+                  <TileLayer
+                    attribution='Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ'
+                    url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}"
+                    maxZoom={16}
+                  />
+                  <TileLayer
+                    attribution='Labels &copy; Esri'
+                    url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}"
+                    maxZoom={16}
+                    opacity={0.85}
+                  />
+                </>
               )}
 
               {/* Render 36 IMD Meteorological Subdivisions */}
@@ -890,6 +927,43 @@ export const ConfidenceMap: React.FC<ConfidenceMapProps> = ({
           )}
         </AnimatePresence>
 
+      </div>
+
+      {/* Bottom Quantitative Scale & Legend Strip - Inspired by ECMWF Command Center */}
+      <div className="p-2 bg-[#F9F9F7] border-t-2 border-[#111111] flex flex-wrap items-center justify-between gap-3 text-xs font-mono z-10 sharp-corners">
+        {/* QPF Precip Scale */}
+        <div className="flex items-center space-x-2">
+          <span className="text-[10px] font-bold uppercase text-[#111111]">QPF Precip (mm/24h):</span>
+          <div className="flex items-center">
+            <span className="w-5 h-2.5 bg-[#e0f2fe] border-y border-l border-neutral-400" title="0-15 mm" />
+            <span className="w-5 h-2.5 bg-[#38bdf8] border-y border-neutral-400" title="15-35 mm" />
+            <span className="w-5 h-2.5 bg-[#0284c7] border-y border-neutral-400" title="35-65 mm" />
+            <span className="w-5 h-2.5 bg-[#1e3a8a] border-y border-neutral-400" title="65-100 mm" />
+            <span className="w-5 h-2.5 bg-[#d97706] border-y border-neutral-400" title="100-150 mm" />
+            <span className="w-5 h-2.5 bg-[#dc2626] border-y border-r border-neutral-400" title="150+ mm" />
+          </div>
+          <span className="text-[9px] text-neutral-600">0 &rarr; 150+ mm</span>
+        </div>
+
+        {/* Bust Risk Tiers */}
+        <div className="flex items-center space-x-2">
+          <span className="text-[10px] font-bold uppercase text-[#111111]">Bust Risk:</span>
+          <div className="flex items-center space-x-1 text-[9px] font-bold">
+            <span className="px-1.5 py-0.2 bg-emerald-100 text-emerald-800 border border-emerald-300">&lt;20% Low</span>
+            <span className="px-1.5 py-0.2 bg-amber-100 text-amber-800 border border-amber-300">20-50% Mod</span>
+            <span className="px-1.5 py-0.2 bg-orange-100 text-orange-800 border border-orange-300">50-80% High</span>
+            <span className="px-1.5 py-0.2 bg-red-100 text-red-800 border border-red-300">&gt;80% Crit</span>
+          </div>
+        </div>
+
+        {/* Basin Vulnerability Index & Coords */}
+        <div className="flex items-center space-x-2 text-[10px]">
+          <span className="text-neutral-500 font-bold uppercase">BASIN INDEX:</span>
+          <span className="font-bold text-[#CC0000] border border-[#CC0000] bg-red-50 px-1.5 py-0.2">
+            BOB: 88/100 (HIGH DIVERGENCE)
+          </span>
+          <span className="hidden xl:inline text-neutral-500">&bull; Domain: 8°N-37°N, 68°E-97°E</span>
+        </div>
       </div>
 
     </div>

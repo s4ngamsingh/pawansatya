@@ -4,10 +4,8 @@ import {
   AlertTriangle,
   Sliders,
   FileText,
-  Clock,
   ChevronDown,
   Cpu,
-  Sparkles,
   ShieldCheck,
   Check
 } from 'lucide-react';
@@ -82,21 +80,12 @@ export const Header: React.FC<HeaderProps> = ({
   onNavigateLanding
 }) => {
   const [timeUtc, setTimeUtc] = useState<string>('');
-  const [timeIst, setTimeIst] = useState<string>('');
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   useEffect(() => {
     const updateTime = () => {
       const now = new Date();
       setTimeUtc(now.toUTCString().slice(17, 25) + ' UTC');
-      const istOptions: Intl.DateTimeFormatOptions = {
-        timeZone: 'Asia/Kolkata',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: false
-      };
-      setTimeIst(new Intl.DateTimeFormat('en-GB', istOptions).format(now) + ' IST');
     };
     updateTime();
     const timer = setInterval(updateTime, 1000);
@@ -183,12 +172,24 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Right Action Controls */}
           <div className="flex flex-wrap items-center gap-2">
             
-            {/* Clocks */}
-            <div className="hidden xl:flex items-center space-x-2 text-[11px] font-mono bg-neutral-100 border border-neutral-200 px-2.5 py-1.5 rounded-lg text-neutral-600">
-              <Clock className="h-3.5 w-3.5 text-neutral-400" />
-              <span>{timeUtc}</span>
-              <span className="text-neutral-300">/</span>
-              <span className="text-neutral-900 font-medium">{timeIst}</span>
+            {/* Operational Run & Synced UTC Metadata Badge */}
+            <div className="hidden lg:flex items-center space-x-2 text-[10px] font-mono bg-white border border-[#111111] px-2.5 py-1">
+              <span className="flex items-center gap-1 font-bold text-emerald-700">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span>SYNCED: {timeUtc}</span>
+              </span>
+              <span className="text-neutral-300">&bull;</span>
+              <span className="text-neutral-700 font-semibold">00Z RUN (D+{leadTime})</span>
+              <span className="text-neutral-300">&bull;</span>
+              <span className="px-1.5 py-0.2 bg-[#CC0000] text-white font-bold">ALERTS (2)</span>
+            </div>
+
+            {/* Duty Forecaster Profile Indicator */}
+            <div className="hidden sm:flex items-center space-x-1.5 border border-[#111111] bg-white px-2 py-1 text-[10px] font-mono">
+              <div className="w-4 h-4 bg-[#111111] text-white flex items-center justify-center font-bold text-[8px]">
+                DF
+              </div>
+              <span className="text-neutral-800 font-bold uppercase">Duty Forecaster</span>
             </div>
 
             {/* Scenario Dropdown with AnimatePresence */}
